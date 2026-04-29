@@ -1,0 +1,1139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register — CPS & Robotics Workshop</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #ff6b00;
+        --primary-dark: #e05a00;
+        --primary-light: #fff3eb;
+        --secondary: #1a1a2e;
+        --bg: #f8f9fc;
+        --white: #ffffff;
+        --text: #1a1a2e;
+        --text-muted: #6b7280;
+        --border: #e5e7eb;
+        --danger: #ef4444;
+        --success: #10b981;
+        --info: #3b82f6;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Nunito", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .urgency-bar {
+        background: var(--secondary);
+        color: #fff;
+        text-align: center;
+        padding: 9px 14px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .urgency-bar .gold {
+        color: #ffd700;
+      }
+
+      nav {
+        background: var(--white);
+        border-bottom: 2px solid var(--border);
+        padding: 12px 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+      }
+      .nav-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 900;
+        font-size: 18px;
+        color: var(--secondary);
+        flex-shrink: 0;
+      }
+      .logo-icon {
+        background: var(--primary);
+        color: #fff;
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        flex-shrink: 0;
+      }
+      .back-link {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        transition: color 0.2s;
+      }
+      .back-link:hover {
+        color: var(--primary);
+      }
+
+      main {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 40px 24px 70px;
+        display: grid;
+        grid-template-columns: 1fr 330px;
+        gap: 28px;
+        align-items: start;
+      }
+
+      /* FORM */
+      .form-heading {
+        margin-bottom: 22px;
+      }
+      .form-tag {
+        display: inline-block;
+        background: var(--primary-light);
+        color: var(--primary);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        padding: 4px 12px;
+        border-radius: 20px;
+        margin-bottom: 8px;
+      }
+      .form-heading h1 {
+        font-size: 26px;
+        font-weight: 900;
+        line-height: 1.2;
+        margin-bottom: 6px;
+      }
+      .form-heading h1 span {
+        color: var(--primary);
+      }
+      .form-heading p {
+        color: var(--text-muted);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .form-card {
+        background: var(--white);
+        border: 1.5px solid var(--border);
+        border-radius: 16px;
+        padding: 28px 24px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+      }
+      .fs-title {
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--primary);
+        padding-bottom: 8px;
+        border-bottom: 2px solid var(--primary-light);
+        margin-bottom: 18px;
+        margin-top: 6px;
+      }
+      .fs-title:not(:first-child) {
+        margin-top: 24px;
+      }
+
+      .field-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-bottom: 16px;
+      }
+
+      label {
+        font-size: 12px;
+        font-weight: 800;
+        color: var(--text);
+      }
+      label .req {
+        color: var(--danger);
+        margin-left: 2px;
+      }
+      label .opt {
+        color: var(--text-muted);
+        font-weight: 600;
+        margin-left: 4px;
+        font-size: 11px;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        border: 1.5px solid var(--border);
+        border-radius: 8px;
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Nunito", sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 11px 13px;
+        outline: none;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+        appearance: none;
+        -webkit-appearance: none;
+      }
+      input::placeholder,
+      textarea::placeholder {
+        color: #cbd5e1;
+        font-weight: 400;
+      }
+      input:focus,
+      select:focus,
+      textarea:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.09);
+        background: #fff;
+      }
+      input.err {
+        border-color: var(--danger);
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.09);
+      }
+      select {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7280' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 13px center;
+        padding-right: 36px;
+        cursor: pointer;
+      }
+      textarea {
+        resize: vertical;
+        min-height: 78px;
+      }
+
+      /* PLAN SELECT */
+      .plan-select {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 4px;
+      }
+      .plan-opt {
+        border: 2px solid var(--border);
+        border-radius: 10px;
+        padding: 14px 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        background: var(--bg);
+        position: relative;
+      }
+      .plan-opt:hover {
+        border-color: var(--primary);
+      }
+      .plan-opt.selected-workshop {
+        border-color: var(--primary);
+        background: var(--primary-light);
+      }
+      .plan-opt.selected-internship {
+        border-color: var(--info);
+        background: #eff6ff;
+      }
+      .plan-opt input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+      .plan-opt-name {
+        font-size: 13px;
+        font-weight: 900;
+        margin-bottom: 3px;
+      }
+      .plan-opt.selected-workshop .plan-opt-name {
+        color: var(--primary);
+      }
+      .plan-opt.selected-internship .plan-opt-name {
+        color: var(--info);
+      }
+      .plan-opt-price {
+        font-size: 20px;
+        font-weight: 900;
+        font-family: "JetBrains Mono", monospace;
+        margin-bottom: 2px;
+      }
+      .plan-opt.selected-workshop .plan-opt-price {
+        color: var(--primary);
+      }
+      .plan-opt.selected-internship .plan-opt-price {
+        color: var(--info);
+      }
+      .plan-opt-desc {
+        font-size: 11px;
+        color: var(--text-muted);
+        line-height: 1.4;
+      }
+      .plan-opt-check {
+        position: absolute;
+        top: 10px;
+        right: 12px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        border: 2px solid var(--border);
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        transition: all 0.2s;
+      }
+      .plan-opt.selected-workshop .plan-opt-check {
+        border-color: var(--primary);
+        background: var(--primary);
+        color: #fff;
+      }
+      .plan-opt.selected-internship .plan-opt-check {
+        border-color: var(--info);
+        background: var(--info);
+        color: #fff;
+      }
+
+      /* RADIO */
+      .radio-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .radio-opt {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        border: 1.5px solid var(--border);
+        border-radius: 8px;
+        padding: 9px 12px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 700;
+        transition: all 0.2s;
+        background: var(--bg);
+      }
+      .radio-opt:has(input:checked) {
+        border-color: var(--primary);
+        background: var(--primary-light);
+        color: var(--primary);
+      }
+      .radio-opt input[type="radio"] {
+        width: 15px;
+        height: 15px;
+        min-width: 15px;
+        margin: 0;
+        padding: 0;
+        accent-color: var(--primary);
+        border: none;
+        box-shadow: none;
+        background: none;
+        -webkit-appearance: auto;
+        appearance: auto;
+      }
+
+      /* SUBMIT */
+      .submit-btn {
+        width: 100%;
+        background: var(--primary);
+        color: #fff;
+        font-family: "Nunito", sans-serif;
+        font-size: 17px;
+        font-weight: 900;
+        padding: 15px;
+        border: none;
+        border-radius: 11px;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 6px 20px rgba(255, 107, 0, 0.3);
+        margin-top: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+      .submit-btn:hover:not(:disabled) {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 28px rgba(255, 107, 0, 0.4);
+      }
+      .submit-btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none;
+      }
+      .spinner {
+        width: 18px;
+        height: 18px;
+        border: 2px solid rgba(255, 255, 255, 0.4);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .privacy-note {
+        text-align: center;
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-top: 10px;
+        line-height: 1.5;
+      }
+
+      /* SIDEBAR */
+      .sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        position: sticky;
+        top: 20px;
+      }
+      .cd-sidebar {
+        background: var(--secondary);
+        border-radius: 12px;
+        padding: 14px 16px;
+        text-align: center;
+      }
+      .cd-slbl {
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.5);
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        font-family: "JetBrains Mono", monospace;
+      }
+      .cd-stimer {
+        display: flex;
+        justify-content: center;
+        gap: 6px;
+        align-items: center;
+      }
+      .cds-unit {
+        text-align: center;
+      }
+      .cds-num {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 20px;
+        font-weight: 700;
+        color: #ffd700;
+        background: rgba(255, 255, 255, 0.08);
+        padding: 5px 7px;
+        border-radius: 5px;
+        min-width: 40px;
+        display: block;
+      }
+      .cds-lbl {
+        font-size: 9px;
+        color: rgba(255, 255, 255, 0.45);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 4px;
+        display: block;
+      }
+      .cds-sep {
+        font-size: 16px;
+        color: rgba(255, 255, 255, 0.25);
+        margin-bottom: 12px;
+      }
+      .seats-box {
+        background: #fef2f2;
+        border: 1.5px solid #fecaca;
+        border-radius: 10px;
+        padding: 11px 14px;
+        text-align: center;
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--danger);
+      }
+      .price-box {
+        background: var(--white);
+        border: 1.5px solid var(--border);
+        border-radius: 14px;
+        padding: 20px 18px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      }
+      .pb-title {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+      }
+      .pb-plan-row {
+        background: var(--bg);
+        border-radius: 8px;
+        padding: 10px 12px;
+        margin-bottom: 8px;
+      }
+      .pb-plan-row.workshop-plan {
+        border-left: 3px solid var(--primary);
+      }
+      .pb-plan-row.internship-plan {
+        border-left: 3px solid var(--info);
+      }
+      .pb-plan-name {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--text-muted);
+        margin-bottom: 3px;
+      }
+      .pb-plan-price {
+        font-size: 22px;
+        font-weight: 900;
+        font-family: "JetBrains Mono", monospace;
+      }
+      .pb-plan-row.workshop-plan .pb-plan-price {
+        color: var(--primary);
+      }
+      .pb-plan-row.internship-plan .pb-plan-price {
+        color: var(--info);
+      }
+      .sb-feats {
+        border-top: 1px solid var(--border);
+        padding-top: 13px;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+      }
+      .sf {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .sf .ck {
+        color: var(--success);
+      }
+
+      /* SUCCESS */
+      .success-screen {
+        display: none;
+        background: #fff;
+        border: 1.5px solid var(--border);
+        border-radius: 16px;
+        padding: 44px 28px;
+        text-align: center;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+      }
+      .si {
+        font-size: 60px;
+        display: block;
+        margin-bottom: 18px;
+      }
+      .success-screen h2 {
+        font-size: 26px;
+        font-weight: 900;
+        color: var(--success);
+        margin-bottom: 10px;
+      }
+      .success-screen p {
+        color: var(--text-muted);
+        font-size: 14px;
+        line-height: 1.7;
+        margin-bottom: 24px;
+      }
+      .back-home-btn {
+        display: inline-block;
+        background: var(--primary);
+        color: #fff;
+        font-weight: 800;
+        font-size: 14px;
+        padding: 12px 28px;
+        border-radius: 10px;
+        transition: all 0.2s;
+      }
+      .back-home-btn:hover {
+        background: var(--primary-dark);
+      }
+
+      /* ERROR MSG */
+      .err-msg {
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 13px;
+        color: var(--danger);
+        font-weight: 700;
+        margin-bottom: 12px;
+        display: none;
+      }
+
+      /* TABLET */
+      @media (max-width: 840px) {
+        main {
+          grid-template-columns: 1fr;
+          padding: 28px 20px 60px;
+        }
+        .sidebar {
+          order: -1;
+          position: static;
+        }
+        nav {
+          padding: 10px 20px;
+        }
+      }
+      /* MOBILE */
+      @media (max-width: 640px) {
+        .urgency-bar {
+          font-size: 11px;
+          padding: 8px 12px;
+        }
+        nav {
+          padding: 10px 14px;
+        }
+        .nav-logo {
+          font-size: 14px;
+        }
+        .logo-icon {
+          width: 30px;
+          height: 30px;
+          font-size: 14px;
+        }
+        main {
+          padding: 20px 14px 50px;
+          gap: 20px;
+        }
+        .sidebar {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
+        }
+        .cd-sidebar {
+          grid-column: 1 / -1;
+        }
+        .price-box {
+          grid-column: 1 / -1;
+        }
+        .form-heading h1 {
+          font-size: 22px;
+        }
+        .form-card {
+          padding: 20px 16px;
+        }
+        .field-row {
+          grid-template-columns: 1fr;
+          gap: 0;
+        }
+        .field {
+          margin-bottom: 13px;
+        }
+        .plan-select {
+          grid-template-columns: 1fr;
+        }
+        .radio-grid {
+          gap: 7px;
+        }
+        .submit-btn {
+          font-size: 15px;
+          padding: 13px;
+        }
+      }
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--primary);
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="urgency-bar">
+      🔥 Limited Seats — Register at <span class="gold">₹199</span> before
+      deadline
+    </div>
+
+    <nav>
+      <a href="workshop-v3.html" class="nav-logo">
+        <div class="logo-icon">🤖</div>
+        CPS<span style="color: var(--primary)">&amp;Robotics</span>
+      </a>
+      <a href="workshop-v3.html" class="back-link">← Back to Workshop</a>
+    </nav>
+
+    <main>
+      <!-- FORM SIDE -->
+      <div class="form-side">
+        <div class="form-heading">
+          <div class="form-tag">📝 Registration</div>
+          <h1>Secure Your <span>Seat</span> Now</h1>
+          <p>
+            Fill in your details below. You'll receive a confirmation on your
+            email/WhatsApp within 24 hours.
+          </p>
+        </div>
+
+        <div class="form-card" id="form-card">
+          <!-- PLAN SELECTION -->
+          <div class="fs-title">🎯 Choose Your Plan</div>
+          <div class="field">
+            <div class="plan-select">
+              <div
+                class="plan-opt selected-workshop"
+                id="opt-workshop"
+                onclick="selectPlan('workshop')"
+              >
+                <input type="radio" name="plan" value="workshop" checked />
+                <div class="plan-opt-check">✓</div>
+                <div class="plan-opt-name">🛠 Workshop Only</div>
+                <div class="plan-opt-price">₹199</div>
+                <div class="plan-opt-desc">
+                  2 weeks · 16 sessions · Digital Certificate
+                </div>
+              </div>
+              <div
+                class="plan-opt"
+                id="opt-internship"
+                onclick="selectPlan('internship')"
+              >
+                <input type="radio" name="plan" value="internship" />
+                <div class="plan-opt-check"></div>
+                <div class="plan-opt-name">🎓 Workshop + Internship</div>
+                <div class="plan-opt-price">
+                  ₹199<span
+                    style="
+                      font-size: 13px;
+                      font-weight: 600;
+                      color: var(--text-muted);
+                    "
+                    >+fee</span
+                  >
+                </div>
+                <div class="plan-opt-desc">
+                  4 weeks · Internship letter + IIT Delhi tour
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PERSONAL INFO -->
+          <div class="fs-title">👤 Personal Information</div>
+
+          <div class="field-row">
+            <div class="field">
+              <label>Full Name <span class="req">*</span></label>
+              <input
+                type="text"
+                id="fullName"
+                placeholder="e.g. Mayank Kumar"
+                autocomplete="name"
+              />
+            </div>
+            <div class="field">
+              <label>Phone / WhatsApp <span class="req">*</span></label>
+              <input
+                type="tel"
+                id="phone"
+                placeholder="+91 9XXXXXXXXX"
+                autocomplete="tel"
+              />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Email Address <span class="req">*</span></label>
+            <input
+              type="email"
+              id="email"
+              placeholder="you@email.com"
+              autocomplete="email"
+            />
+          </div>
+
+          <!-- ACADEMIC DETAILS -->
+          <div class="fs-title">🎓 Academic Details</div>
+
+          <div class="field">
+            <label>College / School Name <span class="req">*</span></label>
+            <input
+              type="text"
+              id="college"
+              placeholder="e.g. KIIT University, Bhubaneswar"
+              autocomplete="organization"
+            />
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label>Department / Branch <span class="req">*</span></label>
+              <input
+                type="text"
+                id="dept"
+                placeholder="e.g. Computer Science"
+              />
+            </div>
+            <div class="field">
+              <label>Year of Study <span class="req">*</span></label>
+              <select id="year">
+                <option value="" disabled selected>Select Year</option>
+                <option>1st Year</option>
+                <option>2nd Year</option>
+                <option>3rd Year</option>
+                <option>4th Year</option>
+                <option>Postgraduate</option>
+                <option>Diploma / Polytechnic</option>
+                <option>School (Class 11–12)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label
+              >Roll Number / Student ID
+              <span class="opt">(optional)</span></label
+            >
+            <input type="text" id="rollNo" placeholder="e.g. 22053001" />
+          </div>
+
+          <!-- BACKGROUND -->
+          <div class="fs-title">💡 Background & Interest</div>
+
+          <div class="field">
+            <label>Programming Experience <span class="req">*</span></label>
+            <div class="radio-grid" id="exp-grid">
+              <label class="radio-opt"
+                ><input type="radio" name="exp" value="none" /> None /
+                Beginner</label
+              >
+              <label class="radio-opt"
+                ><input type="radio" name="exp" value="basic" /> Basic (1
+                Year)</label
+              >
+              <label class="radio-opt"
+                ><input type="radio" name="exp" value="intermediate" />
+                Intermediate</label
+              >
+              <label class="radio-opt"
+                ><input type="radio" name="exp" value="advanced" />
+                Advanced</label
+              >
+            </div>
+          </div>
+
+          <div class="field">
+            <label
+              >Why do you want to join?
+              <span class="opt">(optional)</span></label
+            >
+            <textarea
+              id="motivation"
+              placeholder="Tell us what excites you about Robotics, IoT, or ML..."
+            ></textarea>
+          </div>
+
+          <div class="field">
+            <label>How did you hear about us?</label>
+            <select id="source">
+              <option value="" disabled selected>Select an option</option>
+              <option>College / Faculty</option>
+              <option>Instagram</option>
+              <option>LinkedIn</option>
+              <option>Friend / Classmate</option>
+              <option>WhatsApp Group</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <!-- ERROR MSG -->
+          <div class="err-msg" id="err-msg">
+            ⚠️ Please fill all required fields correctly.
+          </div>
+
+          <button class="submit-btn" id="submit-btn" onclick="handleSubmit()">
+            <span id="btn-text">🚀 Complete Registration</span>
+          </button>
+          <p class="privacy-note">
+            🔒 Your data is safe with us. We never spam.
+          </p>
+        </div>
+
+        <!-- SUCCESS SCREEN -->
+        <div class="success-screen" id="success-screen">
+          <span class="si">🎉</span>
+          <h2>You're Registered!</h2>
+          <p>
+            Welcome, <strong id="success-name"></strong>!<br />
+            Your registration for the <strong id="success-plan"></strong> has
+            been received.<br /><br />
+            We'll send you confirmation and joining details on your
+            email/WhatsApp within 24 hours. Get ready — it's going to be an
+            incredible learning journey! 🚀
+          </p>
+          <a href="workshop-v3.html" class="back-home-btn"
+            >← Back to Workshop Page</a
+          >
+        </div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <div class="sidebar">
+        <div class="cd-sidebar">
+          <div class="cd-slbl">⏰ Offer Expires In</div>
+          <div class="cd-stimer">
+            <div class="cds-unit">
+              <span class="cds-num" id="s-d">00</span
+              ><span class="cds-lbl">Days</span>
+            </div>
+            <div class="cds-sep">:</div>
+            <div class="cds-unit">
+              <span class="cds-num" id="s-h">00</span
+              ><span class="cds-lbl">Hrs</span>
+            </div>
+            <div class="cds-sep">:</div>
+            <div class="cds-unit">
+              <span class="cds-num" id="s-m">00</span
+              ><span class="cds-lbl">Min</span>
+            </div>
+            <div class="cds-sep">:</div>
+            <div class="cds-unit">
+              <span class="cds-num" id="s-s">00</span
+              ><span class="cds-lbl">Sec</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="seats-box">🔴 Limited seats available</div>
+
+        <div class="price-box">
+          <div class="pb-title">Available Plans</div>
+          <div class="pb-plan-row workshop-plan">
+            <div class="pb-plan-name">🛠 Workshop Only</div>
+            <div class="pb-plan-price">₹199</div>
+            <div
+              style="font-size: 11px; color: var(--text-muted); margin-top: 3px"
+            >
+              2 weeks · 16 sessions
+            </div>
+          </div>
+          <div class="pb-plan-row internship-plan">
+            <div class="pb-plan-name">🎓 Workshop + Internship</div>
+            <div class="pb-plan-price">
+              ₹199
+              <span style="font-size: 14px; color: var(--text-muted)"
+                >+ fee</span
+              >
+            </div>
+            <div
+              style="font-size: 11px; color: var(--text-muted); margin-top: 3px"
+            >
+              4 weeks · Full program
+            </div>
+          </div>
+          <div class="sb-feats">
+            <div class="sf">
+              <span class="ck">✅</span> 16 Live + Recorded Sessions
+            </div>
+            <div class="sf">
+              <span class="ck">✅</span> Embedded Systems Labs
+            </div>
+            <div class="sf"><span class="ck">✅</span> ML Gesture Control</div>
+            <div class="sf"><span class="ck">✅</span> Digital Certificate</div>
+            <div class="sf"><span class="ck">✅</span> Lifetime Recordings</div>
+            <div class="sf" style="color: var(--info)">
+              <span style="color: var(--info)">🔵</span> IIT Delhi Lab Tour
+              (internship)
+            </div>
+            <div class="sf" style="color: var(--info)">
+              <span style="color: var(--info)">🔵</span> Internship Letter
+              (internship)
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      // ══════════════════════════════════════════
+      // WEBHOOK URL — Replace with your actual webhook
+      // ══════════════════════════════════════════
+      const WEBHOOK_URL = "YOUR_WEBHOOK_URL_HERE";
+
+      // COUNTDOWN
+      const target = new Date("2025-08-01T09:00:00");
+      function tick() {
+        const diff = target - new Date();
+        if (diff <= 0) return;
+        const d = Math.floor(diff / 86400000),
+          h = Math.floor((diff % 86400000) / 3600000),
+          m = Math.floor((diff % 3600000) / 60000),
+          s = Math.floor((diff % 60000) / 1000);
+        document.getElementById("s-d").textContent = String(d).padStart(2, "0");
+        document.getElementById("s-h").textContent = String(h).padStart(2, "0");
+        document.getElementById("s-m").textContent = String(m).padStart(2, "0");
+        document.getElementById("s-s").textContent = String(s).padStart(2, "0");
+      }
+      tick();
+      setInterval(tick, 1000);
+
+      // PLAN SELECTION
+      let selectedPlan = "workshop";
+      function selectPlan(plan) {
+        selectedPlan = plan;
+        document.querySelectorAll(".plan-opt").forEach((el) => {
+          el.classList.remove("selected-workshop", "selected-internship");
+          el.querySelector(".plan-opt-check").textContent = "";
+        });
+        const el = document.getElementById("opt-" + plan);
+        el.classList.add("selected-" + plan);
+        el.querySelector(".plan-opt-check").textContent = "✓";
+        el.querySelector('input[type="radio"]').checked = true;
+      }
+
+      // VALIDATION
+      function validateForm() {
+        let valid = true;
+        const required = [
+          "fullName",
+          "phone",
+          "email",
+          "college",
+          "dept",
+          "year",
+        ];
+        required.forEach((id) => {
+          const el = document.getElementById(id);
+          if (!el.value.trim()) {
+            el.classList.add("err");
+            el.addEventListener("input", () => el.classList.remove("err"), {
+              once: true,
+            });
+            valid = false;
+          }
+        });
+        const emailEl = document.getElementById("email");
+        if (
+          emailEl.value &&
+          !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value)
+        ) {
+          emailEl.classList.add("err");
+          valid = false;
+        }
+        const phoneEl = document.getElementById("phone");
+        if (phoneEl.value && !/^[+\d\s\-]{8,15}$/.test(phoneEl.value)) {
+          phoneEl.classList.add("err");
+          valid = false;
+        }
+        if (!document.querySelector('input[name="exp"]:checked')) valid = false;
+        return valid;
+      }
+
+      // SUBMIT HANDLER
+      async function handleSubmit() {
+        const errMsg = document.getElementById("err-msg");
+        errMsg.style.display = "none";
+
+        if (!validateForm()) {
+          errMsg.style.display = "block";
+          document
+            .querySelector(".err")
+            ?.scrollIntoView({ behavior: "smooth", block: "center" });
+          return;
+        }
+
+        const btn = document.getElementById("submit-btn");
+        const btnText = document.getElementById("btn-text");
+        btn.disabled = true;
+        btnText.innerHTML = '<div class="spinner"></div> Submitting...';
+
+        const payload = {
+          timestamp: new Date().toISOString(),
+          plan:
+            selectedPlan === "internship"
+              ? "Workshop + Internship"
+              : "Workshop Only",
+          fullName: document.getElementById("fullName").value.trim(),
+          email: document.getElementById("email").value.trim(),
+          phone: document.getElementById("phone").value.trim(),
+          college: document.getElementById("college").value.trim(),
+          department: document.getElementById("dept").value.trim(),
+          yearOfStudy: document.getElementById("year").value,
+          rollNumber:
+            document.getElementById("rollNo").value.trim() || "Not provided",
+          programmingExperience:
+            document.querySelector('input[name="exp"]:checked')?.value || "",
+          motivation:
+            document.getElementById("motivation").value.trim() ||
+            "Not provided",
+          source: document.getElementById("source").value || "Not specified",
+        };
+
+        try {
+          // Send to webhook
+          if (WEBHOOK_URL !== "YOUR_WEBHOOK_URL_HERE") {
+            await fetch(WEBHOOK_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+              mode: "no-cors", // Use 'cors' if your webhook supports it
+            });
+          }
+
+          // Save to localStorage for admin dashboard
+          const registrations = JSON.parse(
+            localStorage.getItem("cps_registrations") || "[]",
+          );
+          registrations.push({ ...payload, id: Date.now() });
+          localStorage.setItem(
+            "cps_registrations",
+            JSON.stringify(registrations),
+          );
+
+          // Show success
+          const firstName = payload.fullName.split(" ")[0];
+          document.getElementById("success-name").textContent = firstName;
+          document.getElementById("success-plan").textContent = payload.plan;
+          document.getElementById("form-card").style.display = "none";
+          document.getElementById("success-screen").style.display = "block";
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        } catch (err) {
+          console.error("Submission error:", err);
+          // Still show success to user (webhook may be no-cors)
+          const firstName = payload.fullName.split(" ")[0];
+          document.getElementById("success-name").textContent = firstName;
+          document.getElementById("success-plan").textContent = payload.plan;
+          document.getElementById("form-card").style.display = "none";
+          document.getElementById("success-screen").style.display = "block";
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }
+    </script>
+  </body>
+</html>
