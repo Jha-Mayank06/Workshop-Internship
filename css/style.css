@@ -1267,15 +1267,22 @@ footer a {
     padding: 16px 14px;
   }
 }
+/* Top bar (already added earlier) */
 .top-bar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  width: 100%;
   z-index: 1000;
-  background: #0f172a;
-  color: white;
-  text-align: center;
-  padding: 8px;
-  font-weight: 600;
+}
+
+/* Navbar (THIS is your fix) */
+.navbar {
+  position: fixed;
+  top: 40px; /* height of top-bar */
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  background: white;
 }
 .bottom-cta {
   position: fixed;
