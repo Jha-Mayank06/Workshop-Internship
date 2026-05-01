@@ -1,7 +1,8 @@
 // ══════════════════════════════════════════
 // WEBHOOK URL — Replace with your actual webhook
 // ══════════════════════════════════════════
-const WEBHOOK_URL = "YOUR_WEBHOOK_URL_HERE";
+const WEBHOOK_URL =
+  "https://h.albato.com/wh/38/1lfvfuc/P8dQFE_HzIRbObMx-xQOn4r78v572zT-7lXhsOzIt2c/";
 
 // COUNTDOWN
 const target = new Date("2025-08-01T09:00:00");
@@ -37,14 +38,7 @@ function selectPlan(plan) {
 // VALIDATION
 function validateForm() {
   let valid = true;
-  const required = [
-    "fullName",
-    "phone",
-    "email",
-    "college",
-    "dept",
-    "year",
-  ];
+  const required = ["fullName", "phone", "email", "college", "dept", "year"];
   required.forEach((id) => {
     const el = document.getElementById(id);
     if (!el.value.trim()) {
@@ -56,10 +50,7 @@ function validateForm() {
     }
   });
   const emailEl = document.getElementById("email");
-  if (
-    emailEl.value &&
-    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value)
-  ) {
+  if (emailEl.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value)) {
     emailEl.classList.add("err");
     valid = false;
   }
@@ -93,9 +84,7 @@ async function handleSubmit() {
   const payload = {
     timestamp: new Date().toISOString(),
     plan:
-      selectedPlan === "internship"
-        ? "Workshop + Internship"
-        : "Workshop Only",
+      selectedPlan === "internship" ? "Workshop + Internship" : "Workshop Only",
     fullName: document.getElementById("fullName").value.trim(),
     email: document.getElementById("email").value.trim(),
     phone: document.getElementById("phone").value.trim(),
@@ -107,8 +96,7 @@ async function handleSubmit() {
     programmingExperience:
       document.querySelector('input[name="exp"]:checked')?.value || "",
     motivation:
-      document.getElementById("motivation").value.trim() ||
-      "Not provided",
+      document.getElementById("motivation").value.trim() || "Not provided",
     source: document.getElementById("source").value || "Not specified",
   };
 
@@ -128,10 +116,7 @@ async function handleSubmit() {
       localStorage.getItem("cps_registrations") || "[]",
     );
     registrations.push({ ...payload, id: Date.now() });
-    localStorage.setItem(
-      "cps_registrations",
-      JSON.stringify(registrations),
-    );
+    localStorage.setItem("cps_registrations", JSON.stringify(registrations));
 
     // Show success
     const firstName = payload.fullName.split(" ")[0];

@@ -130,9 +130,7 @@ let studentPage = 1;
 const PAGE_SIZE = 20;
 
 function renderStudents() {
-  const query = document
-    .getElementById("student-search")
-    .value.toLowerCase();
+  const query = document.getElementById("student-search").value.toLowerCase();
   const planF = document.getElementById("plan-filter").value;
   const yearF = document.getElementById("year-filter").value;
 
@@ -328,11 +326,9 @@ document
   .addEventListener("click", function (e) {
     if (e.target === this) closeModal();
   });
-document
-  .getElementById("review-modal")
-  .addEventListener("click", function (e) {
-    if (e.target === this) closeReviewModal();
-  });
+document.getElementById("review-modal").addEventListener("click", function (e) {
+  if (e.target === this) closeReviewModal();
+});
 
 // ══════════════════════════
 // CSV EXPORT
@@ -377,9 +373,7 @@ function exportCSV() {
 
 function exportInternshipCSV() {
   const approvals = getApprovals();
-  const data = getData().filter(
-    (r) => r.plan === "Workshop + Internship",
-  );
+  const data = getData().filter((r) => r.plan === "Workshop + Internship");
   if (!data.length) {
     showToast("No internship data to export", "info");
     return;
@@ -411,9 +405,7 @@ function exportInternshipCSV() {
 function downloadCSV(rows, filename) {
   const csv = rows
     .map((r) =>
-      r
-        .map((v) => '"' + String(v || "").replace(/"/g, '""') + '"')
-        .join(","),
+      r.map((v) => '"' + String(v || "").replace(/"/g, '""') + '"').join(","),
     )
     .join("\n");
   const blob = new Blob([csv], { type: "text/csv" });
