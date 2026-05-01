@@ -77,19 +77,32 @@ window.addEventListener("scroll", () => {
 
   // Only mobile
   if (window.innerWidth < 768) {
-    if (currentScrollY > lastScrollY) {
-      // Scrolling DOWN → hide bottom CTA
-      bottomCTA.classList.remove("show");
-    } else {
-      // Scrolling UP → show bottom CTA
-      bottomCTA.classList.add("show");
-    }
+    const stickyHeader = document.getElementById("sticky-header");
+    const bottomCTA = document.querySelector(".bottom-cta");
+    let lastScrollY = window.scrollY;
 
-    // Hide near top
-    if (currentScrollY < 100) {
-      bottomCTA.classList.remove("show");
-    }
+    window.addEventListener("scroll", () => {
+      const currentScrollY = window.scrollY;
+      const isMobile = window.innerWidth < 768;
+
+      if (isMobile) {
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          // Scrolling DOWN — hide header, show bottom CTA
+          stickyHeader.classList.add("hide");
+          bottomCTA.classList.add("show");
+        } else {
+          // Scrolling UP — show header, hide bottom CTA
+          stickyHeader.classList.remove("hide");
+          bottomCTA.classList.remove("show");
+        }
+
+        if (currentScrollY < 100) {
+          stickyHeader.classList.remove("hide");
+          bottomCTA.classList.remove("show");
+        }
+      }
+
+      lastScrollY = currentScrollY;
+    });
   }
-
-  lastScrollY = currentScrollY;
 });

@@ -1267,23 +1267,7 @@ footer a {
     padding: 16px 14px;
   }
 }
-/* Top bar (already added earlier) */
-.top-bar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
-}
 
-/* Navbar (THIS is your fix) */
-.navbar {
-  position: fixed;
-  top: 40px; /* height of top-bar */
-  left: 0;
-  width: 100%;
-  z-index: 999;
-  background: white;
-}
 .bottom-cta {
   position: fixed;
   bottom: 0;
@@ -1316,5 +1300,12 @@ footer a {
   }
 }
 body {
-  padding-bottom: 70px;
+  padding-top: 100px; /* urgency bar ~37px + navbar ~63px */
+  padding-bottom: 0; /* remove the 70px bottom padding — handled per breakpoint */
+}
+
+@media (max-width: 767px) {
+  body {
+    padding-bottom: 70px;
+  }
 }
