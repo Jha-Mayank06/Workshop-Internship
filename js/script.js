@@ -68,3 +68,28 @@ const obs = new IntersectionObserver(
   { threshold: 0.07 },
 );
 document.querySelectorAll(".fade-in").forEach((el) => obs.observe(el));
+let lastScrollY = window.scrollY;
+
+const bottomCTA = document.querySelector(".bottom-cta");
+
+window.addEventListener("scroll", () => {
+  const currentScrollY = window.scrollY;
+
+  // Only mobile
+  if (window.innerWidth < 768) {
+    if (currentScrollY > lastScrollY) {
+      // Scrolling DOWN → hide bottom CTA
+      bottomCTA.classList.remove("show");
+    } else {
+      // Scrolling UP → show bottom CTA
+      bottomCTA.classList.add("show");
+    }
+
+    // Hide near top
+    if (currentScrollY < 100) {
+      bottomCTA.classList.remove("show");
+    }
+  }
+
+  lastScrollY = currentScrollY;
+});
