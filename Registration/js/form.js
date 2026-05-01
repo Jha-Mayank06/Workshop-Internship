@@ -136,3 +136,40 @@ async function handleSubmit() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 }
+// ===== COUNTDOWN TIMER (SAFE FOR MULTIPLE PAGES) =====
+
+const deadline = new Date("2026-05-15T23:59:59").getTime();
+
+function updateCountdown() {
+  const dEl = document.getElementById("s-d");
+  const hEl = document.getElementById("s-h");
+  const mEl = document.getElementById("s-m");
+  const sEl = document.getElementById("s-s");
+
+  // 🔴 If elements not present → exit safely
+  if (!dEl || !hEl || !mEl || !sEl) return;
+
+  const now = new Date().getTime();
+  const gap = deadline - now;
+
+  if (gap <= 0) {
+    dEl.innerText = "00";
+    hEl.innerText = "00";
+    mEl.innerText = "00";
+    sEl.innerText = "00";
+    return;
+  }
+
+  const days = Math.floor(gap / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((gap / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((gap / (1000 * 60)) % 60);
+  const seconds = Math.floor((gap / 1000) % 60);
+
+  dEl.innerText = String(days).padStart(2, "0");
+  hEl.innerText = String(hours).padStart(2, "0");
+  mEl.innerText = String(minutes).padStart(2, "0");
+  sEl.innerText = String(seconds).padStart(2, "0");
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();

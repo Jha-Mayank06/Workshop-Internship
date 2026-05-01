@@ -122,3 +122,37 @@ phases.forEach((phase) => {
     phase.classList.toggle("open");
   });
 });
+// ===== COUNTDOWN TIMER =====
+
+// 🔴 Set your deadline here
+const deadline = new Date("2026-05-25T00:00:00").getTime();
+
+function updateCountdown() {
+  const now = new Date().getTime();
+  const gap = deadline - now;
+
+  // stop at zero
+  if (gap <= 0) {
+    document.getElementById("cd-d").innerText = "00";
+    document.getElementById("cd-h").innerText = "00";
+    document.getElementById("cd-m").innerText = "00";
+    document.getElementById("cd-s").innerText = "00";
+    return;
+  }
+
+  const days = Math.floor(gap / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((gap / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((gap / (1000 * 60)) % 60);
+  const seconds = Math.floor((gap / 1000) % 60);
+
+  document.getElementById("cd-d").innerText = String(days).padStart(2, "0");
+  document.getElementById("cd-h").innerText = String(hours).padStart(2, "0");
+  document.getElementById("cd-m").innerText = String(minutes).padStart(2, "0");
+  document.getElementById("cd-s").innerText = String(seconds).padStart(2, "0");
+}
+
+// run every second
+setInterval(updateCountdown, 1000);
+
+// run immediately
+updateCountdown();
