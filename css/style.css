@@ -1300,8 +1300,8 @@ footer a {
   }
 }
 body {
-  padding-top: 100px; /* urgency bar ~37px + navbar ~63px */
-  padding-bottom: 0; /* remove the 70px bottom padding — handled per breakpoint */
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 
 @media (max-width: 767px) {
