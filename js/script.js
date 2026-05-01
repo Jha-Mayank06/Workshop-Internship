@@ -106,3 +106,19 @@ window.addEventListener("scroll", () => {
     });
   }
 });
+// ===== PHASE ACCORDION =====
+const phases = document.querySelectorAll(".phase-block");
+
+phases.forEach((phase) => {
+  const header = phase.querySelector(".phase-header");
+
+  header.addEventListener("click", () => {
+    // close others (optional but recommended)
+    phases.forEach((p) => {
+      if (p !== phase) p.classList.remove("open");
+    });
+
+    // toggle current
+    phase.classList.toggle("open");
+  });
+});

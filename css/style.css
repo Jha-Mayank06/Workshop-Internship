@@ -663,7 +663,7 @@ nav {
   background: var(--white);
 }
 .phase-block {
-  margin-bottom: 32px;
+  margin-bottom: 5px;
 }
 .phase-header {
   display: flex;
@@ -1308,4 +1308,36 @@ body {
   body {
     padding-bottom: 70px;
   }
+}
+/* ===== ACCORDION (PHASE DROPDOWN) ===== */
+
+/* hidden by default */
+.phase-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+/* when open */
+.phase-block.open .phase-content {
+  max-height: 1000px; /* big enough */
+}
+
+/* header clickable */
+.phase-header {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* push arrow to right */
+.arrow {
+  margin-left: auto;
+  transition: transform 0.3s ease;
+}
+
+/* rotate arrow when open */
+.phase-block.open .arrow {
+  transform: rotate(180deg);
 }
