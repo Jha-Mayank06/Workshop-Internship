@@ -662,3 +662,13 @@ textarea {
   background: var(--primary);
   border-radius: 4px;
 }
+.price-save {
+  display: inline-block;
+  background: #ecfdf5;
+  color: var(--success);
+  font-size: 12px;
+  font-weight: 800;
+  padding: 3px 0px;
+  border-radius: 20px;
+  margin-bottom: 0px;
+}
