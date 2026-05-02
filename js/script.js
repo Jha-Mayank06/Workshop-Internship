@@ -125,7 +125,7 @@ phases.forEach((phase) => {
 // ===== COUNTDOWN TIMER =====
 
 // 🔴 Set your deadline here
-const deadline = new Date("2026-05-25T00:00:00").getTime();
+const deadline = new Date("2026-05-15T00:00:00").getTime();
 
 function updateCountdown() {
   const now = new Date().getTime();
