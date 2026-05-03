@@ -1273,7 +1273,7 @@ footer a {
   bottom: 0;
   left: 0;
   width: 100%;
-  background: #111827;
+  background: linear-gradient(180deg, #ffffff, #050d42ea);
   color: white;
   display: flex;
   justify-content: space-between;
