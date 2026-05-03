@@ -38,12 +38,20 @@ a {
   background: var(--secondary);
   color: #fff;
   text-align: center;
-  padding: 9px 14px;
+  padding: 9px 16px;
   font-size: 13px;
   font-weight: 700;
 }
 .urgency-bar .gold {
   color: #ffd700;
+}
+.blink {
+  animation: blink 1.2s step-end infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
 }
 
 nav {
