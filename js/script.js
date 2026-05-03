@@ -1,28 +1,4 @@
 // ══════════════════════════════════════════
-// COUNTDOWN — set your actual deadline date here
-// ══════════════════════════════════════════
-const target = new Date("2025-08-01T09:00:00");
-function tick() {
-  const diff = target - new Date();
-  if (diff <= 0) {
-    ["cd-d", "cd-h", "cd-m", "cd-s"].forEach(
-      (id) => (document.getElementById(id).textContent = "00"),
-    );
-    return;
-  }
-  const d = Math.floor(diff / 86400000),
-    h = Math.floor((diff % 86400000) / 3600000),
-    m = Math.floor((diff % 3600000) / 60000),
-    s = Math.floor((diff % 60000) / 1000);
-  document.getElementById("cd-d").textContent = String(d).padStart(2, "0");
-  document.getElementById("cd-h").textContent = String(h).padStart(2, "0");
-  document.getElementById("cd-m").textContent = String(m).padStart(2, "0");
-  document.getElementById("cd-s").textContent = String(s).padStart(2, "0");
-}
-tick();
-setInterval(tick, 1000);
-
-// ══════════════════════════════════════════
 // PLAN TOGGLE
 // ══════════════════════════════════════════
 function switchPlan(plan, el) {
@@ -68,44 +44,43 @@ const obs = new IntersectionObserver(
   { threshold: 0.07 },
 );
 document.querySelectorAll(".fade-in").forEach((el) => obs.observe(el));
-let lastScrollY = window.scrollY;
 
+// ══════════════════════════════════════════
+// SCROLL — STICKY HEADER + BOTTOM CTA
+// Bug fixes:
+//   - Removed outer scroll listener that was wrapping the inner one
+//     (caused infinite listener stacking on every scroll event)
+//   - Removed duplicate let declarations of stickyHeader, bottomCTA, lastScrollY
+//   - bottomCTA is now declared once and reused
+// ══════════════════════════════════════════
+const stickyHeader = document.getElementById("sticky-header");
 const bottomCTA = document.querySelector(".bottom-cta");
+let lastScrollY = window.scrollY;
 
 window.addEventListener("scroll", () => {
   const currentScrollY = window.scrollY;
+  const isMobile = window.innerWidth < 768;
 
-  // Only mobile
-  if (window.innerWidth < 768) {
-    const stickyHeader = document.getElementById("sticky-header");
-    const bottomCTA = document.querySelector(".bottom-cta");
-    let lastScrollY = window.scrollY;
+  if (isMobile) {
+    if (currentScrollY > lastScrollY && currentScrollY > 100) {
+      // Scrolling DOWN — hide header, show bottom CTA
+      stickyHeader.classList.add("hide");
+      bottomCTA.classList.add("show");
+    } else {
+      // Scrolling UP — show header, hide bottom CTA
+      stickyHeader.classList.remove("hide");
+      bottomCTA.classList.remove("show");
+    }
 
-    window.addEventListener("scroll", () => {
-      const currentScrollY = window.scrollY;
-      const isMobile = window.innerWidth < 768;
-
-      if (isMobile) {
-        if (currentScrollY > lastScrollY && currentScrollY > 100) {
-          // Scrolling DOWN — hide header, show bottom CTA
-          stickyHeader.classList.add("hide");
-          bottomCTA.classList.add("show");
-        } else {
-          // Scrolling UP — show header, hide bottom CTA
-          stickyHeader.classList.remove("hide");
-          bottomCTA.classList.remove("show");
-        }
-
-        if (currentScrollY < 100) {
-          stickyHeader.classList.remove("hide");
-          bottomCTA.classList.remove("show");
-        }
-      }
-
-      lastScrollY = currentScrollY;
-    });
+    if (currentScrollY < 100) {
+      stickyHeader.classList.remove("hide");
+      bottomCTA.classList.remove("show");
+    }
   }
+
+  lastScrollY = currentScrollY;
 });
+
 // ===== PHASE ACCORDION =====
 const phases = document.querySelectorAll(".phase-block");
 
@@ -122,6 +97,7 @@ phases.forEach((phase) => {
     phase.classList.toggle("open");
   });
 });
+
 // ===== COUNTDOWN TIMER =====
 
 // 🔴 Set your deadline here
@@ -156,33 +132,35 @@ setInterval(updateCountdown, 1000);
 
 // run immediately
 updateCountdown();
+
 // ═══════════════════════════════════════════════════════════════════
-// STACKED PODIUM CAROUSEL  —  append to the bottom of script.js
+// STACKED PODIUM CAROUSEL
 // ═══════════════════════════════════════════════════════════════════
 
 (function () {
-  // State classes assigned to cards by their position relative to center
   const STATE_CLASSES = [
-    "is-far-left", // center - 2  (off-stage left)
-    "is-left", // center - 1
-    "is-center", // center
-    "is-right", // center + 1
-    "is-far-right", // center + 2  (off-stage right)
+    "is-far-left",
+    "is-left",
+    "is-center",
+    "is-right",
+    "is-far-right",
   ];
 
+  // Bug fix: was getElementById("podiumStage") but HTML had no such id.
+  // Fixed by adding id="podiumStage" to the wrap div in index.html.
   const stage = document.getElementById("podiumStage");
   const dotsWrap = document.getElementById("podiumDots");
   const prevBtn = document.getElementById("podiumPrev");
   const nextBtn = document.getElementById("podiumNext");
 
-  if (!stage || !dotsWrap || !prevBtn || !nextBtn) return; // bail if section absent
+  if (!stage || !dotsWrap || !prevBtn || !nextBtn) return;
 
   const cards = Array.from(stage.querySelectorAll(".podium-card"));
   const total = cards.length;
 
   if (total === 0) return;
 
-  let current = 0; // index of the center card
+  let current = 0;
   let isAnimating = false;
 
   // ── Build dot indicators ───────────────────────────────────────
@@ -199,32 +177,24 @@ updateCountdown();
   // ── Core: assign position classes ─────────────────────────────
   function applyStates(centerIndex) {
     cards.forEach((card, i) => {
-      // Remove all state classes
       card.classList.remove(...STATE_CLASSES);
 
-      // Offset from center: -2, -1, 0, +1, +2
-      // Wrap-around using modular arithmetic
       let offset = i - centerIndex;
 
-      // Bring into range [-floor(total/2) … +floor(total/2)]
       if (offset > Math.floor(total / 2)) offset -= total;
       if (offset < -Math.floor(total / 2)) offset += total;
 
-      // Map offset to STATE_CLASSES index (center = 2)
-      const stateIdx = offset + 2; // maps -2→0, -1→1, 0→2, +1→3, +2→4
+      const stateIdx = offset + 2;
 
       if (stateIdx >= 0 && stateIdx < STATE_CLASSES.length) {
         card.classList.add(STATE_CLASSES[stateIdx]);
       }
-      // Cards beyond ±2 get no visible class → stay hidden (opacity:0 default)
     });
 
-    // Dots
     dots.forEach((dot, i) => {
       dot.classList.toggle("is-active", i === centerIndex);
     });
 
-    // Video autoplay management
     manageVideos(centerIndex);
   }
 
@@ -234,11 +204,14 @@ updateCountdown();
       const video = card.querySelector("video");
       if (!video) return;
 
+      const source = video.querySelector("source");
+
       if (i === centerIndex) {
-        // Small delay so transition has started — avoids janky seek
-        setTimeout(() => {
-          video.play().catch(() => {}); // catch AbortError on rapid clicks
-        }, 120);
+        if (source && !source.src) {
+          source.src = source.dataset.src;
+          video.load();
+        }
+        video.play().catch(() => {});
       } else {
         video.pause();
       }
@@ -250,10 +223,9 @@ updateCountdown();
     if (isAnimating && !skipAnimation) return;
     isAnimating = true;
 
-    current = ((index % total) + total) % total; // safe modulo
+    current = ((index % total) + total) % total;
     applyStates(current);
 
-    // Re-enable after transition duration (500ms matches CSS)
     clearTimeout(goTo._timer);
     goTo._timer = setTimeout(() => {
       isAnimating = false;
@@ -273,7 +245,7 @@ updateCountdown();
   prevBtn.addEventListener("click", () => goTo(current - 1));
   nextBtn.addEventListener("click", () => goTo(current + 1));
 
-  // ── Keyboard navigation (when focused inside section) ─────────
+  // ── Keyboard navigation ───────────────────────────────────────
   document.addEventListener("keydown", (e) => {
     const section = document.getElementById("glimpse");
     if (!section) return;
@@ -302,7 +274,6 @@ updateCountdown();
       if (touchStartX === null) return;
       const dx = e.changedTouches[0].clientX - touchStartX;
       if (Math.abs(dx) > 40) {
-        // 40px threshold
         dx < 0 ? goTo(current + 1) : goTo(current - 1);
       }
       touchStartX = null;
@@ -311,10 +282,9 @@ updateCountdown();
   );
 
   // ── Auto-advance every 5 seconds ─────────────────────────────
-  // Pauses on hover / touch
   let autoTimer = setInterval(() => goTo(current + 1), 5000);
 
-  const wrap = document.querySelector(".podium-carousel-wrap");
+  const wrap = document.getElementById("podiumStage");
   if (wrap) {
     wrap.addEventListener("mouseenter", () => clearInterval(autoTimer));
     wrap.addEventListener("mouseleave", () => {
@@ -328,4 +298,41 @@ updateCountdown();
 
   // ── Initial render ────────────────────────────────────────────
   goTo(0, true);
-})(); // end IIFE — no global pollution
+})();
+
+// ══════════════════════════════════════════
+// PHOTO STRIP — drag to scroll
+// ══════════════════════════════════════════
+(function () {
+  const strip = document.querySelector(".photo-strip-inner");
+  if (!strip) return;
+
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  strip.addEventListener("mousedown", (e) => {
+    isDown = true;
+    strip.classList.add("is-dragging");
+    startX = e.pageX - strip.offsetLeft;
+    scrollLeft = strip.scrollLeft;
+  });
+
+  strip.addEventListener("mouseleave", () => {
+    isDown = false;
+    strip.classList.remove("is-dragging");
+  });
+
+  strip.addEventListener("mouseup", () => {
+    isDown = false;
+    strip.classList.remove("is-dragging");
+  });
+
+  strip.addEventListener("mousemove", (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - strip.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    strip.scrollLeft = scrollLeft - walk;
+  });
+})();

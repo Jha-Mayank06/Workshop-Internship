@@ -1390,83 +1390,37 @@ body {
 /* ── Individual card ─────────────────────────────────────────────── */
 .podium-card {
   position: absolute;
-  width: 380px;
-  max-width: 80vw;
+
+  width: clamp(260px, 30vw, 380px);
+  max-width: 90vw;
+
+  aspect-ratio: 4 / 3; /* 🔥 IMPORTANT CHANGE */
+
   border-radius: 18px;
   overflow: hidden;
   cursor: pointer;
-  /* Smooth podium transition */
-  transition:
-    transform 500ms cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 500ms cubic-bezier(0.4, 0, 0.2, 1),
-    filter 500ms cubic-bezier(0.4, 0, 0.2, 1),
-    z-index 0ms linear 0ms,
-    box-shadow 500ms cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* Hidden by default — JS will assign state classes */
+  transition:
+    transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 400ms ease,
+    filter 400ms ease,
+    box-shadow 400ms ease;
+
   opacity: 0;
   transform: translateX(0) scale(0.6);
-  filter: blur(6px);
+  filter: blur(3px);
   z-index: 0;
   pointer-events: none;
 }
 
-/* CENTER card */
-.podium-card.is-center {
-  opacity: 1;
-  transform: translateX(0) scale(1);
-  filter: blur(0px);
-  z-index: 10;
-  pointer-events: auto;
-  box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.7),
-    0 0 0 1px rgba(255, 255, 255, 0.08);
-}
-
-/* LEFT card */
-.podium-card.is-left {
-  opacity: 0.68;
-  transform: translateX(-52%) scale(0.78);
-  filter: blur(2px);
-  z-index: 5;
-  pointer-events: auto;
-}
-
-/* RIGHT card */
-.podium-card.is-right {
-  opacity: 0.68;
-  transform: translateX(52%) scale(0.78);
-  filter: blur(2px);
-  z-index: 5;
-  pointer-events: auto;
-}
-
-/* Cards further from center (hidden off-stage) */
-.podium-card.is-far-left {
-  opacity: 0;
-  transform: translateX(-95%) scale(0.55);
-  filter: blur(5px);
-  z-index: 1;
-  pointer-events: none;
-}
-
-.podium-card.is-far-right {
-  opacity: 0;
-  transform: translateX(95%) scale(0.55);
-  filter: blur(5px);
-  z-index: 1;
-  pointer-events: none;
-}
-
 /* ── Media wrapper: keeps aspect ratio intact ────────────────────── */
-.podium-media-wrap {
+.podium-media-wrap img,
+.podium-media-wrap video {
   width: 100%;
-  /* No fixed height → adapts to media's natural ratio */
+  height: 100%;
+  object-fit: cover; /* 🔥 KEY */
   display: block;
-  background: #1a1a2e;
-  overflow: hidden;
 }
-
 .podium-media-wrap img,
 .podium-media-wrap video {
   display: block;
@@ -1477,14 +1431,40 @@ body {
 }
 
 /* Center card: let the image breathe at its natural ratio */
-.podium-card.is-center .podium-media-wrap {
-  max-height: 340px;
+/* CENTER CARD (main focus) */
+.podium-card.is-center {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  filter: blur(0);
+  z-index: 5;
+  pointer-events: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
 }
 
-/* Side cards: fixed crop height so left/right look consistent */
-.podium-card.is-left .podium-media-wrap,
-.podium-card.is-right .podium-media-wrap {
-  height: 260px;
+/* LEFT + RIGHT */
+.podium-card.is-left {
+  opacity: 0.6;
+  transform: translateX(-110%) scale(0.85);
+  filter: blur(1px);
+  z-index: 3;
+}
+
+.podium-card.is-right {
+  opacity: 0.6;
+  transform: translateX(110%) scale(0.85);
+  filter: blur(1px);
+  z-index: 3;
+}
+
+/* FAR LEFT + RIGHT */
+.podium-card.is-far-left {
+  opacity: 0;
+  transform: translateX(-200%) scale(0.6);
+}
+
+.podium-card.is-far-right {
+  opacity: 0;
+  transform: translateX(200%) scale(0.6);
 }
 
 /* ── Arrow buttons ───────────────────────────────────────────────── */
@@ -1505,9 +1485,10 @@ body {
   align-items: center;
   justify-content: center;
   transition:
-    background 0.2s,
-    border-color 0.2s,
-    transform 0.2s;
+    transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 400ms ease,
+    filter 400ms ease,
+    box-shadow 400ms ease;
 }
 
 .podium-arrow svg {
@@ -1557,9 +1538,12 @@ body {
 /* ── Mobile ──────────────────────────────────────────────────────── */
 @media (max-width: 767px) {
   .podium-stage {
-    width: 100vw;
-    height: auto;
-    min-height: 320px;
+    position: relative;
+    width: min(900px, 92vw);
+    height: 340px; /* 🔥 reduce from 420 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .podium-card {
@@ -1596,20 +1580,105 @@ body {
     height: 36px;
   }
 }
-.podium-card {
-  width: 280px;
-  height: 400px;
-  background: linear-gradient(135deg, #1a1a2e, #0f3460);
-  border-radius: 16px;
+@media (max-width: 768px) {
+  .podium-card.is-left,
+  .podium-card.is-right {
+    opacity: 0.4;
+    filter: blur(1px);
+  }
+
+  .podium-card.is-center {
+    transform: scale(1);
+  }
 }
-.podium-card {
-  width: 280px;
-  height: 400px;
-  background: linear-gradient(135deg, #1a1a2e, #0f3460);
-  border-radius: 16px;
+
+.podium-media-wrap {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+.podium-media-wrap video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* ═══════════════════════════════════════════════════════
+   PHOTO STRIP  —  horizontal scrollable row of images
+   ═══════════════════════════════════════════════════════ */
+
+.photo-strip-section {
+  background: var(--white);
+  padding: 32px 0 36px;
+  overflow: hidden;
+}
+
+.photo-strip-inner {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  cursor: grab;
+}
+
+.photo-strip-inner::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.photo-strip-inner:active {
+  cursor: grabbing;
+}
+
+.photo-strip-track {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 24px;
+  gap: 14px;
+  padding: 0 40px;
+  width: max-content;
+}
+
+.photo-strip-item {
+  flex-shrink: 0;
+  width: 260px;
+  height: 180px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1.5px solid var(--border);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.photo-strip-item:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.12);
+}
+
+.photo-strip-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.photo-strip-item:hover img {
+  transform: scale(1.06);
+}
+
+/* drag-to-scroll feel on desktop */
+.photo-strip-inner.is-dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
+@media (max-width: 640px) {
+  .photo-strip-track {
+    padding: 0 14px;
+    gap: 10px;
+  }
+  .photo-strip-item {
+    width: 200px;
+    height: 140px;
+    border-radius: 10px;
+  }
 }

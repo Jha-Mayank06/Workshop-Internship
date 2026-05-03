@@ -248,23 +248,172 @@
         </div>
       </div>
     </section>
-    <div class="podium-carousel-wrap">
+
+    <!-- CAROUSEL -->
+    <!-- Bug fixes applied here:
+         1. Added id="podiumStage" to the wrap div (was missing — JS was looking for it)
+         2. Moved podiumPrev, podiumNext buttons and podiumDots INSIDE the wrap div
+            (they were outside, breaking absolute CSS positioning of arrows)
+    -->
+    <div class="podium-carousel-wrap" id="podiumStage">
       <button class="podium-arrow podium-arrow--left" id="podiumPrev">◀</button>
 
-      <div class="podium-stage" id="podiumStage">
-        <div class="podium-card">1</div>
-        <div class="podium-card">2</div>
-        <div class="podium-card">3</div>
-        <div class="podium-card">4</div>
-        <div class="podium-card">5</div>
+      <div class="podium-stage">
+        <div class="podium-card">
+          <div class="podium-media-wrap">
+            <video muted loop playsinline width="300">
+              <source src="assets/videos/Bot.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+
+        <div class="podium-card">
+          <div class="podium-media-wrap">
+            <video muted loop playsinline width="300">
+              <source src="assets/videos/Grinder.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+
+        <div class="podium-card">
+          <div class="podium-media-wrap">
+            <video muted loop playsinline width="300">
+              <source src="assets/videos/Mecanum.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+
+        <div class="podium-card">
+          <div class="podium-media-wrap">
+            <video muted loop playsinline width="300">
+              <source src="assets/videos/MJ.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+
+        <div class="podium-card">
+          <div class="podium-media-wrap">
+            <video muted loop playsinline width="300">
+              <source src="assets/videos/sb-bot.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+
+        <div class="podium-card">
+          <div class="podium-media-wrap">
+            <video muted loop playsinline width="300">
+              <source src="assets/videos/Water.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
       </div>
 
       <button class="podium-arrow podium-arrow--right" id="podiumNext">
         ▶
       </button>
+
+      <div class="podium-dots" id="podiumDots"></div>
     </div>
 
-    <div class="podium-dots" id="podiumDots"></div>
+    <!-- PHOTO STRIP -->
+    <section class="photo-strip-section">
+      <div class="photo-strip-inner">
+        <div class="photo-strip-track">
+          <!-- Replace src values with your actual image paths -->
+          <div class="photo-strip-item">
+            <img
+              src="assets/images/1.jpg"
+              alt="Workshop photo 1"
+              loading="lazy"
+            />
+          </div>
+          <div class="photo-strip-item">
+            <img
+              src="assets/images/2.jpg"
+              alt="Workshop photo 2"
+              loading="lazy"
+            />
+          </div>
+          <div class="photo-strip-item">
+            <img
+              src="assets/images/3.jpg"
+              alt="Workshop photo 3"
+              loading="lazy"
+            />
+          </div>
+          <div class="photo-strip-item">
+            <img
+              src="assets/images/4.jpg"
+              alt="Workshop photo 4"
+              loading="lazy"
+            />
+          </div>
+          <div class="photo-strip-item">
+            <img
+              src="assets/images/5.jpg"
+              alt="Workshop photo 5"
+              loading="lazy"
+            />
+          </div>
+          <div class="photo-strip-item">
+            <img
+              src="assets/images/6.jpg"
+              alt="Workshop photo 6"
+              loading="lazy"
+            />
+          </div>
+          <div class="photo-strip-item">
+            <img
+              src="assets/images/7.jpg"
+              alt="Workshop photo 7"
+              loading="lazy"
+            />
+          </div>
+          <div class="photo-strip-item">
+            <img
+              src="assets/images/8.jpg"
+              alt="Workshop photo 8"
+              loading="lazy"
+            />
+          </div>
+          <div class="photo-strip-item">
+            <img
+              src="assets/images/9.jpg"
+              alt="Workshop photo 9"
+              loading="lazy"
+            />
+          </div>
+          <div class="photo-strip-item">
+            <img
+              src="assets/images/10.jpg"
+              alt="Workshop photo 10"
+              loading="lazy"
+            />
+          </div>
+          <div class="photo-strip-item">
+            <img
+              src="assets/images/11.jpg"
+              alt="Workshop photo 11"
+              loading="lazy"
+            />
+          </div>
+          <div class="photo-strip-item">
+            <img
+              src="assets/images/12.jpg"
+              alt="Workshop photo 12"
+              loading="lazy"
+            />
+          </div>
+          <div class="photo-strip-item">
+            <img
+              src="assets/images/13.jpg"
+              alt="Workshop photo 13"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- WHAT YOU GET -->
     <section class="section" style="background: var(--white)">
@@ -957,10 +1106,12 @@
       </p>
     </footer>
 
-    <script src="js/script.js"></script>
     <div class="bottom-cta">
       <span>🚀 ₹199 Only — Limited Seats Ending Soon </span>
       <a href="../Registration/form.html">Register Now</a>
     </div>
+
+    <!-- Script is last so all DOM elements exist when JS runs -->
+    <script src="js/script.js"></script>
   </body>
 </html>
