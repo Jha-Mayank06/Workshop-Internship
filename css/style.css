@@ -1341,3 +1341,275 @@ body {
 .phase-block.open .arrow {
   transform: rotate(180deg);
 }
+/* ═══════════════════════════════════════════════════════════════════
+   STACKED PODIUM CAROUSEL  —  append to the bottom of style.css
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Section wrapper ─────────────────────────────────────────────── */
+.glimpse-section {
+  background: var(--dark, #fff);
+  overflow: hidden;
+  padding-bottom: 60px;
+}
+
+.glimpse-section .sec-hdr h2 {
+  color: #000000;
+}
+
+.glimpse-section .sec-hdr .sec-tag {
+  /* inherits your existing sec-tag but override text for dark bg if needed */
+  color: var(--primary, #f97316);
+}
+
+.glimpse-section .sec-hdr .sec-sub {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+/* ── Outer wrap: holds stage + arrows ────────────────────────────── */
+.podium-carousel-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  /* Extra vertical space so scaled cards don't clip */
+  padding: 48px 0 56px;
+}
+
+/* ── Stage: the 3-card viewport ──────────────────────────────────── */
+.podium-stage {
+  position: relative;
+  /* Wide enough to show three cards; adjust if your cards are wider */
+  width: min(900px, 92vw);
+  height: 420px; /* fallback; real height driven by center card */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Individual card ─────────────────────────────────────────────── */
+.podium-card {
+  position: absolute;
+  width: 380px;
+  max-width: 80vw;
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  /* Smooth podium transition */
+  transition:
+    transform 500ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 500ms cubic-bezier(0.4, 0, 0.2, 1),
+    filter 500ms cubic-bezier(0.4, 0, 0.2, 1),
+    z-index 0ms linear 0ms,
+    box-shadow 500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Hidden by default — JS will assign state classes */
+  opacity: 0;
+  transform: translateX(0) scale(0.6);
+  filter: blur(6px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* CENTER card */
+.podium-card.is-center {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  filter: blur(0px);
+  z-index: 10;
+  pointer-events: auto;
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+/* LEFT card */
+.podium-card.is-left {
+  opacity: 0.68;
+  transform: translateX(-52%) scale(0.78);
+  filter: blur(2px);
+  z-index: 5;
+  pointer-events: auto;
+}
+
+/* RIGHT card */
+.podium-card.is-right {
+  opacity: 0.68;
+  transform: translateX(52%) scale(0.78);
+  filter: blur(2px);
+  z-index: 5;
+  pointer-events: auto;
+}
+
+/* Cards further from center (hidden off-stage) */
+.podium-card.is-far-left {
+  opacity: 0;
+  transform: translateX(-95%) scale(0.55);
+  filter: blur(5px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.podium-card.is-far-right {
+  opacity: 0;
+  transform: translateX(95%) scale(0.55);
+  filter: blur(5px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── Media wrapper: keeps aspect ratio intact ────────────────────── */
+.podium-media-wrap {
+  width: 100%;
+  /* No fixed height → adapts to media's natural ratio */
+  display: block;
+  background: #1a1a2e;
+  overflow: hidden;
+}
+
+.podium-media-wrap img,
+.podium-media-wrap video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* Center cards show full image; side cards crop to fill */
+  object-fit: cover;
+}
+
+/* Center card: let the image breathe at its natural ratio */
+.podium-card.is-center .podium-media-wrap {
+  max-height: 340px;
+}
+
+/* Side cards: fixed crop height so left/right look consistent */
+.podium-card.is-left .podium-media-wrap,
+.podium-card.is-right .podium-media-wrap {
+  height: 260px;
+}
+
+/* ── Arrow buttons ───────────────────────────────────────────────── */
+.podium-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(8px);
+  color: #000000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    transform 0.2s;
+}
+
+.podium-arrow svg {
+  width: 20px;
+  height: 20px;
+}
+
+.podium-arrow:hover {
+  background: var(--primary, #87807b5f);
+  border-color: var(--primary, #fffdfb);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.podium-arrow--left {
+  left: clamp(6px, 3vw, 40px);
+}
+.podium-arrow--right {
+  right: clamp(6px, 3vw, 40px);
+}
+
+/* ── Dot indicators ──────────────────────────────────────────────── */
+.podium-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.podium-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgb(0, 0, 0);
+  transition:
+    background 0.3s,
+    transform 0.3s;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+}
+
+.podium-dot.is-active {
+  background: var(--primary, #000000);
+  transform: scale(1.35);
+}
+
+/* ── Mobile ──────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .podium-stage {
+    width: 100vw;
+    height: auto;
+    min-height: 320px;
+  }
+
+  .podium-card {
+    width: 80vw;
+    max-width: 340px;
+  }
+
+  /* On mobile: side cards peek in from edges */
+  .podium-card.is-left {
+    transform: translateX(-68%) scale(0.78);
+  }
+  .podium-card.is-right {
+    transform: translateX(68%) scale(0.78);
+  }
+
+  .podium-card.is-center .podium-media-wrap {
+    max-height: 260px;
+  }
+
+  .podium-card.is-left .podium-media-wrap,
+  .podium-card.is-right .podium-media-wrap {
+    height: 200px;
+  }
+
+  .podium-arrow--left {
+    left: 4px;
+  }
+  .podium-arrow--right {
+    right: 4px;
+  }
+
+  .podium-arrow {
+    width: 36px;
+    height: 36px;
+  }
+}
+.podium-card {
+  width: 280px;
+  height: 400px;
+  background: linear-gradient(135deg, #1a1a2e, #0f3460);
+  border-radius: 16px;
+}
+.podium-card {
+  width: 280px;
+  height: 400px;
+  background: linear-gradient(135deg, #1a1a2e, #0f3460);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 24px;
+}

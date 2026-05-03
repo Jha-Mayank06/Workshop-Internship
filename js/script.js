@@ -156,3 +156,176 @@ setInterval(updateCountdown, 1000);
 
 // run immediately
 updateCountdown();
+// ═══════════════════════════════════════════════════════════════════
+// STACKED PODIUM CAROUSEL  —  append to the bottom of script.js
+// ═══════════════════════════════════════════════════════════════════
+
+(function () {
+  // State classes assigned to cards by their position relative to center
+  const STATE_CLASSES = [
+    "is-far-left", // center - 2  (off-stage left)
+    "is-left", // center - 1
+    "is-center", // center
+    "is-right", // center + 1
+    "is-far-right", // center + 2  (off-stage right)
+  ];
+
+  const stage = document.getElementById("podiumStage");
+  const dotsWrap = document.getElementById("podiumDots");
+  const prevBtn = document.getElementById("podiumPrev");
+  const nextBtn = document.getElementById("podiumNext");
+
+  if (!stage || !dotsWrap || !prevBtn || !nextBtn) return; // bail if section absent
+
+  const cards = Array.from(stage.querySelectorAll(".podium-card"));
+  const total = cards.length;
+
+  if (total === 0) return;
+
+  let current = 0; // index of the center card
+  let isAnimating = false;
+
+  // ── Build dot indicators ───────────────────────────────────────
+  cards.forEach((_, i) => {
+    const dot = document.createElement("button");
+    dot.className = "podium-dot";
+    dot.setAttribute("aria-label", `Go to slide ${i + 1}`);
+    dot.addEventListener("click", () => goTo(i));
+    dotsWrap.appendChild(dot);
+  });
+
+  const dots = Array.from(dotsWrap.querySelectorAll(".podium-dot"));
+
+  // ── Core: assign position classes ─────────────────────────────
+  function applyStates(centerIndex) {
+    cards.forEach((card, i) => {
+      // Remove all state classes
+      card.classList.remove(...STATE_CLASSES);
+
+      // Offset from center: -2, -1, 0, +1, +2
+      // Wrap-around using modular arithmetic
+      let offset = i - centerIndex;
+
+      // Bring into range [-floor(total/2) … +floor(total/2)]
+      if (offset > Math.floor(total / 2)) offset -= total;
+      if (offset < -Math.floor(total / 2)) offset += total;
+
+      // Map offset to STATE_CLASSES index (center = 2)
+      const stateIdx = offset + 2; // maps -2→0, -1→1, 0→2, +1→3, +2→4
+
+      if (stateIdx >= 0 && stateIdx < STATE_CLASSES.length) {
+        card.classList.add(STATE_CLASSES[stateIdx]);
+      }
+      // Cards beyond ±2 get no visible class → stay hidden (opacity:0 default)
+    });
+
+    // Dots
+    dots.forEach((dot, i) => {
+      dot.classList.toggle("is-active", i === centerIndex);
+    });
+
+    // Video autoplay management
+    manageVideos(centerIndex);
+  }
+
+  // ── Video: play center, pause sides ───────────────────────────
+  function manageVideos(centerIndex) {
+    cards.forEach((card, i) => {
+      const video = card.querySelector("video");
+      if (!video) return;
+
+      if (i === centerIndex) {
+        // Small delay so transition has started — avoids janky seek
+        setTimeout(() => {
+          video.play().catch(() => {}); // catch AbortError on rapid clicks
+        }, 120);
+      } else {
+        video.pause();
+      }
+    });
+  }
+
+  // ── Navigate ──────────────────────────────────────────────────
+  function goTo(index, skipAnimation) {
+    if (isAnimating && !skipAnimation) return;
+    isAnimating = true;
+
+    current = ((index % total) + total) % total; // safe modulo
+    applyStates(current);
+
+    // Re-enable after transition duration (500ms matches CSS)
+    clearTimeout(goTo._timer);
+    goTo._timer = setTimeout(() => {
+      isAnimating = false;
+    }, 520);
+  }
+
+  // ── Clicking a side card jumps to it ──────────────────────────
+  cards.forEach((card, i) => {
+    card.addEventListener("click", () => {
+      if (!card.classList.contains("is-center")) {
+        goTo(i);
+      }
+    });
+  });
+
+  // ── Arrow buttons ─────────────────────────────────────────────
+  prevBtn.addEventListener("click", () => goTo(current - 1));
+  nextBtn.addEventListener("click", () => goTo(current + 1));
+
+  // ── Keyboard navigation (when focused inside section) ─────────
+  document.addEventListener("keydown", (e) => {
+    const section = document.getElementById("glimpse");
+    if (!section) return;
+    const rect = section.getBoundingClientRect();
+    const inViewport = rect.top < window.innerHeight && rect.bottom > 0;
+    if (!inViewport) return;
+
+    if (e.key === "ArrowLeft") goTo(current - 1);
+    if (e.key === "ArrowRight") goTo(current + 1);
+  });
+
+  // ── Touch / swipe support ─────────────────────────────────────
+  let touchStartX = null;
+
+  stage.addEventListener(
+    "touchstart",
+    (e) => {
+      touchStartX = e.touches[0].clientX;
+    },
+    { passive: true },
+  );
+
+  stage.addEventListener(
+    "touchend",
+    (e) => {
+      if (touchStartX === null) return;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 40) {
+        // 40px threshold
+        dx < 0 ? goTo(current + 1) : goTo(current - 1);
+      }
+      touchStartX = null;
+    },
+    { passive: true },
+  );
+
+  // ── Auto-advance every 5 seconds ─────────────────────────────
+  // Pauses on hover / touch
+  let autoTimer = setInterval(() => goTo(current + 1), 5000);
+
+  const wrap = document.querySelector(".podium-carousel-wrap");
+  if (wrap) {
+    wrap.addEventListener("mouseenter", () => clearInterval(autoTimer));
+    wrap.addEventListener("mouseleave", () => {
+      clearInterval(autoTimer);
+      autoTimer = setInterval(() => goTo(current + 1), 5000);
+    });
+    wrap.addEventListener("touchstart", () => clearInterval(autoTimer), {
+      passive: true,
+    });
+  }
+
+  // ── Initial render ────────────────────────────────────────────
+  goTo(0, true);
+})(); // end IIFE — no global pollution
