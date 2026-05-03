@@ -105,9 +105,9 @@
           <div class="plan-price" id="plan-internship">
             <div class="price-row">
               <span class="price-orig">₹1,000</span
-              ><span class="price-cur">₹499 </span>
+              ><span class="price-cur">₹299 </span>
             </div>
-            <div class="price-save">🎉 Save ₹500 — 50% OFF</div>
+            <div class="price-save">🎉 Save ₹700 — 70% OFF</div>
             <div class="price-note">
               4 weeks total · Internship certificate + letter
             </div>
@@ -217,7 +217,11 @@
               programming fundamentals and embedded systems to autonomous
               robotics and ML-enabled gesture control.
             </p>
-            <div class="struct-price">₹199</div>
+            <div class="price-row">
+              <span class="price-orig">₹500</span>
+              <span class="price-cur">₹199</span>
+            </div>
+            <div class="price-save">🎉 Save ₹300 — 60% OFF</div>
             <ul class="struct-list">
               <li>16 guided online sessions</li>
               <li>60–90 minutes per session</li>
@@ -235,7 +239,11 @@
               internship continuation with advanced projects, live IHFC IIT
               Delhi Industry 4.0 Lab tour, and an internship letter.
             </p>
-            <div class="struct-price" style="color: var(--info)">₹499</div>
+            <div class="price-row">
+              <span class="price-orig">₹1,000</span
+              ><span class="price-cur">₹299 </span>
+            </div>
+            <div class="price-save">🎉 Save ₹700 — 70% OFF</div>
             <ul class="struct-list" style="--check-color: var(--info)">
               <li>Builds directly on workshop content</li>
               <li>Advanced ML teleoperation exposure</li>
@@ -249,171 +257,325 @@
       </div>
     </section>
 
-    <!-- CAROUSEL -->
-    <!-- Bug fixes applied here:
-         1. Added id="podiumStage" to the wrap div (was missing — JS was looking for it)
-         2. Moved podiumPrev, podiumNext buttons and podiumDots INSIDE the wrap div
-            (they were outside, breaking absolute CSS positioning of arrows)
-    -->
-    <div class="podium-carousel-wrap" id="podiumStage">
-      <button class="podium-arrow podium-arrow--left" id="podiumPrev">◀</button>
-
-      <div class="podium-stage">
-        <div class="podium-card">
-          <div class="podium-media-wrap">
-            <video muted loop playsinline width="300">
-              <source src="assets/videos/Bot.mp4" type="video/mp4" />
-            </video>
-          </div>
-        </div>
-
-        <div class="podium-card">
-          <div class="podium-media-wrap">
-            <video muted loop playsinline width="300">
-              <source src="assets/videos/Grinder.mp4" type="video/mp4" />
-            </video>
-          </div>
-        </div>
-
-        <div class="podium-card">
-          <div class="podium-media-wrap">
-            <video muted loop playsinline width="300">
-              <source src="assets/videos/Mecanum.mp4" type="video/mp4" />
-            </video>
-          </div>
-        </div>
-
-        <div class="podium-card">
-          <div class="podium-media-wrap">
-            <video muted loop playsinline width="300">
-              <source src="assets/videos/MJ.mp4" type="video/mp4" />
-            </video>
-          </div>
-        </div>
-
-        <div class="podium-card">
-          <div class="podium-media-wrap">
-            <video muted loop playsinline width="300">
-              <source src="assets/videos/sb-bot.mp4" type="video/mp4" />
-            </video>
-          </div>
-        </div>
-
-        <div class="podium-card">
-          <div class="podium-media-wrap">
-            <video muted loop playsinline width="300">
-              <source src="assets/videos/Water.mp4" type="video/mp4" />
-            </video>
-          </div>
+    <!-- ═══════════════════════════════════════════════════════
+         A GLIMPSE — Podium carousel + infinite photo strip
+         Sits above the 2+2 week journey section
+         ═══════════════════════════════════════════════════════ -->
+    <section class="glimpse-section" id="glimpse">
+      <!-- Section header -->
+      <div class="section-inner">
+        <div class="sec-hdr glimpse-hdr">
+          <div class="sec-tag">Behind the Scenes</div>
+          <h2>A <span>Glimpse</span> Inside</h2>
+          <p class="sec-sub">
+            Live demos, robots in action, and moments from our sessions —
+            exactly what awaits you.
+          </p>
         </div>
       </div>
 
-      <button class="podium-arrow podium-arrow--right" id="podiumNext">
-        ▶
-      </button>
+      <!-- PODIUM VIDEO CAROUSEL -->
+      <!-- id="podiumStage" on the outer wrap is required by JS -->
+      <div class="podium-carousel-wrap" id="podiumStage">
+        <button class="podium-arrow podium-arrow--left" id="podiumPrev">
+          ◀
+        </button>
 
-      <div class="podium-dots" id="podiumDots"></div>
-    </div>
+        <div class="podium-stage">
+          <div class="podium-card">
+            <div class="podium-media-wrap">
+              <video muted loop playsinline width="300">
+                <source src="assets/videos/Bot.mp4" type="video/mp4" />
+              </video>
+            </div>
+          </div>
 
-    <!-- PHOTO STRIP -->
-    <section class="photo-strip-section">
-      <div class="photo-strip-inner">
-        <div class="photo-strip-track">
-          <!-- Replace src values with your actual image paths -->
-          <div class="photo-strip-item">
-            <img
-              src="assets/images/1.jpg"
-              alt="Workshop photo 1"
-              loading="lazy"
-            />
+          <div class="podium-card">
+            <div class="podium-media-wrap">
+              <video muted loop playsinline width="300">
+                <source src="assets/videos/Grinder.mp4" type="video/mp4" />
+              </video>
+            </div>
           </div>
-          <div class="photo-strip-item">
-            <img
-              src="assets/images/2.jpg"
-              alt="Workshop photo 2"
-              loading="lazy"
-            />
+
+          <div class="podium-card">
+            <div class="podium-media-wrap">
+              <video muted loop playsinline width="300">
+                <source src="assets/videos/Mecanum.mp4" type="video/mp4" />
+              </video>
+            </div>
           </div>
-          <div class="photo-strip-item">
-            <img
-              src="assets/images/3.jpg"
-              alt="Workshop photo 3"
-              loading="lazy"
-            />
+
+          <div class="podium-card">
+            <div class="podium-media-wrap">
+              <video muted loop playsinline width="300">
+                <source src="assets/videos/MJ.mp4" type="video/mp4" />
+              </video>
+            </div>
           </div>
-          <div class="photo-strip-item">
-            <img
-              src="assets/images/4.jpg"
-              alt="Workshop photo 4"
-              loading="lazy"
-            />
+
+          <div class="podium-card">
+            <div class="podium-media-wrap">
+              <video muted loop playsinline width="300">
+                <source src="assets/videos/sb-bot.mp4" type="video/mp4" />
+              </video>
+            </div>
           </div>
-          <div class="photo-strip-item">
-            <img
-              src="assets/images/5.jpg"
-              alt="Workshop photo 5"
-              loading="lazy"
-            />
-          </div>
-          <div class="photo-strip-item">
-            <img
-              src="assets/images/6.jpg"
-              alt="Workshop photo 6"
-              loading="lazy"
-            />
-          </div>
-          <div class="photo-strip-item">
-            <img
-              src="assets/images/7.jpg"
-              alt="Workshop photo 7"
-              loading="lazy"
-            />
-          </div>
-          <div class="photo-strip-item">
-            <img
-              src="assets/images/8.jpg"
-              alt="Workshop photo 8"
-              loading="lazy"
-            />
-          </div>
-          <div class="photo-strip-item">
-            <img
-              src="assets/images/9.jpg"
-              alt="Workshop photo 9"
-              loading="lazy"
-            />
-          </div>
-          <div class="photo-strip-item">
-            <img
-              src="assets/images/10.jpg"
-              alt="Workshop photo 10"
-              loading="lazy"
-            />
-          </div>
-          <div class="photo-strip-item">
-            <img
-              src="assets/images/11.jpg"
-              alt="Workshop photo 11"
-              loading="lazy"
-            />
-          </div>
-          <div class="photo-strip-item">
-            <img
-              src="assets/images/12.jpg"
-              alt="Workshop photo 12"
-              loading="lazy"
-            />
-          </div>
-          <div class="photo-strip-item">
-            <img
-              src="assets/images/13.jpg"
-              alt="Workshop photo 13"
-              loading="lazy"
-            />
+
+          <div class="podium-card">
+            <div class="podium-media-wrap">
+              <video muted loop playsinline width="300">
+                <source src="assets/videos/Water.mp4" type="video/mp4" />
+              </video>
+            </div>
           </div>
         </div>
+
+        <button class="podium-arrow podium-arrow--right" id="podiumNext">
+          ▶
+        </button>
+
+        <div class="podium-dots" id="podiumDots"></div>
       </div>
+
+      <!-- INFINITE LOOPING PHOTO STRIP -->
+      <div class="photo-strip-section">
+        <!--
+          Infinite marquee technique:
+          Two identical .photo-strip-track divs side-by-side inside a flex
+          container. CSS animates translateX(-50%) so the second copy snaps
+          back seamlessly to position 0 — creating a perfect loop.
+          No JS needed; pauses on hover for accessibility.
+        -->
+        <div
+          class="photo-strip-inner"
+          aria-label="Workshop photo gallery"
+          role="region"
+        >
+          <div class="photo-strip-marquee">
+            <!-- Original set -->
+            <div class="photo-strip-track">
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/1.jpg"
+                  alt="Workshop photo 1"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/2.jpg"
+                  alt="Workshop photo 2"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/3.jpg"
+                  alt="Workshop photo 3"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/4.jpg"
+                  alt="Workshop photo 4"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/5.jpg"
+                  alt="Workshop photo 5"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/6.jpg"
+                  alt="Workshop photo 6"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/7.jpg"
+                  alt="Workshop photo 7"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/8.jpg"
+                  alt="Workshop photo 8"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/9.jpg"
+                  alt="Workshop photo 9"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/10.jpg"
+                  alt="Workshop photo 10"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/11.jpg"
+                  alt="Workshop photo 11"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/12.jpg"
+                  alt="Workshop photo 12"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/13.jpg"
+                  alt="Workshop photo 13"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+
+            <!-- Duplicate set — required for seamless infinite loop -->
+            <div class="photo-strip-track" aria-hidden="true">
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/1.jpg"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/2.jpg"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/3.jpg"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/4.jpg"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/5.jpg"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/6.jpg"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/7.jpg"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/8.jpg"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/9.jpg"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/10.jpg"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/11.jpg"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/12.jpg"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="photo-strip-item">
+                <img
+                  src="assets/images/13.jpg"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+          </div>
+          <!-- /.photo-strip-marquee -->
+        </div>
+        <!-- /.photo-strip-inner -->
+      </div>
+      <!-- /.photo-strip-section -->
     </section>
+    <!-- /.glimpse-section -->
 
     <!-- WHAT YOU GET -->
     <section class="section" style="background: var(--white)">
@@ -431,48 +593,48 @@
             <span class="feat-icon">🖥️</span>
             <h3>Live Online Sessions</h3>
             <p>
-              16 days of expert-led sessions with real-time Q&A covering CPS,
-              Robotics, IoT, and ML-based control systems.
-            </p>
-          </div>
-          <div class="feat-card">
-            <span class="feat-icon">⚙️</span>
-            <h3>Embedded Hands-On</h3>
-            <p>
-              Practical Arduino & ESP32 interfacing, sensors, actuators, servo
-              motors, and wireless robotic car building.
+              16 instructor-led live sessions over 2 weeks with real-time Q&A,
+              structured labs, and interactive concept delivery.
             </p>
           </div>
           <div class="feat-card">
             <span class="feat-icon">🤖</span>
-            <h3>ML Gesture Control</h3>
+            <h3>Hands-On Robotics Labs</h3>
             <p>
-              MediaPipe-based gesture recognition mapped to mecanum rover
-              commands — real-time intelligent robot control.
+              Practical software labs covering Arduino, ESP32, robot kinematics,
+              mecanum drive, and gesture-based teleoperation.
             </p>
           </div>
           <div class="feat-card">
-            <span class="feat-icon">🏭</span>
-            <h3>IHFC IIT Delhi Lab Tour</h3>
+            <span class="feat-icon">🧠</span>
+            <h3>ML Gesture Control</h3>
             <p>
-              Live virtual tour of the Industry 4.0 Laboratory — experience
-              industrial robot teleoperation with experts.
+              Implement MediaPipe-based hand gesture recognition to control
+              robotic systems — a rare skill at workshop level.
             </p>
           </div>
           <div class="feat-card">
             <span class="feat-icon">📜</span>
-            <h3>Certificate</h3>
+            <h3>Digital Certificate</h3>
             <p>
-              Digital workshop completion certificate. Internship participants
-              also receive a formal internship letter.
+              Receive a verifiable digital certificate of completion from
+              ViTachyon Robotics upon finishing the workshop.
             </p>
           </div>
           <div class="feat-card">
-            <span class="feat-icon">♾️</span>
-            <h3>Lifetime Recordings</h3>
+            <span class="feat-icon">♾</span>
+            <h3>Lifetime Recorded Access</h3>
             <p>
-              All 16 sessions recorded and available with lifetime access.
-              Rewatch any concept anytime, from anywhere.
+              All 16 sessions are recorded and accessible forever — rewatch,
+              revise, and reference at your own pace.
+            </p>
+          </div>
+          <div class="feat-card">
+            <span class="feat-icon">🏭</span>
+            <h3>IIT Delhi Lab Experience</h3>
+            <p>
+              Exclusive live video tour of the IHFC IIT Delhi Industry 4.0 Lab —
+              experience real industrial robot teleoperation.
             </p>
           </div>
         </div>
@@ -480,14 +642,14 @@
     </section>
 
     <!-- CURRICULUM -->
-    <section class="section" id="curriculum">
+    <section class="section" id="curriculum" style="background: var(--white)">
       <div class="section-inner">
         <div class="sec-hdr">
-          <div class="sec-tag">16-Day Roadmap</div>
-          <h2>Complete <span>Curriculum</span></h2>
+          <div class="sec-tag">Curriculum</div>
+          <h2>4 Levels · 6 Phases · <span>16 Days</span></h2>
           <p class="sec-sub">
-            4 progressive levels, 6 phases — from zero to ML-powered robotic
-            gesture control in 30 sessions.
+            Click any level to explore the sessions. Each phase builds on the
+            previous — no gaps, no fluff.
           </p>
         </div>
 
@@ -496,44 +658,20 @@
           <div class="phase-header">
             <div class="phase-num">LEVEL 1</div>
             <div>
-              <h3>Foundation Track — Embedded Systems & CPS</h3>
-              <p>Days 1–6 · Phase 1 & 2</p>
+              <h3>Programming & Embedded Foundations</h3>
+              <p>Days 1–4 · Phase 1 & 2</p>
             </div>
             <div class="arrow">▼</div>
           </div>
           <div class="phase-content">
             <div class="curric-grid">
               <div class="day-item">
-                <div class="day-badge">Day 01</div>
+                <div class="day-badge">Day 1</div>
                 <div class="day-info">
-                  <h4>Internship Overview & Domain Introduction</h4>
+                  <h4>Intro to CPS & Robotics + IDE Setup</h4>
                   <p>
-                    Relevance of CPS, robotics, IoT — complete learning roadmap
-                    by ViTachyon Robotics experts.
-                  </p>
-                  <div class="day-tags">
-                    <span class="dtag th">Theory</span>
-                  </div>
-                </div>
-              </div>
-              <div class="day-item">
-                <div class="day-badge">Day 02</div>
-                <div class="day-info">
-                  <h4>IDE Setup, Arduino vs ESP Boards</h4>
-                  <p>
-                    Programming IDE setup, Arduino vs ESP32 comparison,
-                    beginner-friendly programming fundamentals.
-                  </p>
-                  <div class="day-tags"><span class="dtag lb">Lab</span></div>
-                </div>
-              </div>
-              <div class="day-item">
-                <div class="day-badge">Day 03</div>
-                <div class="day-info">
-                  <h4>Embedded Systems Foundation</h4>
-                  <p>
-                    Interfacing the programming IDE with hardware — variables,
-                    conditions, loops, and functions applied.
+                    Overview of Cyber-Physical Systems, robotics landscape,
+                    toolchain installation, and first program run.
                   </p>
                   <div class="day-tags">
                     <span class="dtag th">Theory</span
@@ -542,36 +680,45 @@
                 </div>
               </div>
               <div class="day-item">
-                <div class="day-badge">Day 04</div>
+                <div class="day-badge">Day 2</div>
                 <div class="day-info">
-                  <h4>LED Interfacing & Digital I/O</h4>
+                  <h4>Programming Fundamentals for Robotics</h4>
                   <p>
-                    LED control, digital input/output concepts, GPIO
-                    fundamentals with Arduino or ESP boards.
+                    Variables, loops, conditionals, functions — applied in the
+                    context of embedded control systems.
                   </p>
-                  <div class="day-tags"><span class="dtag lb">Lab</span></div>
+                  <div class="day-tags">
+                    <span class="dtag th">Theory</span
+                    ><span class="dtag lb">Lab</span>
+                  </div>
                 </div>
               </div>
               <div class="day-item">
-                <div class="day-badge">Day 05</div>
+                <div class="day-badge">Day 3</div>
                 <div class="day-info">
-                  <h4>Switch & Button Input Control</h4>
+                  <h4>Arduino Basics — GPIO, Sensors & Actuators</h4>
                   <p>
-                    Interactive control using switches, buttons, digital input
-                    for beginner embedded systems projects.
+                    Digital/analog I/O, LED control, button input, servo and DC
+                    motor interfacing on Arduino Uno.
                   </p>
-                  <div class="day-tags"><span class="dtag lb">Lab</span></div>
+                  <div class="day-tags">
+                    <span class="dtag th">Theory</span
+                    ><span class="dtag lb">Lab</span>
+                  </div>
                 </div>
               </div>
               <div class="day-item">
-                <div class="day-badge">Day 06</div>
+                <div class="day-badge">Day 4</div>
                 <div class="day-info">
-                  <h4>Actuator Basics — Buzzer, Relay, Servo</h4>
+                  <h4>Sensor Fusion & Data Processing</h4>
                   <p>
-                    Translating software logic into physical action using
-                    buzzers, relays, servos, and motor drivers.
+                    Reading and combining sensor data (ultrasonic, IR, temp),
+                    filtering noise, serial debug output.
                   </p>
-                  <div class="day-tags"><span class="dtag lb">Lab</span></div>
+                  <div class="day-tags">
+                    <span class="dtag th">Theory</span
+                    ><span class="dtag lb">Lab</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -580,23 +727,28 @@
 
         <!-- LEVEL 2 -->
         <div class="phase-block fade-in">
-          <div class="phase-header">
-            <div class="phase-num">LEVEL 2</div>
+          <div
+            class="phase-header"
+            style="background: linear-gradient(135deg, #065f46, #047857)"
+          >
+            <div class="phase-num" style="background: #10b981; color: #fff">
+              LEVEL 2
+            </div>
             <div>
-              <h3>Robotics & Intelligent Control Track</h3>
-              <p>Days 7–12 · Phase 3 & 4</p>
+              <h3>IoT & Connected Robotics</h3>
+              <p>Days 5–8 · Phase 3</p>
             </div>
             <div class="arrow">▼</div>
           </div>
           <div class="phase-content">
             <div class="curric-grid">
               <div class="day-item">
-                <div class="day-badge">Day 07</div>
+                <div class="day-badge">Day 5</div>
                 <div class="day-info">
-                  <h4>ESP32 & Wireless Embedded Control</h4>
+                  <h4>ESP32 & WiFi Connectivity</h4>
                   <p>
-                    ESP32 basics, wireless communication for robotic
-                    applications and connected systems.
+                    Introduction to ESP32, WiFi provisioning, TCP/UDP basics,
+                    and first networked sensor project.
                   </p>
                   <div class="day-tags">
                     <span class="dtag th">Theory</span
@@ -605,34 +757,88 @@
                 </div>
               </div>
               <div class="day-item">
-                <div class="day-badge">Day 08</div>
+                <div class="day-badge">Day 6</div>
                 <div class="day-info">
-                  <h4>RC Car & QR-Based Robot Control</h4>
+                  <h4>MQTT & IoT Protocols</h4>
                   <p>
-                    Remote-controlled robotic car architecture, QR code-based
-                    robot control — no mobile app needed.
+                    Publish-subscribe model, MQTT broker setup, remote sensor
+                    dashboards and cloud data logging.
                   </p>
-                  <div class="day-tags"><span class="dtag lb">Lab</span></div>
+                  <div class="day-tags">
+                    <span class="dtag th">Theory</span
+                    ><span class="dtag lb">Lab</span>
+                  </div>
                 </div>
               </div>
               <div class="day-item">
-                <div class="day-badge">Day 09</div>
+                <div class="day-badge">Day 7</div>
                 <div class="day-info">
-                  <h4>Autonomous Robot — Sensor-Based</h4>
+                  <h4>Remote Robot Control via Web</h4>
                   <p>
-                    Obstacle detection using sensors, autonomous decision-making
-                    in mobile robots.
+                    Build a web interface to command a robot over WiFi — HTTP
+                    endpoints, button controls, live status.
                   </p>
-                  <div class="day-tags"><span class="dtag lb">Lab</span></div>
+                  <div class="day-tags">
+                    <span class="dtag lb">Lab</span
+                    ><span class="dtag pr">Project</span>
+                  </div>
+                </div>
+              </div>
+              <div class="day-item">
+                <div class="day-badge">Day 8</div>
+                <div class="day-info">
+                  <h4>Assessment + Hands-On Challenge</h4>
+                  <p>
+                    Concept assessment and practical mini-challenge on IoT
+                    control. Feedback and Q&A session.
+                  </p>
+                  <div class="day-tags">
+                    <span class="dtag cp">Assessment</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LEVEL 3 -->
+        <div class="phase-block fade-in">
+          <div
+            class="phase-header"
+            style="background: linear-gradient(135deg, #6d28d9, #4c1d95)"
+          >
+            <div class="phase-num" style="background: #a78bfa; color: #1a1a2e">
+              LEVEL 3
+            </div>
+            <div>
+              <h3>Autonomous Robotics & ML Gesture Control</h3>
+              <p>Days 9–14 · Phase 4 & 5</p>
+            </div>
+            <div class="arrow">▼</div>
+          </div>
+          <div class="phase-content">
+            <div class="curric-grid">
+              <div class="day-item">
+                <div class="day-badge">Day 9</div>
+                <div class="day-info">
+                  <h4>Mecanum Wheel Drive & Omnidirectional Motion</h4>
+                  <p>
+                    Mecanum wheel kinematics, motor mixing math, holonomic
+                    motion patterns, and lab implementation.
+                  </p>
+                  <div class="day-tags">
+                    <span class="dtag th">Theory</span
+                    ><span class="dtag lb">Lab</span>
+                  </div>
                 </div>
               </div>
               <div class="day-item">
                 <div class="day-badge">Day 10</div>
                 <div class="day-info">
-                  <h4>Mecanum Drive & Omni-Directional Movement</h4>
+                  <h4>Computer Vision Basics with OpenCV</h4>
                   <p>
-                    Mecanum wheel fundamentals, drive control, holonomic motion
-                    principles for rovers.
+                    Frames, color spaces, contour detection, simple object
+                    tracking — foundation for gesture ML.
                   </p>
                   <div class="day-tags">
                     <span class="dtag th">Theory</span
@@ -643,10 +849,10 @@
               <div class="day-item">
                 <div class="day-badge">Day 11</div>
                 <div class="day-info">
-                  <h4>MediaPipe & Gesture Recognition</h4>
+                  <h4>MediaPipe Hand Gesture Recognition</h4>
                   <p>
-                    Introduction to MediaPipe, gesture recognition pipeline,
-                    mapping gestures to robotic commands.
+                    Real-time 21-keypoint hand landmark detection with
+                    MediaPipe, gesture classification pipeline.
                   </p>
                   <div class="day-tags">
                     <span class="dtag ml">ML</span
@@ -654,39 +860,20 @@
                   </div>
                 </div>
               </div>
-              <div
-                class="day-item"
-                style="border-color: #7c3aed; background: #f5f3ff"
-              >
-                <div class="day-badge" style="background: #7c3aed">Day 12</div>
+              <div class="day-item">
+                <div class="day-badge">Day 12</div>
                 <div class="day-info">
-                  <h4>⭐ ML Gesture Control for Mecanum Rover</h4>
+                  <h4>Gesture-Controlled Robot Teleoperation</h4>
                   <p>
-                    Real-time ML-enabled gesture control — live command mapping
-                    to mecanum rover movement.
+                    Bridge gesture commands to robot actuators wirelessly — full
+                    end-to-end ML teleoperation demo.
                   </p>
                   <div class="day-tags">
                     <span class="dtag ml">ML</span
-                    ><span class="dtag lb">Lab</span>
+                    ><span class="dtag pr">Project</span>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- LEVEL 3 -->
-        <div class="phase-block fade-in">
-          <div class="phase-header">
-            <div class="phase-num">LEVEL 3</div>
-            <div>
-              <h3>Advanced Interaction & Aerial Control Track</h3>
-              <p>Days 13–14 · Phase 5</p>
-            </div>
-            <div class="arrow">▼</div>
-          </div>
-          <div class="phase-content">
-            <div class="curric-grid">
               <div class="day-item">
                 <div class="day-badge">Day 13</div>
                 <div class="day-info">
@@ -1078,12 +1265,20 @@
       <div class="btm-price-grid">
         <div class="btm-plan">
           <div class="btm-plan-label">Workshop Only</div>
-          <div class="btm-plan-price">₹199</div>
+          <div class="price-row">
+            <span class="price-orig">₹500</span>
+            <span class="price-cur">₹199</span>
+          </div>
+          <div class="price-save">🎉 Save ₹300 — 60% OFF</div>
           <div class="btm-plan-sub">2 Weeks · 16 Sessions</div>
         </div>
         <div class="btm-plan">
           <div class="btm-plan-label">Workshop + Internship</div>
-          <div class="btm-plan-price">₹499</div>
+          <div class="price-row">
+            <span class="price-orig">₹1,000</span
+            ><span class="price-cur">₹299 </span>
+          </div>
+          <div class="price-save">🎉 Save ₹700 — 70% OFF</div>
           <div class="btm-plan-sub">4 Weeks · Full Program</div>
         </div>
       </div>

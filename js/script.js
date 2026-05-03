@@ -282,14 +282,14 @@ updateCountdown();
   );
 
   // ── Auto-advance every 5 seconds ─────────────────────────────
-  let autoTimer = setInterval(() => goTo(current + 1), 5000);
+  let autoTimer = setInterval(() => goTo(current + 1), 2000);
 
   const wrap = document.getElementById("podiumStage");
   if (wrap) {
     wrap.addEventListener("mouseenter", () => clearInterval(autoTimer));
     wrap.addEventListener("mouseleave", () => {
       clearInterval(autoTimer);
-      autoTimer = setInterval(() => goTo(current + 1), 5000);
+      autoTimer = setInterval(() => goTo(current + 1), 3000);
     });
     wrap.addEventListener("touchstart", () => clearInterval(autoTimer), {
       passive: true,
@@ -300,39 +300,191 @@ updateCountdown();
   goTo(0, true);
 })();
 
-// ══════════════════════════════════════════
-// PHOTO STRIP — drag to scroll
-// ══════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════════
+// PHOTO STRIP  —  Hybrid auto-scroll + manual drag/swipe
+//
+// Strategy:
+//   • Base loop  : CSS @keyframes marquee-scroll (GPU-composited, silky)
+//   • Manual grab: JS snapshots the live mid-animation translateX via
+//                  getComputedStyle, removes the animation, takes over
+//                  with pointer/touch events, then re-attaches the CSS
+//                  animation with a corrected negative animation-delay
+//                  so playback resumes exactly where the drag ended.
+//
+//   Total track width = one .photo-strip-track width + its gap padding.
+//   The animation always runs over exactly that distance (translateX -50%
+//   of the full .photo-strip-marquee = one track width), so the delay
+//   math maps linearly: delay = -(offset / trackWidth) * duration.
+// ══════════════════════════════════════════════════════════════════
+
 (function () {
-  const strip = document.querySelector(".photo-strip-inner");
-  if (!strip) return;
+  const inner = document.querySelector(".photo-strip-inner");
+  const marquee = document.querySelector(".photo-strip-marquee");
+  if (!inner || !marquee) return;
 
-  let isDown = false;
-  let startX;
-  let scrollLeft;
+  // ── Helpers ────────────────────────────────────────────────────
 
-  strip.addEventListener("mousedown", (e) => {
-    isDown = true;
-    strip.classList.add("is-dragging");
-    startX = e.pageX - strip.offsetLeft;
-    scrollLeft = strip.scrollLeft;
-  });
+  // Read the live translateX of the marquee mid-animation (px).
+  function getLiveX() {
+    const mat = window.getComputedStyle(marquee).transform;
+    // matrix(a,b,c,d,tx,ty) — we want tx
+    if (!mat || mat === "none") return 0;
+    const vals = mat.match(/matrix\(([^)]+)\)/);
+    if (!vals) return 0;
+    return parseFloat(vals[1].split(",")[4]) || 0;
+  }
 
-  strip.addEventListener("mouseleave", () => {
-    isDown = false;
-    strip.classList.remove("is-dragging");
-  });
+  // One full track width in px (= the distance the CSS loop covers).
+  // We read it from the first .photo-strip-track child.
+  function getTrackWidth() {
+    const track = marquee.querySelector(".photo-strip-track");
+    return track ? track.offsetWidth : marquee.scrollWidth / 2;
+  }
 
-  strip.addEventListener("mouseup", () => {
-    isDown = false;
-    strip.classList.remove("is-dragging");
-  });
+  // Animation duration in ms — must match the CSS value.
+  // We read it live so changing the CSS is enough; no hardcoding.
+  function getDuration() {
+    const raw = window.getComputedStyle(marquee).animationDuration;
+    return (parseFloat(raw) || 32) * 1000; // default 32 s
+  }
 
-  strip.addEventListener("mousemove", (e) => {
-    if (!isDown) return;
+  // ── Pause CSS animation, capture live offset ───────────────────
+  let dragStartPointerX = 0; // pointer X at grab start
+  let dragStartOffset = 0; // translateX value at grab start (px)
+  let isDragging = false;
+  let resumeTimer = null;
+
+  // How long to wait after releasing before auto-scroll resumes (ms)
+  const RESUME_DELAY = 1800;
+
+  function pauseAnim() {
+    const currentX = getLiveX();
+    // Freeze the element at its current visual position
+    marquee.style.transform = `translateX(${currentX}px)`;
+    marquee.style.animation = "none";
+    // Store as the drag baseline
+    dragStartOffset = currentX;
+  }
+
+  function resumeAnim(fromX) {
+    const trackW = getTrackWidth();
+    const duration = getDuration();
+
+    // Normalise fromX into the range [-trackW, 0]
+    // so the loop seamlessly continues from the drag end position.
+    let norm = fromX % trackW; // keep in one-track range
+    if (norm > 0) norm -= trackW; // ensure negative (leftward)
+    if (norm < -trackW) norm = 0;
+
+    // Corresponding animation-delay:
+    //   delay = -(norm / -trackW) * duration   →   negative (already elapsed)
+    const delay = -(norm / -trackW) * duration;
+
+    marquee.style.transform = "";
+    marquee.style.animationDelay = `${-delay}ms`; // negative = already elapsed
+    marquee.style.animation = `marquee-scroll ${duration / 1000}s ${-delay / 1000}s linear infinite`;
+  }
+
+  // ── Pointer events (desktop drag) ─────────────────────────────
+  inner.addEventListener("pointerdown", (e) => {
+    // Only primary button (left click / single touch via pointer)
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+
+    isDragging = true;
+    clearTimeout(resumeTimer);
+    pauseAnim();
+
+    dragStartPointerX = e.clientX;
+    inner.setPointerCapture(e.pointerId);
+    inner.classList.add("is-grabbed");
     e.preventDefault();
-    const x = e.pageX - strip.offsetLeft;
-    const walk = (x - startX) * 1.5;
-    strip.scrollLeft = scrollLeft - walk;
+  });
+
+  inner.addEventListener("pointermove", (e) => {
+    if (!isDragging) return;
+
+    const dx = e.clientX - dragStartPointerX;
+    const trackW = getTrackWidth();
+    let newX = dragStartOffset + dx;
+
+    // Infinite wrap: keep newX within [-trackW * 2, 0] so it always
+    // maps back into the two-track marquee without visual jumps.
+    newX = (((newX % trackW) + trackW) % trackW) - trackW;
+
+    marquee.style.transform = `translateX(${newX}px)`;
+  });
+
+  function onDragEnd(e) {
+    if (!isDragging) return;
+    isDragging = false;
+    inner.classList.remove("is-grabbed");
+
+    // Read the final resting position from the inline style we set
+    const mat = marquee.style.transform;
+    const finalX = mat
+      ? parseFloat(mat.replace(/[^0-9.-]/g, "")) * (mat.includes("-") ? -1 : 1)
+      : 0;
+    // More reliable: just re-read getComputedStyle since animation is off
+    const liveX = getLiveX();
+
+    // Resume auto-scroll after a short pause
+    resumeTimer = setTimeout(() => resumeAnim(liveX), RESUME_DELAY);
+  }
+
+  inner.addEventListener("pointerup", onDragEnd);
+  inner.addEventListener("pointercancel", onDragEnd);
+
+  // ── Touch events (fallback for browsers without pointer unification) ──
+  // Most modern browsers unify touch into pointer events above,
+  // but this belt-and-suspenders layer catches older Safari/Android.
+  let touchStartX = 0;
+  let touchStartOff = 0;
+  let isTouching = false;
+
+  inner.addEventListener(
+    "touchstart",
+    (e) => {
+      if (e.touches.length !== 1) return;
+      isTouching = true;
+      clearTimeout(resumeTimer);
+      pauseAnim();
+      touchStartX = e.touches[0].clientX;
+      touchStartOff = dragStartOffset; // pauseAnim() set dragStartOffset
+    },
+    { passive: true },
+  );
+
+  inner.addEventListener(
+    "touchmove",
+    (e) => {
+      if (!isTouching || e.touches.length !== 1) return;
+      const dx = e.touches[0].clientX - touchStartX;
+      const trackW = getTrackWidth();
+      let newX = touchStartOff + dx;
+      newX = (((newX % trackW) + trackW) % trackW) - trackW;
+      marquee.style.transform = `translateX(${newX}px)`;
+    },
+    { passive: true },
+  );
+
+  inner.addEventListener(
+    "touchend",
+    (e) => {
+      if (!isTouching) return;
+      isTouching = false;
+      const liveX = getLiveX();
+      resumeTimer = setTimeout(() => resumeAnim(liveX), RESUME_DELAY);
+    },
+    { passive: true },
+  );
+
+  // ── Hover: pause auto-scroll (CSS handles this via animation-play-state,
+  //    but we also clear any pending resume timer while hovered) ──────────
+  inner.addEventListener("mouseenter", () => {
+    clearTimeout(resumeTimer);
+  });
+  inner.addEventListener("mouseleave", () => {
+    // If not mid-drag, let CSS hover rule handle re-play automatically.
+    // Nothing to do here — the CSS :hover rule unpauses it.
   });
 })();

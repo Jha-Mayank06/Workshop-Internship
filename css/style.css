@@ -1346,24 +1346,7 @@ body {
    ═══════════════════════════════════════════════════════════════════ */
 
 /* ── Section wrapper ─────────────────────────────────────────────── */
-.glimpse-section {
-  background: var(--dark, #fff);
-  overflow: hidden;
-  padding-bottom: 60px;
-}
-
-.glimpse-section .sec-hdr h2 {
-  color: #000000;
-}
-
-.glimpse-section .sec-hdr .sec-tag {
-  /* inherits your existing sec-tag but override text for dark bg if needed */
-  color: var(--primary, #f97316);
-}
-
-.glimpse-section .sec-hdr .sec-sub {
-  color: rgba(0, 0, 0, 0.6);
-}
+/* Note: .glimpse-section full styles are defined later in this file */
 
 /* ── Outer wrap: holds stage + arrows ────────────────────────────── */
 .podium-carousel-wrap {
@@ -1509,32 +1492,6 @@ body {
   right: clamp(6px, 3vw, 40px);
 }
 
-/* ── Dot indicators ──────────────────────────────────────────────── */
-.podium-dots {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 4px;
-}
-
-.podium-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: rgb(0, 0, 0);
-  transition:
-    background 0.3s,
-    transform 0.3s;
-  cursor: pointer;
-  border: none;
-  padding: 0;
-}
-
-.podium-dot.is-active {
-  background: var(--primary, #000000);
-  transform: scale(1.35);
-}
-
 /* ── Mobile ──────────────────────────────────────────────────────── */
 @media (max-width: 767px) {
   .podium-stage {
@@ -1605,35 +1562,110 @@ body {
   object-fit: cover;
 }
 /* ═══════════════════════════════════════════════════════
-   PHOTO STRIP  —  horizontal scrollable row of images
+   GLIMPSE SECTION — header that wraps carousel + strip
+   ═══════════════════════════════════════════════════════ */
+
+.glimpse-section {
+  background: var(--bg);
+  overflow: hidden;
+  padding-bottom: 0;
+}
+
+.glimpse-hdr {
+  padding-top: 56px;
+}
+
+.glimpse-section .glimpse-hdr h2 {
+  color: var(--text);
+}
+
+/* ═══════════════════════════════════════════════════════
+   PHOTO STRIP  —  CSS infinite marquee loop (no JS)
+   Technique: two identical .photo-strip-track divs side
+   by side inside .photo-strip-marquee. The marquee
+   animates translateX(-50%) which shifts exactly one
+   full track width, then snaps back to 0 seamlessly.
    ═══════════════════════════════════════════════════════ */
 
 .photo-strip-section {
   background: var(--white);
   padding: 32px 0 36px;
   overflow: hidden;
+  /* Soft edge fade on both sides for a polished look */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 6%,
+    #000 94%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 6%,
+    #000 94%,
+    transparent 100%
+  );
 }
 
+/* Outer clipping container — no scrollbar */
 .photo-strip-inner {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; /* Firefox */
+  overflow: hidden;
   cursor: grab;
 }
 
-.photo-strip-inner::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
+/*
+  The marquee band: two identical tracks sitting side by side.
+  Width = 200% so each track occupies exactly 50%.
+  Animation slides the band left by 50% (= one full track),
+  then snaps back — creating a seamless infinite loop.
+*/
+.photo-strip-marquee {
+  display: flex;
+  width: max-content; /* shrink-wraps both tracks */
+  animation: marquee-scroll 32s linear infinite;
+  will-change: transform;
 }
 
-.photo-strip-inner:active {
+/* Pause on hover for accessibility / readability.
+   JS drag takes full control via inline style + animation:none,
+   so this rule only fires during passive hovering (no drag). */
+.photo-strip-inner:hover .photo-strip-marquee {
+  animation-play-state: paused;
+}
+
+/* During JS drag: cursor feedback, prevent text selection */
+.photo-strip-inner.is-grabbed {
   cursor: grabbing;
+  user-select: none;
+}
+.photo-strip-inner.is-grabbed .photo-strip-marquee {
+  /* animation already killed by JS inline style; this is a safety net */
+  animation-play-state: paused;
 }
 
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .photo-strip-marquee {
+    animation: none;
+  }
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Each track: horizontal flex row of cards */
 .photo-strip-track {
   display: flex;
   gap: 14px;
-  padding: 0 40px;
-  width: max-content;
+  padding: 0 7px; /* half-gap on each side for seamless join */
+  flex-shrink: 0;
 }
 
 .photo-strip-item {
@@ -1665,20 +1697,18 @@ body {
   transform: scale(1.06);
 }
 
-/* drag-to-scroll feel on desktop */
-.photo-strip-inner.is-dragging {
-  cursor: grabbing;
-  user-select: none;
-}
-
 @media (max-width: 640px) {
   .photo-strip-track {
-    padding: 0 14px;
     gap: 10px;
+    padding: 0 5px;
   }
   .photo-strip-item {
     width: 200px;
     height: 140px;
     border-radius: 10px;
+  }
+  /* Slightly faster on mobile so more images pass by */
+  .photo-strip-marquee {
+    animation-duration: 24s;
   }
 }
