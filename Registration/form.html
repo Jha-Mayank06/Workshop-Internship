@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register — CPS & Robotics Workshop</title>
   <!-- Google Fonts: Nunito & JetBrains Mono -->
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="css/form.css">
 </head>
+
 <body>
   <div class="urgency-bar">
-    🔥 <span class="blink">LIMITED SEATS!</span> Workshop @ <span class="gold">₹199</span> only — Register before deadline!
+    🔥 <span class="blink">LIMITED SEATS!</span> Workshop @ <span class="gold">₹199</span> only — Register before
+    deadline!
   </div>
 
   <nav>
@@ -26,7 +31,8 @@
       <div class="form-heading">
         <div class="form-tag">📝 Registration</div>
         <h1>Secure Your <span>Seat</span> Now</h1>
-        <p>Complete your registration in 2 simple steps — Pay first, then fill your details. You'll receive a confirmation within 24 hours.</p>
+        <p>Complete your registration in 2 simple steps — Pay first, then fill your details. You'll receive a
+          confirmation within 24 hours.</p>
         <div id="payment-done-badge">✅ Payment received! Now fill your details below to complete registration.</div>
       </div>
 
@@ -79,7 +85,7 @@
         <!-- STEP 3: DETAILS -->
         <div class="fs-title">👤 Step 3: Personal Details</div>
         <p class="step3-note">Fill this after payment to receive your joining link.</p>
-        
+
         <div class="field-row">
           <div class="field">
             <label>Full Name <span class="req">*</span></label>
@@ -96,17 +102,7 @@
           <input type="email" id="email" placeholder="you@email.com" autocomplete="email">
         </div>
 
-        <div class="fs-title">🎓 Academic Information</div>
-        <div class="field">
-          <label>College / University <span class="req">*</span></label>
-          <input type="text" id="college" placeholder="Full college name">
-        </div>
-
         <div class="field-row">
-          <div class="field">
-            <label>Department / Branch <span class="req">*</span></label>
-            <input type="text" id="dept" placeholder="e.g. B.Tech ECE">
-          </div>
           <div class="field">
             <label>Year of Study <span class="req">*</span></label>
             <select id="year">
@@ -119,11 +115,6 @@
               <option>Other</option>
             </select>
           </div>
-        </div>
-
-        <div class="field">
-          <label>College Roll Number / ID <span class="opt">(optional)</span></label>
-          <input type="text" id="rollNo" placeholder="e.g. 21BCE001">
         </div>
 
         <div class="fs-title">💡 Interest & Background</div>
@@ -156,11 +147,11 @@
         </div>
 
         <div class="err-msg" id="err-msg">⚠️ Please fill all required fields correctly.</div>
-        
+
         <button class="submit-btn" id="submit-btn" onclick="handleSubmit()">
           <span id="btn-text">🚀 Complete Registration</span>
         </button>
-        
+
         <p class="privacy-note">Your data is secure and will only be used for workshop coordination.</p>
       </div>
 
@@ -168,7 +159,8 @@
       <div class="success-screen" id="success-screen">
         <div class="si">🎉</div>
         <h2>You're Registered!</h2>
-        <p>Welcome, <strong id="success-name"></strong>! Your registration for the <strong id="success-plan"></strong> has been received.<br><br>Check your email/WhatsApp for confirmation details.</p>
+        <p>Welcome, <strong id="success-name"></strong>! Your registration for the <strong id="success-plan"></strong>
+          has been received.<br><br>Check your email/WhatsApp for confirmation details.</p>
         <div id="payment-reminder">⚠️ Don't forget to complete your payment to confirm your seat.</div>
         <a href="../index.html" class="back-home-btn">← Back to Workshop Page</a>
       </div>
@@ -205,4 +197,5 @@
 
   <script src="js/form.js"></script>
 </body>
+
 </html>
