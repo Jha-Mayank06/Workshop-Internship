@@ -128,7 +128,10 @@ function validateForm() {
 // ══════════════════════════════════════════════════════════════════
 async function sendToCRM(payload) {
   // Skip if CRM webhook URL is not configured yet
-  if (CONFIG.CRM_WEBHOOK === "YOUR_CRM_WEBHOOK_URL_HERE") {
+  if (
+    CONFIG.CRM_WEBHOOK ===
+    "https://h.albato.com/wh/38/1lfvfuc/P8dQFE_HzIRbObMx-xQOn4r78v572zT-7lXhsOzIt2c/  "
+  ) {
     console.log("ℹ️ CRM webhook not configured yet. Skipping CRM save.");
     console.log("📋 Data that would be sent:", payload);
     return;
