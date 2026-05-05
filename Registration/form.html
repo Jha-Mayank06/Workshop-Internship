@@ -1,483 +1,208 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Register — CPS & Robotics Workshop</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="css/form.css" />
-    <!-- Extra styles for payment flow -->
-  </head>
-  <body>
-    <!-- URGENCY BAR -->
-    <div class="urgency-bar">
-      🔥 <span class="blink">LIMITED SEATS!</span>&nbsp; Workshop @
-      <span class="gold">₹199</span> only — Register before deadline!
-    </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register — CPS & Robotics Workshop</title>
+  <!-- Google Fonts: Nunito & JetBrains Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/form.css">
+</head>
+<body>
+  <div class="urgency-bar">
+    🔥 <span class="blink">LIMITED SEATS!</span> Workshop @ <span class="gold">₹199</span> only — Register before deadline!
+  </div>
 
-    <!-- NAV -->
-    <nav>
-      <a href="../index.html" class="nav-logo">
-        <div class="logo-icon">🤖</div>
-        CPS<span style="color: var(--primary)">&amp;Robotics</span>
-      </a>
-      <a href="../index.html" class="back-link">← Back to Workshop</a>
-    </nav>
+  <nav>
+    <a href="../index.html" class="nav-logo">
+      <div class="logo-icon">🤖</div>
+      CPS<span style="color:var(--primary)">&amp;Robotics</span>
+    </a>
+    <a href="../index.html" class="back-link">← Back to Workshop</a>
+  </nav>
 
-    <main>
-      <!-- ══ FORM SIDE ══════════════════════════════════════════════ -->
-      <div class="form-side">
-        <div class="form-heading">
-          <div class="form-tag">📝 Registration</div>
-          <h1>Secure Your <span>Seat</span> Now</h1>
-          <p>
-            Complete your registration in 2 simple steps — Pay first, then fill
-            your details. You'll receive a confirmation within 24 hours.
-          </p>
+  <main>
+    <div>
+      <div class="form-heading">
+        <div class="form-tag">📝 Registration</div>
+        <h1>Secure Your <span>Seat</span> Now</h1>
+        <p>Complete your registration in 2 simple steps — Pay first, then fill your details. You'll receive a confirmation within 24 hours.</p>
+        <div id="payment-done-badge">✅ Payment received! Now fill your details below to complete registration.</div>
+      </div>
+
+      <div class="form-card" id="form-card">
+        <!-- STEPS -->
+        <div class="steps-bar">
+          <h4>Registration Steps</h4>
+          <div class="steps-list">
+            <div class="step done" id="step-1">
+              <div class="step-num">1</div><span>Choose Plan</span>
+            </div>
+            <div class="step active" id="step-2">
+              <div class="step-num">2</div><span>Pay</span>
+            </div>
+            <div class="step" id="step-3">
+              <div class="step-num">3</div><span>Fill Details</span>
+            </div>
+          </div>
         </div>
 
-        <!-- PAYMENT DONE BADGE (shown if already paid) -->
-        <div id="payment-done-badge">
-          ✅ Payment received! Now fill your details below to complete
-          registration.
+        <!-- STEP 1: PLAN -->
+        <div class="fs-title">🎯 Step 1: Choose Your Plan</div>
+        <div class="plan-select">
+          <div class="plan-opt" id="opt-workshop" onclick="selectPlan('workshop')">
+            <input type="radio" name="plan" value="workshop">
+            <div class="plan-opt-check"></div>
+            <div class="plan-opt-name">🛠 Workshop Only</div>
+            <div class="plan-opt-price">₹199</div>
+            <div class="plan-opt-desc">2 weeks · 16 sessions · Digital Certificate</div>
+          </div>
+          <div class="plan-opt" id="opt-internship" onclick="selectPlan('internship')">
+            <input type="radio" name="plan" value="internship">
+            <div class="plan-opt-check"></div>
+            <div class="plan-opt-name">🎓 Workshop + Internship</div>
+            <div class="plan-opt-price">₹299</div>
+            <div class="plan-opt-desc">4 weeks · Internship letter + IIT Delhi tour</div>
+          </div>
         </div>
 
-        <!-- FORM CARD -->
-        <div class="form-card" id="form-card">
-          <!-- ─── STEP INDICATOR ──────────────────────────── -->
-          <div class="steps-bar">
-            <h4>Registration Steps</h4>
-            <div class="steps-list">
-              <div class="step done" id="step-1">
-                <div class="step-num">1</div>
-                <span>Choose Plan</span>
-              </div>
-              <div class="step active" id="step-2">
-                <div class="step-num">2</div>
-                <span>Pay</span>
-              </div>
-              <div class="step" id="step-3">
-                <div class="step-num">3</div>
-                <span>Fill Details</span>
-              </div>
-            </div>
-          </div>
+        <!-- STEP 2: PAYMENT -->
+        <div class="pay-section" id="pay-section">
+          <h3>💳 Step 2: Complete Payment</h3>
+          <p>Click below to pay via PayU secure gateway. Once done, return here to fill your details.</p>
+          <span class="pay-amount" id="pay-amount">₹199</span>
+          <button class="pay-btn-main" id="pay-btn" onclick="goToPayment()">🔒 Pay Now →</button>
+          <p class="pay-note">🔒 100% Secure · UPI / Card / Net Banking · Instant confirmation</p>
+          <a class="already-paid-link" onclick="markAsPaid()">Already paid? Click here to skip to the form ↓</a>
+        </div>
 
-          <!-- ─── PLAN SELECTION ─────────────────────────── -->
-          <div class="fs-title">🎯 Step 1: Choose Your Plan</div>
+        <!-- STEP 3: DETAILS -->
+        <div class="fs-title">👤 Step 3: Personal Details</div>
+        <p class="step3-note">Fill this after payment to receive your joining link.</p>
+        
+        <div class="field-row">
           <div class="field">
-            <div class="plan-select">
-              <div
-                class="plan-opt selected-workshop"
-                id="opt-workshop"
-                onclick="selectPlanAndUpdatePayment('workshop')"
-              >
-                <input type="radio" name="plan" value="workshop" checked />
-                <div class="plan-opt-check">✓</div>
-                <div class="plan-opt-name">🛠 Workshop Only</div>
-                <div class="plan-opt-price">₹199</div>
-                <div class="price-save">🎉 Save ₹300 — 60% OFF</div>
-                <div class="plan-opt-desc">
-                  2 weeks · 16 sessions · Digital Certificate
-                </div>
-              </div>
-              <div
-                class="plan-opt"
-                id="opt-internship"
-                onclick="selectPlanAndUpdatePayment('internship')"
-              >
-                <input type="radio" name="plan" value="internship" />
-                <div class="plan-opt-check"></div>
-                <div class="plan-opt-name">🎓 Workshop + Internship</div>
-                <div class="plan-opt-price">₹299</div>
-                <div class="price-save">🎉 Save ₹700 — 70% OFF</div>
-                <div class="plan-opt-desc">
-                  4 weeks · Internship letter + IIT Delhi tour
-                </div>
-              </div>
-            </div>
+            <label>Full Name <span class="req">*</span></label>
+            <input type="text" id="fullName" placeholder="e.g. Mayank Kumar" autocomplete="name">
           </div>
-
-          <!-- ─── PAYMENT SECTION ────────────────────────── -->
-          <div class="pay-section" id="pay-section">
-            <h3>💳 Step 2: Complete Payment</h3>
-            <p>
-              Click the button below to pay securely via PayU (UPI, Card, Net
-              Banking all supported). After payment, come back here to fill your
-              details.
-            </p>
-            <span class="pay-amount" id="pay-amount">₹199</span>
-            <button class="pay-btn-main" id="pay-btn" onclick="goToPayment()">
-              🔒 Pay Now via PayU →
-            </button>
-            <p class="pay-note">
-              🔒 100% Secure · UPI / Card / Net Banking · Instant confirmation
-            </p>
-            <a class="already-paid-link" onclick="markAsPaid()">
-              Already paid? Click here to skip to the form ↓
-            </a>
-          </div>
-
-          <!-- ─── PERSONAL INFO ──────────────────────────── -->
-          <div class="fs-title">👤 Step 3: Your Details</div>
-          <p
-            style="
-              font-size: 12px;
-              color: #6b7280;
-              margin-bottom: 16px;
-              margin-top: -10px;
-            "
-          >
-            Fill this after payment. This is how we'll send you the joining link
-            &amp; certificate.
-          </p>
-
-          <div class="field-row">
-            <div class="field">
-              <label>Full Name <span class="req">*</span></label>
-              <input
-                type="text"
-                id="fullName"
-                placeholder="e.g. Mayank Kumar"
-                autocomplete="name"
-              />
-            </div>
-            <div class="field">
-              <label>Phone / WhatsApp <span class="req">*</span></label>
-              <input
-                type="tel"
-                id="phone"
-                placeholder="+91 9XXXXXXXXX"
-                autocomplete="tel"
-              />
-            </div>
-          </div>
-
           <div class="field">
-            <label>Email Address <span class="req">*</span></label>
-            <input
-              type="email"
-              id="email"
-              placeholder="you@email.com"
-              autocomplete="email"
-            />
+            <label>Phone / WhatsApp <span class="req">*</span></label>
+            <input type="tel" id="phone" placeholder="+91 9XXXXXXXXX" autocomplete="tel">
           </div>
+        </div>
 
-          <!-- ─── ACADEMIC DETAILS ───────────────────────── -->
-          <div class="fs-title">🎓 Academic Details</div>
+        <div class="field">
+          <label>Email Address <span class="req">*</span></label>
+          <input type="email" id="email" placeholder="you@email.com" autocomplete="email">
+        </div>
 
+        <div class="fs-title">🎓 Academic Information</div>
+        <div class="field">
+          <label>College / University <span class="req">*</span></label>
+          <input type="text" id="college" placeholder="Full college name">
+        </div>
+
+        <div class="field-row">
           <div class="field">
-            <label>College / School Name <span class="req">*</span></label>
-            <input
-              type="text"
-              id="college"
-              placeholder="e.g. KIIT University, Bhubaneswar"
-              autocomplete="organization"
-            />
+            <label>Department / Branch <span class="req">*</span></label>
+            <input type="text" id="dept" placeholder="e.g. B.Tech ECE">
           </div>
-
-          <div class="field-row">
-            <div class="field">
-              <label>Department / Branch <span class="req">*</span></label>
-              <input
-                type="text"
-                id="dept"
-                placeholder="e.g. Computer Science"
-              />
-            </div>
-            <div class="field">
-              <label>Year of Study <span class="req">*</span></label>
-              <select id="year">
-                <option value="" disabled selected>Select Year</option>
-                <option>1st Year</option>
-                <option>2nd Year</option>
-                <option>3rd Year</option>
-                <option>4th Year</option>
-                <option>Postgraduate</option>
-                <option>Diploma / Polytechnic</option>
-                <option>School (Class 11–12)</option>
-              </select>
-            </div>
-          </div>
-
           <div class="field">
-            <label
-              >Roll Number / Student ID
-              <span class="opt">(optional)</span></label
-            >
-            <input type="text" id="rollNo" placeholder="e.g. 22053001" />
-          </div>
-
-          <!-- ─── BACKGROUND ─────────────────────────────── -->
-          <div class="fs-title">💡 Background & Interest</div>
-
-          <div class="field">
-            <label>Programming Experience <span class="req">*</span></label>
-            <div class="radio-grid" id="exp-grid">
-              <label class="radio-opt">
-                <input type="radio" name="exp" value="none" /> None / Beginner
-              </label>
-              <label class="radio-opt">
-                <input type="radio" name="exp" value="basic" /> Basic (1 Year)
-              </label>
-              <label class="radio-opt">
-                <input type="radio" name="exp" value="intermediate" />
-                Intermediate
-              </label>
-              <label class="radio-opt">
-                <input type="radio" name="exp" value="advanced" /> Advanced
-              </label>
-            </div>
-          </div>
-
-          <div class="field">
-            <label
-              >Why do you want to join?
-              <span class="opt">(optional)</span></label
-            >
-            <textarea
-              id="motivation"
-              placeholder="Tell us what excites you about Robotics, IoT, or ML..."
-            ></textarea>
-          </div>
-
-          <div class="field">
-            <label>How did you hear about us?</label>
-            <select id="source">
-              <option value="" disabled selected>Select an option</option>
-              <option>College / Faculty</option>
-              <option>Instagram</option>
-              <option>LinkedIn</option>
-              <option>Friend / Classmate</option>
-              <option>WhatsApp Group</option>
+            <label>Year of Study <span class="req">*</span></label>
+            <select id="year">
+              <option value="" selected disabled>Select Year</option>
+              <option>1st Year</option>
+              <option>2nd Year</option>
+              <option>3rd Year</option>
+              <option>4th Year</option>
+              <option>Postgraduate</option>
               <option>Other</option>
             </select>
           </div>
-
-          <!-- ERROR + SUBMIT -->
-          <div class="err-msg" id="err-msg">
-            ⚠️ Please fill all required fields correctly.
-          </div>
-
-          <button class="submit-btn" id="submit-btn" onclick="handleSubmit()">
-            <span id="btn-text">🚀 Complete Registration</span>
-          </button>
-          <p class="privacy-note">
-            🔒 Your data is safe with us. We never spam.
-          </p>
         </div>
-        <!-- #form-card -->
 
-        <!-- ══ SUCCESS SCREEN ═══════════════════════════════════════ -->
-        <div class="success-screen" id="success-screen">
-          <span class="si">🎉</span>
-          <h2>You're Registered!</h2>
-          <p>
-            Welcome, <strong id="success-name"></strong>!<br />
-            Your registration for the <strong id="success-plan"></strong> has
-            been received.<br /><br />
-            We'll send you confirmation and joining details on your
-            email/WhatsApp within 24 hours. Get ready — it's going to be an
-            incredible learning journey! 🚀
-          </p>
+        <div class="field">
+          <label>College Roll Number / ID <span class="opt">(optional)</span></label>
+          <input type="text" id="rollNo" placeholder="e.g. 21BCE001">
+        </div>
 
-          <!-- Payment reminder shown if payment may still be pending -->
-          <div id="payment-reminder" style="display: none">
-            ⚠️ Don't forget to complete your payment to confirm your seat!<br />
-            <a onclick="goToPayment()" style="cursor: pointer">
-              👉 Click here to pay now →
-            </a>
+        <div class="fs-title">💡 Interest & Background</div>
+        <div class="field">
+          <label>Programming Experience <span class="req">*</span></label>
+          <div class="radio-grid">
+            <label class="radio-opt"><input type="radio" name="exp" value="none"> None / Beginner</label>
+            <label class="radio-opt"><input type="radio" name="exp" value="basic"> Basic (1 Year)</label>
+            <label class="radio-opt"><input type="radio" name="exp" value="intermediate"> Intermediate</label>
+            <label class="radio-opt"><input type="radio" name="exp" value="advanced"> Advanced</label>
           </div>
+        </div>
 
-          <a
-            href="../index.html"
-            class="back-home-btn"
-            style="margin-top: 20px"
-          >
-            ← Back to Workshop Page
-          </a>
+        <div class="field">
+          <label>Why do you want to join? <span class="opt">(optional)</span></label>
+          <textarea id="motivation" placeholder="Tell us what excites you about Robotics..."></textarea>
+        </div>
+
+        <div class="field">
+          <label>How did you hear about us?</label>
+          <select id="source">
+            <option value="" selected>Select an option</option>
+            <option>College / Faculty</option>
+            <option>Instagram</option>
+            <option>LinkedIn</option>
+            <option>Friend / Classmate</option>
+            <option>WhatsApp Group</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="err-msg" id="err-msg">⚠️ Please fill all required fields correctly.</div>
+        
+        <button class="submit-btn" id="submit-btn" onclick="handleSubmit()">
+          <span id="btn-text">🚀 Complete Registration</span>
+        </button>
+        
+        <p class="privacy-note">Your data is secure and will only be used for workshop coordination.</p>
+      </div>
+
+      <!-- SUCCESS SCREEN -->
+      <div class="success-screen" id="success-screen">
+        <div class="si">🎉</div>
+        <h2>You're Registered!</h2>
+        <p>Welcome, <strong id="success-name"></strong>! Your registration for the <strong id="success-plan"></strong> has been received.<br><br>Check your email/WhatsApp for confirmation details.</p>
+        <div id="payment-reminder">⚠️ Don't forget to complete your payment to confirm your seat.</div>
+        <a href="../index.html" class="back-home-btn">← Back to Workshop Page</a>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="cd-sidebar">
+        <div class="cd-slbl">⏰ Offer Expires In</div>
+        <div class="cd-stimer">
+          <div class="cds-unit"><span class="cds-num" id="s-d">00</span><span class="cds-lbl">Days</span></div>
+          <div class="cds-unit"><span class="cds-num" id="s-h">00</span><span class="cds-lbl">Hrs</span></div>
+          <div class="cds-unit"><span class="cds-num" id="s-m">00</span><span class="cds-lbl">Min</span></div>
+          <div class="cds-unit"><span class="cds-num" id="s-s">00</span><span class="cds-lbl">Sec</span></div>
         </div>
       </div>
-      <!-- .form-side -->
 
-      <!-- ══ SIDEBAR ════════════════════════════════════════════════ -->
-      <div class="sidebar">
-        <!-- Countdown -->
-        <div class="cd-sidebar">
-          <div class="cd-slbl">⏰ Offer Expires In</div>
-          <div class="cd-stimer">
-            <div class="cds-unit">
-              <span class="cds-num" id="s-d">00</span>
-              <span class="cds-lbl">Days</span>
-            </div>
-            <div class="cds-sep">:</div>
-            <div class="cds-unit">
-              <span class="cds-num" id="s-h">00</span>
-              <span class="cds-lbl">Hrs</span>
-            </div>
-            <div class="cds-sep">:</div>
-            <div class="cds-unit">
-              <span class="cds-num" id="s-m">00</span>
-              <span class="cds-lbl">Min</span>
-            </div>
-            <div class="cds-sep">:</div>
-            <div class="cds-unit">
-              <span class="cds-num" id="s-s">00</span>
-              <span class="cds-lbl">Sec</span>
-            </div>
-          </div>
-        </div>
+      <div class="seats-box">🔴 Limited seats available</div>
 
-        <div class="seats-box">🔴 Limited seats available</div>
-
-        <!-- Price box -->
-        <div class="price-box">
-          <div class="pb-title">Available Plans</div>
-          <div class="pb-plan-row workshop-plan">
-            <div class="pb-plan-name">🛠 Workshop Only</div>
-            <div class="pb-plan-price">₹199</div>
-            <div class="price-save">🎉 Save ₹300 — 60% OFF</div>
-            <div
-              style="font-size: 11px; color: var(--text-muted); margin-top: 3px"
-            >
-              2 weeks · 16 sessions
-            </div>
-          </div>
-          <div class="pb-plan-row internship-plan">
-            <div class="pb-plan-name">🎓 Workshop + Internship</div>
-            <div class="pb-plan-price">₹299</div>
-            <div class="price-save">🎉 Save ₹700 — 70% OFF</div>
-            <div
-              style="font-size: 11px; color: var(--text-muted); margin-top: 3px"
-            >
-              4 weeks · Full program
-            </div>
-          </div>
-          <div class="sb-feats">
-            <div class="sf">
-              <span class="ck">✅</span> 16 Live + Recorded Sessions
-            </div>
-            <div class="sf">
-              <span class="ck">✅</span> Embedded Systems Labs
-            </div>
-            <div class="sf"><span class="ck">✅</span> ML Gesture Control</div>
-            <div class="sf"><span class="ck">✅</span> Digital Certificate</div>
-            <div class="sf"><span class="ck">✅</span> Lifetime Recordings</div>
-            <div class="sf" style="color: var(--info)">
-              <span style="color: var(--info)">🔵</span> IIT Delhi Lab Tour
-              (internship)
-            </div>
-            <div class="sf" style="color: var(--info)">
-              <span style="color: var(--info)">🔵</span> Internship Letter
-              (internship)
-            </div>
-          </div>
-        </div>
-
-        <!-- Trust badges -->
-        <div
-          style="
-            background: #fff;
-            border: 1.5px solid var(--border);
-            border-radius: 12px;
-            padding: 14px 16px;
-          "
-        >
-          <div
-            style="
-              font-size: 11px;
-              font-weight: 700;
-              color: var(--text-muted);
-              margin-bottom: 10px;
-              text-transform: uppercase;
-              letter-spacing: 1px;
-            "
-          >
-            Why Students Trust Us
-          </div>
-          <div style="display: flex; flex-direction: column; gap: 8px">
-            <div
-              style="
-                font-size: 12px;
-                font-weight: 700;
-                display: flex;
-                align-items: center;
-                gap: 7px;
-              "
-            >
-              🏛️ IIT Delhi collaboration
-            </div>
-            <div
-              style="
-                font-size: 12px;
-                font-weight: 700;
-                display: flex;
-                align-items: center;
-                gap: 7px;
-              "
-            >
-              🏭 ViTachyon Robotics
-            </div>
-            <div
-              style="
-                font-size: 12px;
-                font-weight: 700;
-                display: flex;
-                align-items: center;
-                gap: 7px;
-              "
-            >
-              📜 Verifiable digital certificate
-            </div>
-            <div
-              style="
-                font-size: 12px;
-                font-weight: 700;
-                display: flex;
-                align-items: center;
-                gap: 7px;
-              "
-            >
-              💰 Safe payment via PayU India
-            </div>
-          </div>
+      <div class="price-box">
+        <div class="pb-title">Workshop Highlights</div>
+        <div style="font-size:13px; line-height:1.8; margin-top:10px;">
+          ✅ 16 Live + Recorded Sessions<br>
+          ✅ Embedded Systems Labs<br>
+          ✅ ML Gesture Control<br>
+          ✅ Digital Certificate<br>
+          ✅ Lifetime Recordings<br>
+          <span style="color:var(--info)">🔵 IIT Delhi Lab Tour (Internship)</span><br>
+          <span style="color:var(--info)">🔵 Internship Letter (Internship)</span>
         </div>
       </div>
-      <!-- .sidebar -->
-    </main>
+    </div>
+  </main>
 
-    <script src="js/form.js"></script>
-    <script>
-      // Extra functions for the payment UI
-      function selectPlanAndUpdatePayment(plan) {
-        selectPlan(plan);
-        // Update the amount shown in pay section
-        document.getElementById("pay-amount").textContent =
-          plan === "internship" ? "₹299" : "₹199";
-      }
-
-      function markAsPaid() {
-        // Student says they already paid — trust them and let them fill the form
-        sessionStorage.setItem("cps_payment_done", "true");
-        document.getElementById("payment-done-badge").style.display = "flex";
-        document.getElementById("pay-section").style.background = "#ecfdf5";
-        document.getElementById("pay-section").style.borderColor = "#10b981";
-        document.getElementById("pay-btn").textContent = "✅ Payment Done";
-        document.getElementById("pay-btn").style.background = "#10b981";
-        document.getElementById("pay-btn").disabled = true;
-
-        // Update step indicators
-        document.getElementById("step-2").className = "step done";
-        document.getElementById("step-3").className = "step active";
-
-        // Scroll to form
-        document
-          .getElementById("fullName")
-          .scrollIntoView({ behavior: "smooth", block: "center" });
-      }
-    </script>
-  </body>
+  <script src="js/form.js"></script>
+</body>
 </html>
