@@ -7,7 +7,7 @@
 
 const CONFIG = {
   WEBHOOK_ALBATO: "https://h.albato.com/wh/38/1lfvfuc/P8dQFE_HzIRbObMx-xQOn4r78v572zT-7lXhsOzIt2c/",
-  CRM_WEBHOOK: "YOUR_CRM_WEBHOOK_URL_HERE", 
+  CRM_WEBHOOK: "YOUR_CRM_WEBHOOK_URL_HERE",
   PAYMENT_WORKSHOP: "https://payu.in/web/6FA008C5D64868F877D542B31F86F9C3",
   PAYMENT_INTERNSHIP: "https://payu.in/web/6FA008C5D64868F877D542B31F86F9C3",
   DEADLINE: "2026-05-15T23:59:59",
@@ -74,7 +74,7 @@ function checkPaymentDone() {
 function goToPayment() {
   const link = selectedPlan === "internship" ? CONFIG.PAYMENT_INTERNSHIP : CONFIG.PAYMENT_WORKSHOP;
   window.open(link, "_blank");
-  
+
   const payBtn = document.getElementById("pay-btn");
   if (payBtn) {
     payBtn.textContent = "✅ Paid? Continue to Form ↓";
@@ -88,7 +88,7 @@ function markAsPaid() {
   sessionStorage.setItem("cps_payment_done", "true");
   const badge = document.getElementById("payment-done-badge");
   if (badge) badge.style.display = "block";
-  
+
   const paySection = document.getElementById("pay-section");
   if (paySection) {
     paySection.style.background = "#ecfdf5";
@@ -118,8 +118,6 @@ async function handleSubmit() {
     fullName: document.getElementById("fullName"),
     phone: document.getElementById("phone"),
     email: document.getElementById("email"),
-    college: document.getElementById("college"),
-    dept: document.getElementById("dept"),
     year: document.getElementById("year"),
     exp: document.querySelector('input[name="exp"]:checked')
   };
@@ -146,7 +144,7 @@ async function handleSubmit() {
   btn.disabled = true;
   btnText.textContent = "Submitting...";
 
-  // ── MAPPING PAYLOAD TO DATABASE FIELDS (from script.js) ──
+  // ── MAPPING PAYLOAD TO DATABASE FIELDS ──
   const payload = {
     full_name: fields.fullName.value.trim(),
     phone_whatsapp: fields.phone.value.trim(),
@@ -156,12 +154,8 @@ async function handleSubmit() {
     programming_experience: fields.exp.value,
     motivation: document.getElementById("motivation").value.trim() || "N/A",
     lead_source: document.getElementById("source").value || "N/A",
-    submitted_at: new Date().toISOString(),
-    // Additional fields for Version 2.0 structure
-    college_name: fields.college.value.trim(),
-    department: fields.dept.value.trim(),
     year_of_study: fields.year.value,
-    roll_number: document.getElementById("rollNo").value.trim() || "N/A"
+    submitted_at: new Date().toISOString()
   };
 
   try {
@@ -174,15 +168,15 @@ async function handleSubmit() {
     if (!response.ok) throw new Error("Webhook failed");
 
     document.getElementById("success-name").textContent = payload.full_name.split(" ")[0];
-    document.getElementById("success-plan").textContent = 
+    document.getElementById("success-plan").textContent =
       selectedPlan === "internship" ? "Workshop + Internship Plan" : "Workshop Only Plan";
-    
+
     document.getElementById("form-card").style.display = "none";
     document.getElementById("success-screen").style.display = "block";
-    
+
     const reminder = document.getElementById("payment-reminder");
     if (reminder) reminder.style.display = checkPaymentDone() ? "none" : "block";
-    
+
     window.scrollTo({ top: 0, behavior: "smooth" });
 
   } catch (error) {
