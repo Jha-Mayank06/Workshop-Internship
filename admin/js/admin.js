@@ -26,11 +26,34 @@ function logout() {
 }
 
 // ══════════════════════════
-// DATA — reads from localStorage (set by register-v3.html)
+// CONFIG & DATA
 // ══════════════════════════
+const API_URL = "https://script.google.com/macros/s/AKfycbwxrjQ4MbE8ZfacH6kCSyoZdbn0iCPPTG9j8eEMVVFnDNBczSV2BHNZhANy-B8_zEPQSA/exec";
+let cachedData = []; // Global store for real data
+
+async function refreshData() {
+  const topbarCount = document.getElementById("topbar-count");
+  if (topbarCount) topbarCount.textContent = "⌛ Refreshing...";
+  
+  try {
+    const response = await fetch(API_URL);
+    cachedData = await response.json();
+    renderStats();
+    
+    // Refresh current page
+    const activePage = document.querySelector(".page.active")?.id;
+    if (activePage === "page-dashboard") renderRecent();
+    if (activePage === "page-students") renderStudents();
+    if (activePage === "page-internship") renderInternship();
+    
+  } catch (error) {
+    console.error("Fetch error:", error);
+    showToast("⚠️ Failed to load real data", "error");
+  }
+}
+
 function getData() {
-  const raw = localStorage.getItem("cps_registrations") || "[]";
-  return JSON.parse(raw);
+  return cachedData;
 }
 
 function getApprovals() {
@@ -41,28 +64,16 @@ function setApprovals(obj) {
   localStorage.setItem("cps_approvals", JSON.stringify(obj));
 }
 
-function getAnnouncements() {
-  return JSON.parse(localStorage.getItem("cps_announcements") || "[]");
-}
-
-function saveAnnouncement(ann) {
-  const list = getAnnouncements();
-  list.unshift(ann);
-  localStorage.setItem("cps_announcements", JSON.stringify(list));
-}
-
 // ══════════════════════════
 // NAVIGATION
 // ══════════════════════════
 function showPage(page, el) {
-  document
-    .querySelectorAll(".page")
-    .forEach((p) => p.classList.remove("active"));
-  document
-    .querySelectorAll(".nav-item")
-    .forEach((n) => n.classList.remove("active"));
+  document.querySelectorAll(".page").forEach((p) => p.classList.remove("active"));
+  document.querySelectorAll(".nav-item").forEach((n) => n.classList.remove("active"));
   document.getElementById("page-" + page).classList.add("active");
   if (el) el.classList.add("active");
+  
+  if (page === "dashboard") renderRecent();
   if (page === "students") renderStudents();
   if (page === "internship") renderInternship();
   if (page === "announce") renderAnnouncements();
@@ -71,30 +82,39 @@ function showPage(page, el) {
 // ══════════════════════════
 // DASHBOARD
 // ══════════════════════════
-function initDashboard() {
-  renderStats();
-  renderRecent();
-  setInterval(renderStats, 5000); // Auto-refresh stats
+async function initDashboard() {
+  await refreshData();
+  setInterval(refreshData, 30000); // Auto-refresh every 30 seconds
 }
 
 function renderStats() {
   const data = getData();
   const approvals = getApprovals();
+  
   const total = data.length;
   const workshop = data.filter((d) => d.plan === "Workshop Only").length;
-  const internship = data.filter(
-    (d) => d.plan === "Workshop + Internship",
-  ).length;
-  const pending = data.filter(
+  const internship = data.filter((d) => d.plan === "Workshop + Internship").length;
+  
+  // New Stats
+  const paid = data.filter((d) => d.paymentStatus === "paid").length;
+  const pendingPayment = data.filter((d) => d.paymentStatus === "pending").length;
+  
+  const pendingApproval = data.filter(
     (d) =>
       d.plan === "Workshop + Internship" &&
-      (!approvals[d.id] || approvals[d.id] === "pending"),
+      d.paymentStatus === "paid" && 
+      (!approvals[d.email] || approvals[d.email] === "pending")
   ).length;
 
   document.getElementById("stat-total").textContent = total;
   document.getElementById("stat-workshop").textContent = workshop;
   document.getElementById("stat-internship").textContent = internship;
-  document.getElementById("stat-pending").textContent = pending;
+  document.getElementById("stat-pending").textContent = pendingApproval;
+  
+  // Optional: Update new cards if they exist in HTML
+  if (document.getElementById("stat-paid")) document.getElementById("stat-paid").textContent = paid;
+  if (document.getElementById("stat-unpaid")) document.getElementById("stat-unpaid").textContent = pendingPayment;
+
   document.getElementById("topbar-count").textContent =
     total + " Registration" + (total !== 1 ? "s" : "");
 }
@@ -137,10 +157,13 @@ function renderStudents() {
   let data = getData().slice().reverse();
   if (query)
     data = data.filter((r) =>
-      (r.fullName + r.email + r.college).toLowerCase().includes(query),
+      (r.fullName + r.email + r.source).toLowerCase().includes(query),
     );
   if (planF) data = data.filter((r) => r.plan === planF);
   if (yearF) data = data.filter((r) => r.yearOfStudy === yearF);
+  
+  const statusF = document.getElementById("status-filter")?.value;
+  if (statusF) data = data.filter((r) => r.paymentStatus === statusF);
 
   const total = data.length;
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
@@ -161,15 +184,13 @@ function renderStudents() {
     tbody.innerHTML = slice
       .map(
         (r, i) => `
-    <tr style="cursor:pointer" onclick="openStudentModal(${r.id})">
+    <tr style="cursor:pointer" onclick="openStudentModal('${esc(r.email)}')">
       <td style="color:var(--text-muted);font-size:12px;font-family:'JetBrains Mono',monospace">${(studentPage - 1) * PAGE_SIZE + i + 1}</td>
       <td><strong>${esc(r.fullName)}</strong></td>
       <td style="color:var(--text-muted);font-size:12px">${esc(r.email)}</td>
       <td style="font-family:'JetBrains Mono',monospace;font-size:12px">${esc(r.phone)}</td>
-      <td style="font-size:12px">${esc(r.college)}</td>
-      <td style="font-size:12px;color:var(--text-muted)">${esc(r.department)}</td>
-      <td style="font-size:12px;color:var(--text-muted)">${esc(r.yearOfStudy)}</td>
       <td><span class="badge ${r.plan === "Workshop Only" ? "badge-workshop" : "badge-internship"}">${esc(r.plan)}</span></td>
+      <td><span class="badge badge-${r.paymentStatus === "paid" ? "success" : "warning"}">${esc(r.paymentStatus)}</span></td>
       <td style="font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace">${fmtDate(r.timestamp)}</td>
     </tr>
   `,
@@ -202,7 +223,7 @@ function renderInternship() {
   const statusF = document.getElementById("approval-filter").value;
 
   let data = getData()
-    .filter((r) => r.plan === "Workshop + Internship")
+    .filter((r) => r.plan === "Workshop + Internship" && r.paymentStatus === "paid")
     .slice()
     .reverse();
 
@@ -223,18 +244,16 @@ function renderInternship() {
   }
   tbody.innerHTML = data
     .map((r, i) => {
-      const status = approvals[r.id] || "pending";
+      const status = approvals[r.email] || "pending";
       return `
   <tr>
     <td style="color:var(--text-muted);font-size:12px">${i + 1}</td>
     <td><strong>${esc(r.fullName)}</strong></td>
     <td style="color:var(--text-muted);font-size:12px">${esc(r.email)}</td>
-    <td style="font-size:12px">${esc(r.college)}</td>
-    <td style="font-size:12px;color:var(--text-muted)">${esc(r.yearOfStudy)}</td>
     <td style="font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace">${fmtDate(r.timestamp)}</td>
     <td><span class="badge badge-${status}">${status.charAt(0).toUpperCase() + status.slice(1)}</span></td>
     <td>
-      <button class="action-btn btn-info" style="padding:5px 12px;font-size:11px" onclick="openReviewModal(${r.id})">Review</button>
+      <button class="action-btn btn-info" style="padding:5px 12px;font-size:11px" onclick="openReviewModal('${esc(r.email)}')">Review</button>
     </td>
   </tr>
 `;
@@ -242,13 +261,13 @@ function renderInternship() {
     .join("");
 }
 
-function openReviewModal(id) {
+function openReviewModal(email) {
   const data = getData();
-  const r = data.find((d) => d.id == id);
+  const r = data.find((d) => d.email == email);
   if (!r) return;
-  reviewingId = id;
+  reviewingId = email;
   const approvals = getApprovals();
-  const status = approvals[id] || "pending";
+  const status = approvals[email] || "pending";
   document.getElementById("review-modal-title").textContent =
     "Internship: " + r.fullName;
   document.getElementById("review-modal-sub").textContent =
@@ -256,8 +275,6 @@ function openReviewModal(id) {
   document.getElementById("review-modal-fields").innerHTML = `
   <div class="modal-field"><label>Email</label><div class="val">${esc(r.email)}</div></div>
   <div class="modal-field"><label>Phone</label><div class="val">${esc(r.phone)}</div></div>
-  <div class="modal-field"><label>College</label><div class="val">${esc(r.college)}</div></div>
-  <div class="modal-field"><label>Year</label><div class="val">${esc(r.yearOfStudy)} — ${esc(r.department)}</div></div>
   <div class="modal-field"><label>Registered</label><div class="val">${fmtDate(r.timestamp)}</div></div>
   <div class="modal-field"><label>Motivation</label><div class="val" style="font-size:13px;color:var(--text-muted)">${esc(r.motivation || "Not provided")}</div></div>
 `;
@@ -294,9 +311,9 @@ function closeReviewModal() {
 // ══════════════════════════
 // STUDENT MODAL
 // ══════════════════════════
-function openStudentModal(id) {
+function openStudentModal(email) {
   const data = getData();
-  const r = data.find((d) => d.id == id);
+  const r = data.find((d) => d.email == email);
   if (!r) return;
   document.getElementById("modal-subtitle").textContent =
     "Registered: " + fmtDate(r.timestamp);
@@ -305,10 +322,7 @@ function openStudentModal(id) {
   <div class="modal-field"><label>Email</label><div class="val">${esc(r.email)}</div></div>
   <div class="modal-field"><label>Phone</label><div class="val">${esc(r.phone)}</div></div>
   <div class="modal-field"><label>Plan</label><div class="val">${esc(r.plan)}</div></div>
-  <div class="modal-field"><label>College / School</label><div class="val">${esc(r.college)}</div></div>
-  <div class="modal-field"><label>Branch / Department</label><div class="val">${esc(r.department)}</div></div>
-  <div class="modal-field"><label>Year of Study</label><div class="val">${esc(r.yearOfStudy)}</div></div>
-  <div class="modal-field"><label>Roll Number</label><div class="val">${esc(r.rollNumber || "Not provided")}</div></div>
+  <div class="modal-field"><label>Payment Status</label><div class="val"><span class="badge badge-${r.paymentStatus === "paid" ? "success" : "warning"}">${esc(r.paymentStatus)}</span></div></div>
   <div class="modal-field"><label>Programming Experience</label><div class="val">${esc(r.programmingExperience)}</div></div>
   <div class="modal-field"><label>Source</label><div class="val">${esc(r.source || "Not specified")}</div></div>
   <div class="modal-field"><label>Motivation</label><div class="val" style="font-size:13px;color:var(--text-muted)">${esc(r.motivation || "Not provided")}</div></div>
@@ -345,12 +359,11 @@ function exportCSV() {
     "Email",
     "Phone",
     "Plan",
-    "College",
-    "Department",
-    "Year",
-    "Roll Number",
-    "Exp",
+    "Programming Exp",
+    "Motivation",
     "Source",
+    "Payment Status",
+    "Payment Date",
     "Timestamp",
   ];
   const rows = data.map((r, i) => [
@@ -359,12 +372,11 @@ function exportCSV() {
     r.email,
     r.phone,
     r.plan,
-    r.college,
-    r.department,
-    r.yearOfStudy,
-    r.rollNumber || "",
     r.programmingExperience,
-    r.source || "",
+    r.motivation,
+    r.source,
+    r.paymentStatus,
+    r.paymentDate,
     r.timestamp,
   ]);
   downloadCSV([headers, ...rows], "cps_registrations.csv");
@@ -525,88 +537,15 @@ function showToast(msg, type = "info") {
   toastTimer = setTimeout(() => t.classList.remove("show"), 3000);
 }
 
-// Add demo data if empty
-function addDemoData() {
-  if (getData().length > 0) return;
-  const demo = [
-    {
-      id: Date.now() - 5000,
-      timestamp: new Date(Date.now() - 5 * 86400000).toISOString(),
-      plan: "Workshop Only",
-      fullName: "Rahul Sharma",
-      email: "rahul@example.com",
-      phone: "+91 9812345678",
-      college: "KIIT University",
-      department: "Computer Science",
-      yearOfStudy: "2nd Year",
-      rollNumber: "22053001",
-      programmingExperience: "basic",
-      motivation: "Interested in IoT",
-      source: "College / Faculty",
-    },
-    {
-      id: Date.now() - 4000,
-      timestamp: new Date(Date.now() - 4 * 86400000).toISOString(),
-      plan: "Workshop + Internship",
-      fullName: "Priya Patel",
-      email: "priya@example.com",
-      phone: "+91 9876543210",
-      college: "NIT Bhopal",
-      department: "ECE",
-      yearOfStudy: "3rd Year",
-      rollNumber: "21ECE042",
-      programmingExperience: "intermediate",
-      motivation: "Want to learn robotics",
-      source: "Instagram",
-    },
-    {
-      id: Date.now() - 3000,
-      timestamp: new Date(Date.now() - 3 * 86400000).toISOString(),
-      plan: "Workshop Only",
-      fullName: "Arjun Singh",
-      email: "arjun@example.com",
-      phone: "+91 8765432109",
-      college: "VIT Vellore",
-      department: "Mechanical",
-      yearOfStudy: "1st Year",
-      rollNumber: "23MEC011",
-      programmingExperience: "none",
-      motivation: "",
-      source: "Friend / Classmate",
-    },
-    {
-      id: Date.now() - 2000,
-      timestamp: new Date(Date.now() - 2 * 86400000).toISOString(),
-      plan: "Workshop + Internship",
-      fullName: "Sneha Joshi",
-      email: "sneha@example.com",
-      phone: "+91 7654321098",
-      college: "BITS Pilani",
-      department: "CS",
-      yearOfStudy: "2nd Year",
-      rollNumber: "2022A7PS0123P",
-      programmingExperience: "advanced",
-      motivation: "Passionate about ML and robotics",
-      source: "LinkedIn",
-    },
-    {
-      id: Date.now() - 1000,
-      timestamp: new Date(Date.now() - 86400000).toISOString(),
-      plan: "Workshop Only",
-      fullName: "Karan Mehta",
-      email: "karan@example.com",
-      phone: "+91 9123456789",
-      college: "IIT (ISM) Dhanbad",
-      department: "Mining Engineering",
-      yearOfStudy: "3rd Year",
-      rollNumber: "20JE0456",
-      programmingExperience: "basic",
-      motivation: "",
-      source: "WhatsApp Group",
-    },
-  ];
-  localStorage.setItem("cps_registrations", JSON.stringify(demo));
+function getAnnouncements() {
+  return JSON.parse(localStorage.getItem("cps_announcements") || "[]");
+}
+
+function saveAnnouncement(ann) {
+  const list = getAnnouncements();
+  list.unshift(ann);
+  localStorage.setItem("cps_announcements", JSON.stringify(list));
 }
 
 // Init
-addDemoData();
+// addDemoData removed

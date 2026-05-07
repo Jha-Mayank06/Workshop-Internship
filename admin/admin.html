@@ -132,6 +132,28 @@
                 <div class="sc-label">Workshop + Internship</div>
               </div>
               <div class="stat-card">
+                <div class="sc-icon">✅</div>
+                <div
+                  class="sc-val"
+                  id="stat-paid"
+                  style="color: var(--success)"
+                >
+                  0
+                </div>
+                <div class="sc-label">Total Paid</div>
+              </div>
+              <div class="stat-card">
+                <div class="sc-icon">💳</div>
+                <div
+                  class="sc-val"
+                  id="stat-unpaid"
+                  style="color: var(--danger)"
+                >
+                  0
+                </div>
+                <div class="sc-label">Pending Payment</div>
+              </div>
+              <div class="stat-card">
                 <div class="sc-icon">⏳</div>
                 <div
                   class="sc-val"
@@ -207,15 +229,23 @@
                 </select>
                 <select
                   class="filter-select"
+                  id="status-filter"
+                  onchange="renderStudents()"
+                >
+                  <option value="">All Status</option>
+                  <option value="paid">Paid</option>
+                  <option value="pending">Pending</option>
+                </select>
+                <select
+                  class="filter-select"
                   id="year-filter"
                   onchange="renderStudents()"
                 >
-                  <option value="">All Years</option>
-                  <option>1st Year</option>
-                  <option>2nd Year</option>
-                  <option>3rd Year</option>
-                  <option>4th Year</option>
-                  <option>Postgraduate</option>
+                  <option value="">All Experience</option>
+                  <option value="none">Beginner</option>
+                  <option value="basic">Basic</option>
+                  <option value="intermediate">Intermediate</option>
+                  <option value="advanced">Advanced</option>
                 </select>
               </div>
               <div class="table-wrap">
@@ -226,10 +256,8 @@
                       <th>Name</th>
                       <th>Email</th>
                       <th>Phone</th>
-                      <th>College</th>
-                      <th>Branch</th>
-                      <th>Year</th>
                       <th>Plan</th>
+                      <th>Payment</th>
                       <th>Registered</th>
                     </tr>
                   </thead>
@@ -314,6 +342,7 @@
                     <label>Recipients</label>
                     <select id="ann-recipients">
                       <option value="all">All Registered Students</option>
+                      <option value="paid">Paid Students Only</option>
                       <option value="workshop">Workshop Only Students</option>
                       <option value="internship">Internship Students</option>
                       <option value="approved">Approved Internship Only</option>

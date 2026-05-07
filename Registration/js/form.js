@@ -1,12 +1,12 @@
 /**
  * ══════════════════════════════════════════════════════════════════
  * CPS & ROBOTICS WORKSHOP — REGISTRATION FORM LOGIC
- * Version: 2.2 (Database Field Mapping Fix)
+ * Version: 2.3 (Simplified Fields)
  * ══════════════════════════════════════════════════════════════════
  */
 
 const CONFIG = {
-  WEBHOOK_ALBATO: "https://h.albato.com/wh/38/1lfvfuc/P8dQFE_HzIRbObMx-xQOn4r78v572zT-7lXhsOzIt2c/",
+  WEBHOOK_ALBATO: "https://h.albato.com/wh/38/1lfio9j/_5pU7RaZnPupMaRGVu2cBtNQUBm6yiSZ37MfbPyYaLc/",
   CRM_WEBHOOK: "YOUR_CRM_WEBHOOK_URL_HERE",
   PAYMENT_WORKSHOP: "https://payu.in/web/6FA008C5D64868F877D542B31F86F9C3",
   PAYMENT_INTERNSHIP: "https://payu.in/web/6FA008C5D64868F877D542B31F86F9C3",
@@ -118,7 +118,6 @@ async function handleSubmit() {
     fullName: document.getElementById("fullName"),
     phone: document.getElementById("phone"),
     email: document.getElementById("email"),
-    year: document.getElementById("year"),
     exp: document.querySelector('input[name="exp"]:checked')
   };
 
@@ -144,18 +143,23 @@ async function handleSubmit() {
   btn.disabled = true;
   btnText.textContent = "Submitting...";
 
-  // ── MAPPING PAYLOAD TO DATABASE FIELDS ──
+  // ── PAYLOAD — keys match Google Sheet column headers exactly ──
+  const rawPhone = fields.phone.value
+    .replace(/\D/g, "")       // strip non-digits
+    .replace(/^0+/, "")       // remove leading zeros
+    .replace(/^91/, "91");    // ensure country code (result: 919876543210)
+
   const payload = {
-    full_name: fields.fullName.value.trim(),
-    phone_whatsapp: fields.phone.value.trim(),
-    email: fields.email.value.trim(),
-    selected_plan: selectedPlan,
-    payment_status: checkPaymentDone() ? "paid" : "pending",
-    programming_experience: fields.exp.value,
-    motivation: document.getElementById("motivation").value.trim() || "N/A",
-    lead_source: document.getElementById("source").value || "N/A",
-    year_of_study: fields.year.value,
-    submitted_at: new Date().toISOString()
+    timestamp:             new Date().toISOString(),
+    plan:                  selectedPlan === "internship" ? "Workshop + Internship" : "Workshop Only",
+    fullName:              fields.fullName.value.trim(),
+    email:                 fields.email.value.trim(),
+    phone:                 rawPhone,
+    programmingExperience: fields.exp.value,
+    motivation:            document.getElementById("motivation").value.trim() || "Not provided",
+    source:                document.getElementById("source").value || "Not specified",
+    paymentStatus:         "pending",
+    paymentDate:           ""
   };
 
   try {
@@ -167,7 +171,7 @@ async function handleSubmit() {
 
     if (!response.ok) throw new Error("Webhook failed");
 
-    document.getElementById("success-name").textContent = payload.full_name.split(" ")[0];
+    document.getElementById("success-name").textContent = payload.fullName.split(" ")[0];
     document.getElementById("success-plan").textContent =
       selectedPlan === "internship" ? "Workshop + Internship Plan" : "Workshop Only Plan";
 
