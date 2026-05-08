@@ -445,6 +445,7 @@ textarea {
 .plan-opt.selected-workshop .plan-opt-name {
   color: var(--primary);
 }
+
 .plan-opt.selected-internship .plan-opt-name {
   color: var(--info);
 }
@@ -459,6 +460,7 @@ textarea {
 .plan-opt.selected-workshop .plan-opt-price {
   color: var(--primary);
 }
+
 .plan-opt.selected-internship .plan-opt-price {
   color: var(--info);
 }
@@ -834,6 +836,7 @@ textarea {
 .pb-plan-row.workshop-plan .pb-plan-price {
   color: var(--primary);
 }
+
 .pb-plan-row.internship-plan .pb-plan-price {
   color: var(--info);
 }

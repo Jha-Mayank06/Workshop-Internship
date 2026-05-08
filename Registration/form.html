@@ -45,10 +45,10 @@
               <div class="step-num">1</div><span>Choose Plan</span>
             </div>
             <div class="step active" id="step-2">
-              <div class="step-num">2</div><span>Pay</span>
+              <div class="step-num">2</div><span>Fill details</span>
             </div>
             <div class="step" id="step-3">
-              <div class="step-num">3</div><span>Fill Details</span>
+              <div class="step-num">3</div><span>Seat confirmation</span>
             </div>
           </div>
         </div>
@@ -72,18 +72,10 @@
           </div>
         </div>
 
-        <!-- STEP 2: PAYMENT -->
-        <div class="pay-section" id="pay-section">
-          <h3>💳 Step 2: Complete Payment</h3>
-          <p>Click below to pay via PayU secure gateway. Once done, return here to fill your details.</p>
-          <span class="pay-amount" id="pay-amount">₹199</span>
-          <button class="pay-btn-main" id="pay-btn" onclick="goToPayment()">🔒 Pay Now →</button>
-          <p class="pay-note">🔒 100% Secure · UPI / Card / Net Banking · Instant confirmation</p>
-          <a class="already-paid-link" onclick="markAsPaid()">Already paid? Click here to skip to the form ↓</a>
-        </div>
+
 
         <!-- STEP 3: DETAILS -->
-        <div class="fs-title">👤 Step 3: Personal Details</div>
+        <div class="fs-title">👤 Step 2: Personal Details</div>
         <p class="step3-note">Fill this after payment to receive your joining link.</p>
 
         <div class="field-row">
@@ -139,6 +131,15 @@
         </button>
 
         <p class="privacy-note">Your data is secure and will only be used for workshop coordination.</p>
+      </div>
+      <!-- STEP 2: PAYMENT -->
+      <div class="pay-section" id="pay-section">
+        <h3>💳 Step 3: Complete Payment</h3>
+        <p>Click below to pay via PayU secure gateway. Once done, return here to fill your details.</p>
+        <span class="pay-amount" id="pay-amount">₹199</span>
+        <button class="pay-btn-main" id="pay-btn" onclick="goToPayment()">🔒 Pay Now →</button>
+        <p class="pay-note">🔒 100% Secure · UPI / Card / Net Banking · Instant confirmation</p>
+        <a class="already-paid-link" onclick="markAsPaid()">Already paid? Click here to skip to the form ↓</a>
       </div>
 
       <!-- SUCCESS SCREEN -->

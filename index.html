@@ -1,1290 +1,27 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-      CPS & Robotics Workshop + Internship | ViTachyon Robotics x IHFC IIT Delhi
-    </title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
-  <body>
-    <!-- URGENCY -->
-    <div class="sticky-header" id="sticky-header">
-      <div class="urgency-bar">
-        🔥 <span class="blink">LIMITED SEATS!</span>&nbsp; Workshop @
-        <span class="gold">₹199</span> only — Register before deadline!
-      </div>
-      <!-- NAV -->
-      <nav class="navbar">
-        <div class="nav-logo">
-          <div class="logo-icon">🤖</div>
-          CPS<span style="color: var(--primary)">&amp;Robotics</span>
-        </div>
-        <div class="nav-links">
-          <a href="#structure">Program</a>
-          <a href="#curriculum">Curriculum</a>
-          <a href="#speakers">Mentors</a>
-          <a href="#faq">FAQ</a>
-        </div>
-        <div class="nav-seats">🔴 Limited Seats Left</div>
-        <a href="../Registration/form.html" class="nav-enroll"
-          >Register Now →</a
-        >
-      </nav>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>
+    CPS & Robotics Workshop + Internship | ViTachyon Robotics x IHFC IIT Delhi
+  </title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <!-- URGENCY -->
+  <div class="sticky-header" id="sticky-header">
+    <div class="urgency-bar">
+      🔥 <span class="blink">LIMITED SEATS!</span>&nbsp; Workshop @
+      <span class="gold">₹199</span> only — Register before deadline!
     </div>
-
-    <!-- HERO -->
-    <section class="hero">
-      <div class="hero-inner">
-        <div>
-          <h1>
-            Cyber-Physical Systems,<br /><span class="hl"
-              >Robotics &amp; ML</span
-            ><br />Teleoperation
-          </h1>
-          <p class="hero-desc">
-            A structured skill-development program from embedded fundamentals to
-            ML-powered gesture control, mecanum rovers, drone concepts, and live
-            Industry 4.0 Lab experience at IIT Delhi.
-          </p>
-          <div class="hero-badges">
-            <div class="hero-badge">📹 16 Live Sessions</div>
-            <div class="hero-badge">🛠 Hands-On Labs</div>
-            <div class="hero-badge">📜 Digital Certificate</div>
-            <div class="hero-badge">♾ Lifetime Access</div>
-            <div class="hero-badge">🏭 IIT Delhi Tour</div>
-          </div>
-          <div class="hero-btns">
-            <a href="../Registration/form.html" class="btn-main"
-              >Register Now @ ₹199 →</a
-            >
-            <a href="#curriculum" class="btn-ghost">View Curriculum</a>
-          </div>
-        </div>
-
-        <!-- PRICING CARD -->
-        <div class="pricing-card">
-          <div class="pc-title">Choose Your Plan</div>
-          <div class="plan-tabs">
-            <div class="plan-tab active" onclick="switchPlan('workshop', this)">
-              Workshop Only
-            </div>
-            <div class="plan-tab" onclick="switchPlan('internship', this)">
-              Workshop + Internship
-            </div>
-          </div>
-
-          <!-- Workshop Plan -->
-          <div class="plan-price active" id="plan-workshop">
-            <div class="price-row">
-              <span class="price-orig">₹500</span>
-              <span class="price-cur">₹199</span>
-            </div>
-            <div class="price-save">🎉 Save ₹300 — 60% OFF</div>
-            <div class="price-note">
-              2 weeks · 16 sessions · Digital Certificate
-            </div>
-          </div>
-
-          <!-- Internship Plan -->
-          <div class="plan-price" id="plan-internship">
-            <div class="price-row">
-              <span class="price-orig">₹1,000</span
-              ><span class="price-cur">₹299 </span>
-            </div>
-            <div class="price-save">🎉 Save ₹700 — 70% OFF</div>
-            <div class="price-note">
-              4 weeks total · Internship certificate + letter
-            </div>
-          </div>
-
-          <div class="cd-box">
-            <div class="cd-label">Early Bird offer ends in</div>
-            <div class="cd-timer">
-              <div class="cd-unit">
-                <span class="cd-num" id="cd-d">00</span
-                ><span class="cd-lbl">Days</span>
-              </div>
-              <div class="cd-sep">:</div>
-              <div class="cd-unit">
-                <span class="cd-num" id="cd-h">00</span
-                ><span class="cd-lbl">Hrs</span>
-              </div>
-              <div class="cd-sep">:</div>
-              <div class="cd-unit">
-                <span class="cd-num" id="cd-m">00</span
-                ><span class="cd-lbl">Min</span>
-              </div>
-              <div class="cd-sep">:</div>
-              <div class="cd-unit">
-                <span class="cd-num" id="cd-s">00</span
-                ><span class="cd-lbl">Sec</span>
-              </div>
-            </div>
-          </div>
-          <a href="../Registration/form.html" class="enroll-btn"
-            >🚀 Register Now</a
-          >
-          <div class="secure-note">
-            🔒 Secure Registration · Instant Confirmation
-          </div>
-          <div class="mini-feats">
-            <div class="mf">
-              <span class="ck">✅</span> 16 Days Live Sessions (60–90 min)
-            </div>
-            <div class="mf">
-              <span class="ck">✅</span> Embedded Systems Hands-On
-            </div>
-            <div class="mf">
-              <span class="ck">✅</span> Bluetooth & WiFi RC car
-            </div>
-            <div class="mf"><span class="ck">✅</span> Digital Certificate</div>
-            <div class="mf">
-              <span class="ck">✅</span> Recorded Sessions (Lifetime)
-            </div>
-            <div class="mf">
-              <span class="ck-extra">🔵</span> +Workshop Certificate
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- STATS -->
-    <div class="stats-strip">
-      <div class="stats-inner">
-        <div class="stat-box">
-          <div class="stat-num">16</div>
-          <div class="stat-label">Guided Sessions</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-num">4</div>
-          <div class="stat-label">Levels / Tracks</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-num">6</div>
-          <div class="stat-label">Phases of Learning</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-num">10K+</div>
-          <div class="stat-label">Join our student community</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-num">100%</div>
-          <div class="stat-label">Online & Recorded</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════════════
-         A GLIMPSE — Podium carousel + infinite photo strip
-         Sits above the 2+2 week journey section
-         ═══════════════════════════════════════════════════════ -->
-    <section class="glimpse-section" id="glimpse">
-      <!-- Section header -->
-      <div class="section-inner">
-        <div class="sec-hdr glimpse-hdr">
-          <div class="sec-tag">Behind the Scenes</div>
-          <h2>A <span>Glimpse</span> Inside</h2>
-          <p class="sec-sub">
-            Live demos, robots in action, and moments from our sessions —
-            exactly what awaits you.
-          </p>
-        </div>
-      </div>
-
-      <!-- PODIUM VIDEO CAROUSEL -->
-      <!-- id="podiumStage" on the outer wrap is required by JS -->
-      <div class="podium-carousel-wrap" id="podiumStage">
-        <button class="podium-arrow podium-arrow--left" id="podiumPrev">
-          ◀
-        </button>
-
-        <div class="podium-stage">
-          <div class="podium-card">
-            <div class="podium-media-wrap">
-              <video muted loop playsinline width="300">
-                <source src="assets/videos/Bot.mp4" type="video/mp4" />
-              </video>
-            </div>
-          </div>
-
-          <div class="podium-card">
-            <div class="podium-media-wrap">
-              <video muted loop playsinline width="300">
-                <source src="assets/videos/Grinder.mp4" type="video/mp4" />
-              </video>
-            </div>
-          </div>
-
-          <div class="podium-card">
-            <div class="podium-media-wrap">
-              <video muted loop playsinline width="300">
-                <source src="assets/videos/Mecanum.mp4" type="video/mp4" />
-              </video>
-            </div>
-          </div>
-
-          <div class="podium-card">
-            <div class="podium-media-wrap">
-              <video muted loop playsinline width="300">
-                <source src="assets/videos/MJ.mp4" type="video/mp4" />
-              </video>
-            </div>
-          </div>
-
-          <div class="podium-card">
-            <div class="podium-media-wrap">
-              <video muted loop playsinline width="300">
-                <source src="assets/videos/sb-bot.mp4" type="video/mp4" />
-              </video>
-            </div>
-          </div>
-
-          <div class="podium-card">
-            <div class="podium-media-wrap">
-              <video muted loop playsinline width="300">
-                <source src="assets/videos/Water.mp4" type="video/mp4" />
-              </video>
-            </div>
-          </div>
-        </div>
-
-        <button class="podium-arrow podium-arrow--right" id="podiumNext">
-          ▶
-        </button>
-
-        <div class="podium-dots" id="podiumDots"></div>
-      </div>
-
-      <!-- INFINITE LOOPING PHOTO STRIP -->
-      <div class="photo-strip-section">
-        <!--
-          Infinite marquee technique:
-          Two identical .photo-strip-track divs side-by-side inside a flex
-          container. CSS animates translateX(-50%) so the second copy snaps
-          back seamlessly to position 0 — creating a perfect loop.
-          No JS needed; pauses on hover for accessibility.
-        -->
-        <div
-          class="photo-strip-inner"
-          aria-label="Workshop photo gallery"
-          role="region"
-        >
-          <div class="photo-strip-marquee">
-            <!-- Original set -->
-            <div class="photo-strip-track">
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/1.jpg"
-                  alt="Workshop photo 1"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/2.jpg"
-                  alt="Workshop photo 2"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/3.jpg"
-                  alt="Workshop photo 3"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/4.jpg"
-                  alt="Workshop photo 4"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/5.jpg"
-                  alt="Workshop photo 5"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/6.jpg"
-                  alt="Workshop photo 6"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/7.jpg"
-                  alt="Workshop photo 7"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/8.jpg"
-                  alt="Workshop photo 8"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/9.jpg"
-                  alt="Workshop photo 9"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/10.jpg"
-                  alt="Workshop photo 10"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/11.jpg"
-                  alt="Workshop photo 11"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/12.jpg"
-                  alt="Workshop photo 12"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/13.jpg"
-                  alt="Workshop photo 13"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-            </div>
-
-            <!-- Duplicate set — required for seamless infinite loop -->
-            <div class="photo-strip-track" aria-hidden="true">
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/1.jpg"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/2.jpg"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/3.jpg"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/4.jpg"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/5.jpg"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/6.jpg"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/7.jpg"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/8.jpg"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/9.jpg"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/10.jpg"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/11.jpg"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/12.jpg"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="photo-strip-item">
-                <img
-                  src="assets/images/13.jpg"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-            </div>
-          </div>
-          <!-- /.photo-strip-marquee -->
-        </div>
-        <!-- /.photo-strip-inner -->
-      </div>
-      <!-- /.photo-strip-section -->
-    </section>
-    <!-- /.glimpse-section -->
-
-    <section class="section" id="structure">
-      <div class="section-inner">
-        <div class="sec-hdr">
-          <div class="sec-tag">Program Structure</div>
-          <h2>The <span>2 + 2 Week</span> Journey</h2>
-          <p class="sec-sub">
-            Start with the workshop — then optionally continue into a full
-            internship for deeper learning and a formal certificate.
-          </p>
-        </div>
-        <div class="structure-grid fade-in">
-          <div class="struct-card workshop">
-            <div class="struct-badge">🛠 Weeks 1–2</div>
-            <h3>Workshop Program</h3>
-            <p>
-              Structured skill-development across 4 progressive levels — from
-              programming fundamentals and embedded systems to autonomous
-              robotics and ML-enabled gesture control.
-            </p>
-            <div class="price-row">
-              <span class="price-orig">₹500</span>
-              <span class="price-cur">₹199</span>
-            </div>
-            <div class="price-save">🎉 Save ₹300 — 60% OFF</div>
-            <ul class="struct-list">
-              <li>16 guided online sessions</li>
-              <li>60–90 minutes per session</li>
-              <li>Arduino, ESP32, IoT, Robotics</li>
-              <li>MediaPipe gesture recognition</li>
-              <li>Digital certificate on completion</li>
-              <li>Recorded sessions — lifetime access</li>
-            </ul>
-          </div>
-          <div class="struct-card internship">
-            <div class="struct-badge">🎓 Weeks 3–4</div>
-            <h3>Internship Extension</h3>
-            <p>
-              For students who want to go deeper — a formal 2-week online
-              internship continuation with advanced projects, live IHFC IIT
-              Delhi Industry 4.0 Lab tour, and an internship letter.
-            </p>
-            <div class="price-row">
-              <span class="price-orig">₹1,000</span
-              ><span class="price-cur">₹299 </span>
-            </div>
-            <div class="price-save">🎉 Save ₹700 — 70% OFF</div>
-            <ul class="struct-list" style="--check-color: var(--info)">
-              <li>Builds directly on workshop content</li>
-              <li>Advanced ML teleoperation exposure</li>
-              <li>Live IHFC IIT Delhi Lab tour session</li>
-              <li>Formal internship completion letter</li>
-              <li>Industry 4.0 internship certificate</li>
-              <li>Optional — enroll anytime during workshop</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- WHAT YOU GET -->
-    <section class="section" style="background: var(--white)">
-      <div class="section-inner">
-        <div class="sec-hdr">
-          <div class="sec-tag">What You Get</div>
-          <h2>Everything You Need to <span>Succeed</span></h2>
-          <p class="sec-sub">
-            Not just a workshop — a complete technology learning experience
-            designed by ViTachyon Robotics with industry-aligned curriculum.
-          </p>
-        </div>
-        <div class="features-grid fade-in">
-          <div class="feat-card">
-            <span class="feat-icon">🖥️</span>
-            <h3>Live Online Sessions</h3>
-            <p>
-              16 instructor-led live sessions over 2 weeks with real-time Q&A,
-              structured labs, and interactive concept delivery.
-            </p>
-          </div>
-          <div class="feat-card">
-            <span class="feat-icon">🤖</span>
-            <h3>Hands-On Robotics Labs</h3>
-            <p>
-              Practical software labs covering Arduino, ESP32, robot kinematics,
-              mecanum drive, and gesture-based teleoperation.
-            </p>
-          </div>
-          <div class="feat-card">
-            <span class="feat-icon">🧠</span>
-            <h3>ML Gesture Control</h3>
-            <p>
-              Implement MediaPipe-based hand gesture recognition to control
-              robotic systems — a rare skill at workshop level.
-            </p>
-          </div>
-          <div class="feat-card">
-            <span class="feat-icon">📜</span>
-            <h3>Digital Certificate</h3>
-            <p>
-              Receive a verifiable digital certificate of completion from
-              ViTachyon Robotics upon finishing the workshop.
-            </p>
-          </div>
-          <div class="feat-card">
-            <span class="feat-icon">♾</span>
-            <h3>Lifetime Recorded Access</h3>
-            <p>
-              All 16 sessions are recorded and accessible forever — rewatch,
-              revise, and reference at your own pace.
-            </p>
-          </div>
-          <div class="feat-card">
-            <span class="feat-icon">🏭</span>
-            <h3>IIT Delhi Lab Experience</h3>
-            <p>
-              Exclusive live video tour of the IHFC IIT Delhi Industry 4.0 Lab —
-              experience real industrial robot teleoperation.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CURRICULUM -->
-    <section class="section" id="curriculum" style="background: var(--white)">
-      <div class="section-inner">
-        <div class="sec-hdr">
-          <div class="sec-tag">Curriculum</div>
-          <h2>4 Levels · 6 Phases · <span>16 Days</span></h2>
-          <p class="sec-sub">
-            Click any level to explore the sessions. Each phase builds on the
-            previous — no gaps, no fluff.
-          </p>
-        </div>
-
-        <!-- LEVEL 1 -->
-        <div class="phase-block fade-in">
-          <div class="phase-header">
-            <div class="phase-num">LEVEL 1</div>
-            <div>
-              <h3>Programming & Embedded Foundations</h3>
-              <p>Days 1–4 · Phase 1 & 2</p>
-            </div>
-            <div class="arrow">▼</div>
-          </div>
-          <div class="phase-content">
-            <div class="curric-grid">
-              <div class="day-item">
-                <div class="day-badge">Day 1</div>
-                <div class="day-info">
-                  <h4>Intro to CPS & Robotics + IDE Setup</h4>
-                  <p>
-                    Overview of Cyber-Physical Systems, robotics landscape,
-                    toolchain installation, and first program run.
-                  </p>
-                  <div class="day-tags">
-                    <span class="dtag th">Theory</span
-                    ><span class="dtag lb">Lab</span>
-                  </div>
-                </div>
-              </div>
-              <div class="day-item">
-                <div class="day-badge">Day 2</div>
-                <div class="day-info">
-                  <h4>Programming Fundamentals for Robotics</h4>
-                  <p>
-                    Variables, loops, conditionals, functions — applied in the
-                    context of embedded control systems.
-                  </p>
-                  <div class="day-tags">
-                    <span class="dtag th">Theory</span
-                    ><span class="dtag lb">Lab</span>
-                  </div>
-                </div>
-              </div>
-              <div class="day-item">
-                <div class="day-badge">Day 3</div>
-                <div class="day-info">
-                  <h4>Arduino Basics — GPIO, Sensors & Actuators</h4>
-                  <p>
-                    Digital/analog I/O, LED control, button input, servo and DC
-                    motor interfacing on Arduino Uno.
-                  </p>
-                  <div class="day-tags">
-                    <span class="dtag th">Theory</span
-                    ><span class="dtag lb">Lab</span>
-                  </div>
-                </div>
-              </div>
-              <div class="day-item">
-                <div class="day-badge">Day 4</div>
-                <div class="day-info">
-                  <h4>Sensor Fusion & Data Processing</h4>
-                  <p>
-                    Reading and combining sensor data (ultrasonic, IR, temp),
-                    filtering noise, serial debug output.
-                  </p>
-                  <div class="day-tags">
-                    <span class="dtag th">Theory</span
-                    ><span class="dtag lb">Lab</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- LEVEL 2 -->
-        <div class="phase-block fade-in">
-          <div
-            class="phase-header"
-            style="background: linear-gradient(135deg, #065f46, #047857)"
-          >
-            <div class="phase-num" style="background: #10b981; color: #fff">
-              LEVEL 2
-            </div>
-            <div>
-              <h3>IoT & Connected Robotics</h3>
-              <p>Days 5–8 · Phase 3</p>
-            </div>
-            <div class="arrow">▼</div>
-          </div>
-          <div class="phase-content">
-            <div class="curric-grid">
-              <div class="day-item">
-                <div class="day-badge">Day 5</div>
-                <div class="day-info">
-                  <h4>ESP32 & WiFi Connectivity</h4>
-                  <p>
-                    Introduction to ESP32, WiFi provisioning, TCP/UDP basics,
-                    and first networked sensor project.
-                  </p>
-                  <div class="day-tags">
-                    <span class="dtag th">Theory</span
-                    ><span class="dtag lb">Lab</span>
-                  </div>
-                </div>
-              </div>
-              <div class="day-item">
-                <div class="day-badge">Day 6</div>
-                <div class="day-info">
-                  <h4>MQTT & IoT Protocols</h4>
-                  <p>
-                    Publish-subscribe model, MQTT broker setup, remote sensor
-                    dashboards and cloud data logging.
-                  </p>
-                  <div class="day-tags">
-                    <span class="dtag th">Theory</span
-                    ><span class="dtag lb">Lab</span>
-                  </div>
-                </div>
-              </div>
-              <div class="day-item">
-                <div class="day-badge">Day 7</div>
-                <div class="day-info">
-                  <h4>Remote Robot Control via Web</h4>
-                  <p>
-                    Build a web interface to command a robot over WiFi — HTTP
-                    endpoints, button controls, live status.
-                  </p>
-                  <div class="day-tags">
-                    <span class="dtag lb">Lab</span
-                    ><span class="dtag pr">Project</span>
-                  </div>
-                </div>
-              </div>
-              <div class="day-item">
-                <div class="day-badge">Day 8</div>
-                <div class="day-info">
-                  <h4>Assessment + Hands-On Challenge</h4>
-                  <p>
-                    Concept assessment and practical mini-challenge on IoT
-                    control. Feedback and Q&A session.
-                  </p>
-                  <div class="day-tags">
-                    <span class="dtag cp">Assessment</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- LEVEL 3 -->
-        <div class="phase-block fade-in">
-          <div
-            class="phase-header"
-            style="background: linear-gradient(135deg, #6d28d9, #4c1d95)"
-          >
-            <div class="phase-num" style="background: #a78bfa; color: #1a1a2e">
-              LEVEL 3
-            </div>
-            <div>
-              <h3>Autonomous Robotics & ML Gesture Control</h3>
-              <p>Days 9–14 · Phase 4 & 5</p>
-            </div>
-            <div class="arrow">▼</div>
-          </div>
-          <div class="phase-content">
-            <div class="curric-grid">
-              <div class="day-item">
-                <div class="day-badge">Day 9</div>
-                <div class="day-info">
-                  <h4>Mecanum Wheel Drive & Omnidirectional Motion</h4>
-                  <p>
-                    Mecanum wheel kinematics, motor mixing math, holonomic
-                    motion patterns, and lab implementation.
-                  </p>
-                  <div class="day-tags">
-                    <span class="dtag th">Theory</span
-                    ><span class="dtag lb">Lab</span>
-                  </div>
-                </div>
-              </div>
-              <div class="day-item">
-                <div class="day-badge">Day 10</div>
-                <div class="day-info">
-                  <h4>Computer Vision Basics with OpenCV</h4>
-                  <p>
-                    Frames, color spaces, contour detection, simple object
-                    tracking — foundation for gesture ML.
-                  </p>
-                  <div class="day-tags">
-                    <span class="dtag th">Theory</span
-                    ><span class="dtag lb">Lab</span>
-                  </div>
-                </div>
-              </div>
-              <div class="day-item">
-                <div class="day-badge">Day 11</div>
-                <div class="day-info">
-                  <h4>MediaPipe Hand Gesture Recognition</h4>
-                  <p>
-                    Real-time 21-keypoint hand landmark detection with
-                    MediaPipe, gesture classification pipeline.
-                  </p>
-                  <div class="day-tags">
-                    <span class="dtag ml">ML</span
-                    ><span class="dtag lb">Lab</span>
-                  </div>
-                </div>
-              </div>
-              <div class="day-item">
-                <div class="day-badge">Day 12</div>
-                <div class="day-info">
-                  <h4>Gesture-Controlled Robot Teleoperation</h4>
-                  <p>
-                    Bridge gesture commands to robot actuators wirelessly — full
-                    end-to-end ML teleoperation demo.
-                  </p>
-                  <div class="day-tags">
-                    <span class="dtag ml">ML</span
-                    ><span class="dtag pr">Project</span>
-                  </div>
-                </div>
-              </div>
-              <div class="day-item">
-                <div class="day-badge">Day 13</div>
-                <div class="day-info">
-                  <h4>Wireless Gyro-Based Control</h4>
-                  <p>
-                    Gyro & accelerometer-based command generation, motion/tilt
-                    control, wireless sender-receiver systems.
-                  </p>
-                  <div class="day-tags">
-                    <span class="dtag th">Theory</span
-                    ><span class="dtag lb">Lab</span>
-                  </div>
-                </div>
-              </div>
-              <div class="day-item">
-                <div class="day-badge">Day 14</div>
-                <div class="day-info">
-                  <h4>Drone Control Concepts & Architecture</h4>
-                  <p>
-                    Roll, pitch, yaw, throttle basics, safety awareness,
-                    educational prototype-level drone architecture.
-                  </p>
-                  <div class="day-tags">
-                    <span class="dtag th">Theory</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- LEVEL 4 -->
-        <div class="phase-block fade-in">
-          <div
-            class="phase-header"
-            style="background: linear-gradient(135deg, #0f3460, #1a1a2e)"
-          >
-            <div class="phase-num" style="background: #ffd700; color: #1a1a2e">
-              LEVEL 4
-            </div>
-            <div>
-              <h3>Industry Exposure & Closing Track</h3>
-              <p>Days 15–16 · Phase 6 — IHFC IIT Delhi Live Experience</p>
-            </div>
-            <div class="arrow">▼</div>
-          </div>
-          <div class="phase-content">
-            <div class="curric-grid">
-              <div
-                class="day-item"
-                style="border-color: #ffd700; background: #fffbeb"
-              >
-                <div class="day-badge" style="background: #d97706">Day 15</div>
-                <div class="day-info">
-                  <h4>🏭 Live IHFC IIT Delhi Industry 4.0 Lab Tour</h4>
-                  <p>
-                    Live video tour — experience industrial robot teleoperation
-                    with ViTachyon Robotics at IHFC IIT Delhi.
-                  </p>
-                  <div class="day-tags">
-                    <span class="dtag cp">Industry</span>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="day-item"
-                style="border-color: #ea580c; background: #fff7ed"
-              >
-                <div class="day-badge" style="background: #ea580c">Day 16</div>
-                <div class="day-info">
-                  <h4>🏆 Closing Session — Q&A & Next Steps</h4>
-                  <p>
-                    Concept recap, open Q&A, guidance on future growth paths in
-                    robotics, automation, and AI.
-                  </p>
-                  <div class="day-tags">
-                    <span class="dtag pr">Closing</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="internship-note fade-in">
-          <div class="ni">🎓</div>
-          <div>
-            <h4>Want More? Continue with the 2-Week Internship</h4>
-            <p>
-              After completing the workshop, you can optionally enroll in the
-              internship extension (Weeks 3–4) for advanced project work, deeper
-              mentorship, and a formal internship certificate + letter from
-              ViTachyon Robotics. The internship builds directly on top of your
-              workshop experience.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- INCLUSIONS -->
-    <section class="section" style="background: var(--white)">
-      <div class="section-inner">
-        <div class="sec-hdr">
-          <div class="sec-tag">Inclusions</div>
-          <h2>What's <span>Included</span></h2>
-        </div>
-        <div class="inc-grid fade-in">
-          <div class="inc-item">
-            <span class="ii">📹</span> 16 Live + Recorded Sessions
-          </div>
-          <div class="inc-item">
-            <span class="ii">♾</span> Lifetime Access to All Recordings
-          </div>
-          <div class="inc-item">
-            <span class="ii">🤖</span> Hands-On Robotics & ML Labs
-          </div>
-          <div class="inc-item">
-            <span class="ii">📜</span> Digital Certificate of Completion
-          </div>
-          <div class="inc-item">
-            <span class="ii">🧪</span> Regular Online Assessments
-          </div>
-          <div class="inc-item">
-            <span class="ii">🏭</span> Live IHFC IIT Delhi Lab Experience
-          </div>
-          <div class="inc-item">
-            <span class="ii">📱</span> Learn From Anywhere (Online)
-          </div>
-          <div class="inc-item">
-            <span class="ii">🎓</span> Internship Letter (Internship Plan)
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SPEAKERS / MENTORS -->
-    <section class="section" id="speakers">
-      <div class="section-inner">
-        <div class="sec-hdr">
-          <div class="sec-tag">Mentors & Speakers</div>
-          <h2>Learn From <span>Industry Experts</span></h2>
-          <p class="sec-sub">
-            Sessions led by engineers and researchers from ViTachyon Robotics
-            with IHFC IIT Delhi collaboration.
-          </p>
-        </div>
-        <div class="speakers-grid fade-in">
-          <div class="speaker-card">
-            <div class="speaker-avatar">VR</div>
-            <h3>ViTachyon Expert</h3>
-            <div class="speaker-role">Our Industry Partners</div>
-            <div class="speaker-org">ViTachyon Robotics</div>
-          </div>
-          <div class="speaker-card">
-            <div
-              class="speaker-avatar"
-              style="background: linear-gradient(135deg, #3b82f6, #1d4ed8)"
-            >
-              IIT
-            </div>
-            <h3>IHFC IIT Delhi Researcher</h3>
-            <div class="speaker-role">Our academic partners</div>
-            <div class="speaker-org">IHFC IIT Delhi — Ind. 4.0 Lab</div>
-          </div>
-          <div class="speaker-card">
-            <div
-              class="speaker-avatar"
-              style="background: linear-gradient(135deg, #10b981, #065f46)"
-            >
-              PI2
-            </div>
-            <h3>Ind 4.0 Faculties</h3>
-            <div class="speaker-role">Our Mentors</div>
-            <div class="speaker-org">PiSquare Academy</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section class="section" style="background: var(--white)">
-      <div class="section-inner">
-        <div class="about-grid fade-in">
-          <div class="about-text">
-            <div class="sec-tag">About the Program</div>
-            <h2 style="text-align: left; margin-top: 10px">
-              Why <span>Cyber-Physical Systems?</span>
-            </h2>
-            <p>
-              In today's rapidly evolving ecosystem, industries rely on smart
-              embedded systems, intelligent machines, automation frameworks, and
-              remote robotic operations. This workshop bridges the gap between
-              academic knowledge and real-world application.
-            </p>
-            <p>
-              From programming fundamentals to ML-based gesture control and
-              industrial robot teleoperation — you build a complete technical
-              foundation across all key domains of modern robotics and
-              automation.
-            </p>
-            <p>
-              Designed by ViTachyon Robotics and backed by IHFC IIT Delhi
-              collaboration, this program gives you industry-aligned exposure at
-              an accessible price.
-            </p>
-            <a
-              href="../Registration/form.html"
-              class="btn-main"
-              style="margin-top: 14px; display: inline-block"
-              >Join the Workshop →</a
-            >
-          </div>
-          <div class="pillars-grid">
-            <div class="pc">
-              <span class="picon">🤖</span> Cyber-Physical Systems
-            </div>
-            <div class="pc"><span class="picon">⚙️</span> Embedded Systems</div>
-            <div class="pc">
-              <span class="picon">🌐</span> Internet of Things
-            </div>
-            <div class="pc">
-              <span class="picon">🦾</span> Robotics & Automation
-            </div>
-            <div class="pc"><span class="picon">🧠</span> Machine Learning</div>
-            <div class="pc">
-              <span class="picon">✋</span> Gesture Recognition
-            </div>
-            <div class="pc">
-              <span class="picon">🚁</span> Drone Control Concepts
-            </div>
-            <div class="pc"><span class="picon">🏭</span> Industry 4.0</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- WHO CAN ATTEND -->
-    <section class="section">
-      <div class="section-inner">
-        <div class="sec-hdr">
-          <div class="sec-tag">Who Can Attend</div>
-          <h2>This Program is <span>For You</span> If…</h2>
-        </div>
-        <div class="features-grid fade-in">
-          <div class="feat-card">
-            <span class="feat-icon">🎓</span>
-            <h3>Engineering Students</h3>
-            <p>
-              Undergrad students from CS, ECE, EEE, Mechanical, or any
-              engineering branch — no prior experience needed.
-            </p>
-          </div>
-          <div class="feat-card">
-            <span class="feat-icon">🔧</span>
-            <h3>Diploma / Polytechnic</h3>
-            <p>
-              Diploma and polytechnic students looking to gain real embedded
-              systems and robotics exposure.
-            </p>
-          </div>
-          <div class="feat-card">
-            <span class="feat-icon">💡</span>
-            <h3>Tech Enthusiasts</h3>
-            <p>
-              Anyone curious about IoT, robotics, automation, or building smart
-              systems — beginners welcome.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section class="section" id="faq" style="background: var(--white)">
-      <div class="section-inner">
-        <div class="sec-hdr">
-          <div class="sec-tag">FAQ</div>
-          <h2>Frequently Asked <span>Questions</span></h2>
-        </div>
-        <div class="faq-list fade-in">
-          <div class="faq-item">
-            <button class="faq-q" onclick="toggleFaq(this)">
-              What is the 2+2 week structure? <span class="faq-arrow">▾</span>
-            </button>
-            <div class="faq-a">
-              <div class="faq-a-inner">
-                The first 2 weeks is the Workshop program at ₹199 — 16 live
-                sessions covering CPS, embedded systems, robotics, IoT, and ML
-                gesture control. The next 2 weeks is an optional Internship
-                extension for students who want deeper learning, a formal
-                internship letter, and live IHFC IIT Delhi Lab experience.
-              </div>
-            </div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-q" onclick="toggleFaq(this)">
-              Do I need prior programming experience?
-              <span class="faq-arrow">▾</span>
-            </button>
-            <div class="faq-a">
-              <div class="faq-a-inner">
-                No prior experience is required. The program starts from the
-                very basics — programming fundamentals, IDE setup, and
-                beginner-friendly embedded concepts — and progressively builds
-                up to advanced ML-based robotic control.
-              </div>
-            </div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-q" onclick="toggleFaq(this)">
-              Is this online or offline? <span class="faq-arrow">▾</span>
-            </button>
-            <div class="faq-a">
-              <div class="faq-a-inner">
-                Fully online. All 16 sessions are conducted live and also
-                recorded with lifetime access. The IHFC IIT Delhi Lab tour on
-                Day 15 is also conducted as a live online video experience.
-              </div>
-            </div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-q" onclick="toggleFaq(this)">
-              How do I enroll for the Internship?
-              <span class="faq-arrow">▾</span>
-            </button>
-            <div class="faq-a">
-              <div class="faq-a-inner">
-                You can select the Internship option during registration, or you
-                can upgrade during the workshop period. The internship fee is
-                separate from the ₹199 workshop fee. Both plans are available on
-                the registration page.
-              </div>
-            </div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-q" onclick="toggleFaq(this)">
-              What hardware or software do I need?
-              <span class="faq-arrow">▾</span>
-            </button>
-            <div class="faq-a">
-              <div class="faq-a-inner">
-                A laptop and internet connection is all you need. All software
-                used is free. The sessions are conceptual + software-based;
-                physical hardware kits are not required for participation.
-              </div>
-            </div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-q" onclick="toggleFaq(this)">
-              When is the certificate issued? <span class="faq-arrow">▾</span>
-            </button>
-            <div class="faq-a">
-              <div class="faq-a-inner">
-                Digital workshop certificates are issued after successful
-                completion of the 16 sessions. Internship letters and
-                certificates are issued after the full 4-week program, typically
-                within 3–5 working days.
-              </div>
-            </div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-q" onclick="toggleFaq(this)">
-              What if I miss a session? <span class="faq-arrow">▾</span>
-            </button>
-            <div class="faq-a">
-              <div class="faq-a-inner">
-                All sessions are recorded and available for lifetime replay. You
-                can catch up on missed sessions before the next class at your
-                convenience.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- BOTTOM CTA -->
-    <section class="btm-cta">
-      <h2>
-        Ready to Enter the World of<br /><span
-          >Robotics & Intelligent Systems?</span
-        >
-      </h2>
-      <p>
-        Join students from across India. Start with the Workshop and optionally
-        continue into the Internship.
-      </p>
-      <div class="btm-price-grid">
-        <div class="btm-plan">
-          <div class="btm-plan-label">Workshop Only</div>
-          <div class="price-row">
-            <span class="price-orig">₹500</span>
-            <span class="price-cur">₹199</span>
-          </div>
-          <div class="price-save">🎉 Save ₹300 — 60% OFF</div>
-          <div class="btm-plan-sub">2 Weeks · 16 Sessions</div>
-        </div>
-        <div class="btm-plan">
-          <div class="btm-plan-label">Workshop + Internship</div>
-          <div class="price-row">
-            <span class="price-orig">₹1,000</span
-            ><span class="price-cur">₹299 </span>
-          </div>
-          <div class="price-save">🎉 Save ₹700 — 70% OFF</div>
-          <div class="btm-plan-sub">4 Weeks · Full Program</div>
-        </div>
-      </div>
-      <a href="../Registration/form.html" class="btm-btn"
-        >🚀 Register Now — Starting ₹199</a
-      >
-      <div>
-        <div class="seats-warn">
-          🔴 Limited seats available — Register before deadline
-        </div>
-      </div>
-    </section>
-
-    <footer>
-      <p>
-        © 2025 CPS & Robotics Workshop — ViTachyon Robotics. All rights
-        reserved. &nbsp;|&nbsp;
-        <a href="../Registration/form.html">Register</a> &nbsp;|&nbsp;
-        <a href="../admin/admin.html">Admin</a>
-      </p>
-    </footer>
-
-    <div class="bottom-cta">
+    <!-- NAV -->
+    <nav class="navbar">
       <div class="nav-logo">
         <div class="logo-icon">🤖</div>
         CPS<span style="color: var(--primary)">&amp;Robotics</span>
@@ -1297,9 +34,993 @@
       </div>
       <div class="nav-seats">🔴 Limited Seats Left</div>
       <a href="../Registration/form.html" class="nav-enroll">Register Now →</a>
+    </nav>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <h1>
+          Cyber-Physical Systems,<br /><span class="hl">Robotics &amp; ML</span><br />Teleoperation
+        </h1>
+        <p class="hero-desc">
+          A structured skill-development program from embedded fundamentals to
+          ML-powered gesture control, mecanum rovers, drone concepts, and live
+          Industry 4.0 Lab experience at IIT Delhi.
+        </p>
+        <div class="hero-badges">
+          <div class="hero-badge">📹 16 Live Sessions</div>
+          <div class="hero-badge">🛠 Hands-On Labs</div>
+          <div class="hero-badge">📜 Digital Certificate</div>
+          <div class="hero-badge">♾ Lifetime Access</div>
+          <div class="hero-badge">🏭 IIT Delhi Tour</div>
+        </div>
+        <div class="hero-btns">
+          <a href="../Registration/form.html" class="btn-main">Register Now @ ₹199 →</a>
+          <a href="#curriculum" class="btn-ghost">View Curriculum</a>
+        </div>
+      </div>
+
+      <!-- PRICING CARD -->
+      <div class="pricing-card">
+        <div class="pc-title">Choose Your Plan</div>
+        <div class="plan-tabs">
+          <div class="plan-tab active" onclick="switchPlan('workshop', this)">
+            Workshop Only
+          </div>
+          <div class="plan-tab" onclick="switchPlan('internship', this)">
+            Workshop + Internship
+          </div>
+        </div>
+
+        <!-- Workshop Plan -->
+        <div class="plan-price active" id="plan-workshop">
+          <div class="price-row">
+            <span class="price-orig">₹500</span>
+            <span class="price-cur">₹199</span>
+          </div>
+          <div class="price-save">🎉 Save ₹300 — 60% OFF</div>
+          <div class="price-note">
+            2 weeks · 16 sessions · Digital Certificate
+          </div>
+        </div>
+
+        <!-- Internship Plan -->
+        <div class="plan-price" id="plan-internship">
+          <div class="price-row">
+            <span class="price-orig">₹1,000</span><span class="price-cur">₹299 </span>
+          </div>
+          <div class="price-save">🎉 Save ₹700 — 70% OFF</div>
+          <div class="price-note">
+            4 weeks total · Internship certificate + letter
+          </div>
+        </div>
+
+        <div class="cd-box">
+          <div class="cd-label">Early Bird offer ends in</div>
+          <div class="cd-timer">
+            <div class="cd-unit">
+              <span class="cd-num" id="cd-d">00</span><span class="cd-lbl">Days</span>
+            </div>
+            <div class="cd-sep">:</div>
+            <div class="cd-unit">
+              <span class="cd-num" id="cd-h">00</span><span class="cd-lbl">Hrs</span>
+            </div>
+            <div class="cd-sep">:</div>
+            <div class="cd-unit">
+              <span class="cd-num" id="cd-m">00</span><span class="cd-lbl">Min</span>
+            </div>
+            <div class="cd-sep">:</div>
+            <div class="cd-unit">
+              <span class="cd-num" id="cd-s">00</span><span class="cd-lbl">Sec</span>
+            </div>
+          </div>
+        </div>
+        <a href="../Registration/form.html" class="enroll-btn">🚀 Register Now</a>
+        <div class="secure-note">
+          🔒 Secure Registration · Instant Confirmation
+        </div>
+        <div class="mini-feats">
+          <div class="mf">
+            <span class="ck">✅</span> 16 Days Live Sessions (60–90 min)
+          </div>
+          <div class="mf">
+            <span class="ck">✅</span> Embedded Systems Hands-On
+          </div>
+          <div class="mf">
+            <span class="ck">✅</span> Bluetooth & WiFi RC car
+          </div>
+          <div class="mf"><span class="ck">✅</span> Digital Certificate</div>
+          <div class="mf">
+            <span class="ck">✅</span> Recorded Sessions (Lifetime)
+          </div>
+          <div class="mf">
+            <span class="ck-extra">🔵</span> +Workshop Certificate
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-strip">
+    <div class="stats-inner">
+      <div class="stat-box">
+        <div class="stat-num">16</div>
+        <div class="stat-label">Guided Sessions</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">4</div>
+        <div class="stat-label">Levels / Tracks</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">6</div>
+        <div class="stat-label">Phases of Learning</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">10K+</div>
+        <div class="stat-label">Join our student community</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Online & Recorded</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+         A GLIMPSE — Podium carousel + infinite photo strip
+         Sits above the 2+2 week journey section
+         ═══════════════════════════════════════════════════════ -->
+  <section class="glimpse-section" id="glimpse">
+    <!-- Section header -->
+    <div class="section-inner">
+      <div class="sec-hdr glimpse-hdr">
+        <div class="sec-tag">Behind the Scenes</div>
+        <h2>A <span>Glimpse</span> Inside</h2>
+        <p class="sec-sub">
+          Live demos, robots in action, and moments from our sessions —
+          exactly what awaits you.
+        </p>
+      </div>
     </div>
 
-    <!-- Script is last so all DOM elements exist when JS runs -->
-    <script src="js/script.js"></script>
-  </body>
+    <!-- PODIUM VIDEO CAROUSEL -->
+    <!-- id="podiumStage" on the outer wrap is required by JS -->
+    <div class="podium-carousel-wrap" id="podiumStage">
+      <button class="podium-arrow podium-arrow--left" id="podiumPrev">
+        ◀
+      </button>
+
+      <div class="podium-stage">
+        <div class="podium-card">
+          <div class="podium-media-wrap">
+            <video muted loop playsinline width="300">
+              <source src="assets/videos/Bot.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+
+        <div class="podium-card">
+          <div class="podium-media-wrap">
+            <video muted loop playsinline width="300">
+              <source src="assets/videos/Grinder.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+
+        <div class="podium-card">
+          <div class="podium-media-wrap">
+            <video muted loop playsinline width="300">
+              <source src="assets/videos/Mecanum.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+
+        <div class="podium-card">
+          <div class="podium-media-wrap">
+            <video muted loop playsinline width="300">
+              <source src="assets/videos/MJ.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+
+        <div class="podium-card">
+          <div class="podium-media-wrap">
+            <video muted loop playsinline width="300">
+              <source src="assets/videos/sb-bot.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+
+        <div class="podium-card">
+          <div class="podium-media-wrap">
+            <video muted loop playsinline width="300">
+              <source src="assets/videos/Water.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <button class="podium-arrow podium-arrow--right" id="podiumNext">
+        ▶
+      </button>
+
+      <div class="podium-dots" id="podiumDots"></div>
+    </div>
+
+    <!-- INFINITE LOOPING PHOTO STRIP -->
+    <div class="photo-strip-section">
+      <!--
+          Infinite marquee technique:
+          Two identical .photo-strip-track divs side-by-side inside a flex
+          container. CSS animates translateX(-50%) so the second copy snaps
+          back seamlessly to position 0 — creating a perfect loop.
+          No JS needed; pauses on hover for accessibility.
+        -->
+      <div class="photo-strip-inner" aria-label="Workshop photo gallery" role="region">
+        <div class="photo-strip-marquee">
+          <!-- Original set -->
+          <div class="photo-strip-track">
+            <div class="photo-strip-item">
+              <img src="assets/images/1.jpg" alt="Workshop photo 1" loading="lazy" decoding="async" />
+            </div>
+            <div class="photo-strip-item">
+              <img src="assets/images/2.jpg" alt="Workshop photo 2" loading="lazy" decoding="async" />
+            </div>
+            <div class="photo-strip-item">
+              <img src="assets/images/3.jpg" alt="Workshop photo 3" loading="lazy" decoding="async" />
+            </div>
+            <div class="photo-strip-item">
+              <img src="assets/images/4.jpg" alt="Workshop photo 4" loading="lazy" decoding="async" />
+            </div>
+            <div class="photo-strip-item">
+              <img src="assets/images/5.jpg" alt="Workshop photo 5" loading="lazy" decoding="async" />
+            </div>
+            <div class="photo-strip-item">
+              <img src="assets/images/6.jpg" alt="Workshop photo 6" loading="lazy" decoding="async" />
+            </div>
+            <div class="photo-strip-item">
+              <img src="assets/images/7.jpg" alt="Workshop photo 7" loading="lazy" decoding="async" />
+            </div>
+            <div class="photo-strip-item">
+              <img src="assets/images/8.jpg" alt="Workshop photo 8" loading="lazy" decoding="async" />
+            </div>
+            <div class="photo-strip-item">
+              <img src="assets/images/9.jpg" alt="Workshop photo 9" loading="lazy" decoding="async" />
+            </div>
+            <div class="photo-strip-item">
+              <img src="assets/images/10.jpg" alt="Workshop photo 10" loading="lazy" decoding="async" />
+            </div>
+            <div class="photo-strip-item">
+              <img src="assets/images/11.jpg" alt="Workshop photo 11" loading="lazy" decoding="async" />
+            </div>
+            <div class="photo-strip-item">
+              <img src="assets/images/12.jpg" alt="Workshop photo 12" loading="lazy" decoding="async" />
+            </div>
+            <div class="photo-strip-item">
+              <img src="assets/images/13.jpg" alt="Workshop photo 13" loading="lazy" decoding="async" />
+            </div>
+          </div>
+
+          <!-- Duplicate set — required for seamless infinite loop -->
+          <div class="photo-strip-track" aria-hidden="true">
+            <div class="photo-strip-item">
+              <img src="assets/images/1.jpg" alt="" loading="lazy" decoding="async" />
+            </div>
+            <div class="photo-strip-item">
+              <img src="assets/images/2.jpg" alt="" loading="lazy" decoding="async" />
+            </div>
+            <div class="photo-strip-item">
+              <img src="assets/images/3.jpg" alt="" loading="lazy" decoding="async" />
+            </div>
+            <div class="photo-strip-item">
+              <img src="assets/images/4.jpg" alt="" loading="lazy" decoding="async" />
+            </div>
+            <div class="photo-strip-item">
+              <img src="assets/images/5.jpg" alt="" loading="lazy" decoding="async" />
+            </div>
+            <div class="photo-strip-item">
+              <img src="assets/images/6.jpg" alt="" loading="lazy" decoding="async" />
+            </div>
+            <div class="photo-strip-item">
+              <img src="assets/images/7.jpg" alt="" loading="lazy" decoding="async" />
+            </div>
+            <div class="photo-strip-item">
+              <img src="assets/images/8.jpg" alt="" loading="lazy" decoding="async" />
+            </div>
+            <div class="photo-strip-item">
+              <img src="assets/images/9.jpg" alt="" loading="lazy" decoding="async" />
+            </div>
+            <div class="photo-strip-item">
+              <img src="assets/images/10.jpg" alt="" loading="lazy" decoding="async" />
+            </div>
+            <div class="photo-strip-item">
+              <img src="assets/images/11.jpg" alt="" loading="lazy" decoding="async" />
+            </div>
+            <div class="photo-strip-item">
+              <img src="assets/images/12.jpg" alt="" loading="lazy" decoding="async" />
+            </div>
+            <div class="photo-strip-item">
+              <img src="assets/images/13.jpg" alt="" loading="lazy" decoding="async" />
+            </div>
+          </div>
+        </div>
+        <!-- /.photo-strip-marquee -->
+      </div>
+      <!-- /.photo-strip-inner -->
+    </div>
+    <!-- /.photo-strip-section -->
+  </section>
+  <!-- /.glimpse-section -->
+
+  <section class="section" id="structure">
+    <div class="section-inner">
+      <div class="sec-hdr">
+        <div class="sec-tag">Program Structure</div>
+        <h2>The <span>2 + 2 Week</span> Journey</h2>
+        <p class="sec-sub">
+          Start with the workshop — then optionally continue into a full
+          internship for deeper learning and a formal certificate.
+        </p>
+      </div>
+      <div class="structure-grid fade-in">
+        <div class="struct-card workshop">
+          <div class="struct-badge">🛠 Weeks 1–2</div>
+          <h3>Workshop Program</h3>
+          <p>
+            Structured skill-development across 4 progressive levels — from
+            programming fundamentals and embedded systems to autonomous
+            robotics and ML-enabled gesture control.
+          </p>
+          <div class="price-row">
+            <span class="price-orig">₹500</span>
+            <span class="price-cur">₹199</span>
+          </div>
+          <div class="price-save">🎉 Save ₹300 — 60% OFF</div>
+          <ul class="struct-list">
+            <li>16 guided online sessions</li>
+            <li>60–90 minutes per session</li>
+            <li>Arduino, ESP32, IoT, Robotics</li>
+            <li>MediaPipe gesture recognition</li>
+            <li>Digital certificate on completion</li>
+            <li>Recorded sessions — lifetime access</li>
+          </ul>
+        </div>
+        <div class="struct-card internship">
+          <div class="struct-badge">🎓 Weeks 3–4</div>
+          <h3>Internship Extension</h3>
+          <p>
+            For students who want to go deeper — a formal 2-week online
+            internship continuation with advanced projects, live IHFC IIT
+            Delhi Industry 4.0 Lab tour, and an internship letter.
+          </p>
+          <div class="price-row">
+            <span class="price-orig">₹1,000</span><span class="price-cur">₹299 </span>
+          </div>
+          <div class="price-save">🎉 Save ₹700 — 70% OFF</div>
+          <ul class="struct-list" style="--check-color: var(--info)">
+            <li>Builds directly on workshop content</li>
+            <li>Advanced ML teleoperation exposure</li>
+            <li>Live IHFC IIT Delhi Lab tour session</li>
+            <li>Formal internship completion letter</li>
+            <li>Industry 4.0 internship certificate</li>
+            <li>Optional — enroll anytime during workshop</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT YOU GET -->
+  <section class="section" style="background: var(--white)">
+    <div class="section-inner">
+      <div class="sec-hdr">
+        <div class="sec-tag">What You Get</div>
+        <h2>Everything You Need to <span>Succeed</span></h2>
+        <p class="sec-sub">
+          Not just a workshop — a complete technology learning experience
+          designed by ViTachyon Robotics with industry-aligned curriculum.
+        </p>
+      </div>
+      <div class="features-grid fade-in">
+        <div class="feat-card">
+          <span class="feat-icon">🖥️</span>
+          <h3>Live Online Sessions</h3>
+          <p>
+            16 instructor-led live sessions over 2 weeks with real-time Q&A,
+            structured labs, and interactive concept delivery.
+          </p>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">🤖</span>
+          <h3>Hands-On Robotics Labs</h3>
+          <p>
+            Practical software labs covering Arduino, ESP32, robot kinematics,
+            mecanum drive, and gesture-based teleoperation.
+          </p>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">🧠</span>
+          <h3>ML Gesture Control</h3>
+          <p>
+            Implement MediaPipe-based hand gesture recognition to control
+            robotic systems — a rare skill at workshop level.
+          </p>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">📜</span>
+          <h3>Digital Certificate</h3>
+          <p>
+            Receive a verifiable digital certificate of completion from
+            ViTachyon Robotics upon finishing the workshop.
+          </p>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">♾</span>
+          <h3>Lifetime Recorded Access</h3>
+          <p>
+            All 16 sessions are recorded and accessible forever — rewatch,
+            revise, and reference at your own pace.
+          </p>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">🏭</span>
+          <h3>IIT Delhi Lab Experience</h3>
+          <p>
+            Exclusive live video tour of the IHFC IIT Delhi Industry 4.0 Lab —
+            experience real industrial robot teleoperation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CURRICULUM -->
+  <section class="section" id="curriculum" style="background: var(--white)">
+    <div class="section-inner">
+      <div class="sec-hdr">
+        <div class="sec-tag">Curriculum</div>
+        <h2>6 Phases · 4-Week Journey</h2>
+        <p class="sec-sub">
+          A perfectly balanced path from hardware foundations to advanced robotic systems and industry-ready projects.
+        </p>
+      </div>
+
+      <!-- PHASE 1 (Orange) -->
+      <div class="phase-block fade-in">
+        <div class="phase-header" style="background: linear-gradient(135deg, #ea580c, #c2410c)">
+          <div class="phase-num" style="background: #fff; color: #c2410c">PHASE 1</div>
+          <div>
+            <h3>Foundations & Embedded Mastery</h3>
+            <p>Days 1–5 · The Brain & The Body</p>
+          </div>
+          <div class="arrow">▼</div>
+        </div>
+        <div class="phase-content">
+          <div class="curric-grid">
+            <div class="day-item">
+              <div class="day-badge">Day 1-3</div>
+              <div class="day-info">
+                <h4>Programming & Electronics Foundations</h4>
+                <p>Python/C++ for hardware, industrial-grade circuit design, and component integration.</p>
+                <div class="day-tags"><span class="dtag th">Core</span></div>
+              </div>
+            </div>
+            <div class="day-item">
+              <div class="day-badge">Day 4-5</div>
+              <div class="day-info">
+                <h4>Embedded Logic & GPIO</h4>
+                <p>Mastering PWM, Digital/Analog I/O, and first-level sensor feedback loops.</p>
+                <div class="day-tags"><span class="dtag lb">Lab</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 2 (Orange) -->
+      <div class="phase-block fade-in">
+        <div class="phase-header" style="background: linear-gradient(135deg, #ea580c, #c2410c)">
+          <div class="phase-num" style="background: #fff; color: #c2410c">PHASE 2</div>
+          <div>
+            <h3>Connectivity & Advanced Processing</h3>
+            <p>Days 6–10 · The Connected Node</p>
+          </div>
+          <div class="arrow">▼</div>
+        </div>
+        <div class="phase-content">
+          <div class="curric-grid">
+            <div class="day-item">
+              <div class="day-badge">Day 6-8</div>
+              <div class="day-info">
+                <h4>ESP32 & WiFi Infrastructure</h4>
+                <p>Dual-core processing, WiFi provisioning, and embedded TCP/UDP server setup.</p>
+                <div class="day-tags"><span class="dtag lb">Advanced</span></div>
+              </div>
+            </div>
+            <div class="day-item">
+              <div class="day-badge">Day 9-10</div>
+              <div class="day-info">
+                <h4>Data APIs & HTTP Control</h4>
+                <p>Building JSON-based APIs and web-controlled hardware endpoints.</p>
+                <div class="day-tags"><span class="dtag pr">Project</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 3 (Orange) -->
+      <div class="phase-block fade-in">
+        <div class="phase-header" style="background: linear-gradient(135deg, #ea580c, #c2410c)">
+          <div class="phase-num" style="background: #fff; color: #c2410c">PHASE 3</div>
+          <div>
+            <h3>IoT Robotics & Remote Control</h3>
+            <p>Days 11–14 · The Soul & Movement</p>
+          </div>
+          <div class="arrow">▼</div>
+        </div>
+        <div class="phase-content">
+          <div class="curric-grid">
+            <div class="day-item">
+              <div class="day-badge">Day 11-12</div>
+              <div class="day-info">
+                <h4>MQTT & Real-Time Dashboards</h4>
+                <p>Deploying low-latency communication protocols for global device control.</p>
+                <div class="day-tags"><span class="dtag lb">IoT</span></div>
+              </div>
+            </div>
+            <div class="day-item">
+              <div class="day-badge">Day 13-14</div>
+              <div class="day-info">
+                <h4>Workshop Final Showcase</h4>
+                <p>Integrating all Workshop systems into an autonomous IoT robotic platform.</p>
+                <div class="day-tags"><span class="dtag pr">Final Demo</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 4 (Blue) -->
+      <div class="phase-block fade-in">
+        <div class="phase-header" style="background: linear-gradient(135deg, #1e3a8a, #1e3a8a)">
+          <div class="phase-num" style="background: #fff; color: #1e3a8a">PHASE 4</div>
+          <div>
+            <h3>Intelligent Interfaces (Internship)</h3>
+            <p>Days 15–19 · Sensors & Actuators</p>
+          </div>
+          <div class="arrow">▼</div>
+        </div>
+        <div class="phase-content">
+          <div class="curric-grid">
+            <div class="day-item">
+              <div class="day-badge">Day 15-17</div>
+              <div class="day-info">
+                <h4>Precision Obstacle Sensing</h4>
+                <p>High-resolution distance mapping and sensor-triggered decision logic.</p>
+                <div class="day-tags"><span class="dtag lb">Advanced</span></div>
+              </div>
+            </div>
+            <div class="day-item">
+              <div class="day-badge">Day 18-19</div>
+              <div class="day-info">
+                <h4>Actuator Synchronization</h4>
+                <p>Mapping complex motor profiles and precise servo-actuated robotic limbs.</p>
+                <div class="day-tags"><span class="dtag lb">Lab</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 5 (Blue) -->
+      <div class="phase-block fade-in">
+        <div class="phase-header" style="background: linear-gradient(135deg, #1e3a8a, #1e3a8a)">
+          <div class="phase-num" style="background: #fff; color: #1e3a8a">PHASE 5</div>
+          <div>
+            <h3>Robotics Control & Automation</h3>
+            <p>Days 20–24 · System Kinematics</p>
+          </div>
+          <div class="arrow">▼</div>
+        </div>
+        <div class="phase-content">
+          <div class="curric-grid">
+            <div class="day-item">
+              <div class="day-badge">Day 20-22</div>
+              <div class="day-info">
+                <h4>Autonomous Navigation</h4>
+                <p>Robot architecture design, motion kinematics, and autonomous path simulation.</p>
+                <div class="day-tags"><span class="dtag th">Kinematics</span></div>
+              </div>
+            </div>
+            <div class="day-item">
+              <div class="day-badge">Day 23-24</div>
+              <div class="day-info">
+                <h4>Teleoperation & ML</h4>
+                <p>Gesture-based control concepts and exploring ML interfaces for robotic interaction.</p>
+                <div class="day-tags"><span class="dtag ml">ML Track</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 6 (Blue) -->
+      <div class="phase-block fade-in">
+        <div class="phase-header" style="background: linear-gradient(135deg, #1e3a8a, #1e3a8a)">
+          <div class="phase-num" style="background: #fff; color: #1e3a8a">PHASE 6</div>
+          <div>
+            <h3>Capstone Project & Showcase</h3>
+            <p>Days 25–28 · Deployment & Showcase</p>
+          </div>
+          <div class="arrow">▼</div>
+        </div>
+        <div class="phase-content">
+          <div class="curric-grid">
+            <div class="day-item">
+              <div class="day-badge">Day 25-26</div>
+              <div class="day-info">
+                <h4>Full System Optimization</h4>
+                <p>Final project build, performance tuning, and software stress testing.</p>
+                <div class="day-tags"><span class="dtag pr">Capstone</span></div>
+              </div>
+            </div>
+            <div class="day-item">
+              <div class="day-badge">Day 27-28</div>
+              <div class="day-info">
+                <h4>Final Demo & Certification</h4>
+                <p>Live capstone demonstration and final program showcase to industry mentors.</p>
+                <div class="day-tags"><span class="dtag cp">Showcase</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="internship-note fade-in">
+        <div class="ni">🎓</div>
+        <div>
+          <h4>The 2+2 Journey</h4>
+          <p>
+            Master the foundations in the **2-week Workshop** (Phases 1-3, Orange Track) and then advance into
+            professional robotics in the **2-week Internship** (Phases 4-6, Blue Track).
+          </p>
+        </div>
+      </div>
+  </section>
+
+  <!-- INCLUSIONS -->
+  <section class="section" style="background: var(--white)">
+    <div class="section-inner">
+      <div class="sec-hdr">
+        <div class="sec-tag">Inclusions</div>
+        <h2>What's <span>Included</span></h2>
+      </div>
+      <div class="inc-grid fade-in">
+        <div class="inc-item">
+          <span class="ii">📹</span> 16 Live + Recorded Sessions
+        </div>
+        <div class="inc-item">
+          <span class="ii">♾</span> Lifetime Access to All Recordings
+        </div>
+        <div class="inc-item">
+          <span class="ii">🤖</span> Hands-On Robotics & ML Labs
+        </div>
+        <div class="inc-item">
+          <span class="ii">📜</span> Digital Certificate of Completion
+        </div>
+        <div class="inc-item">
+          <span class="ii">🧪</span> Regular Online Assessments
+        </div>
+        <div class="inc-item">
+          <span class="ii">🏭</span> Live IHFC IIT Delhi Lab Experience
+        </div>
+        <div class="inc-item">
+          <span class="ii">📱</span> Learn From Anywhere (Online)
+        </div>
+        <div class="inc-item">
+          <span class="ii">🎓</span> Internship Letter (Internship Plan)
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPEAKERS / MENTORS -->
+  <section class="section" id="speakers">
+    <div class="section-inner">
+      <div class="sec-hdr">
+        <div class="sec-tag">Mentors & Speakers</div>
+        <h2>Learn From <span>Industry Experts</span></h2>
+        <p class="sec-sub">
+          Sessions led by engineers and researchers from ViTachyon Robotics
+          with IHFC IIT Delhi collaboration.
+        </p>
+      </div>
+      <div class="speakers-grid fade-in">
+        <div class="speaker-card">
+          <div class="speaker-avatar">VR</div>
+          <h3>ViTachyon Expert</h3>
+          <div class="speaker-role">Our Industry Partners</div>
+          <div class="speaker-org">ViTachyon Robotics</div>
+        </div>
+        <div class="speaker-card">
+          <div class="speaker-avatar" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8)">
+            IIT
+          </div>
+          <h3>IHFC IIT Delhi Researcher</h3>
+          <div class="speaker-role">Our academic partners</div>
+          <div class="speaker-org">IHFC IIT Delhi — Ind. 4.0 Lab</div>
+        </div>
+        <div class="speaker-card">
+          <div class="speaker-avatar" style="background: linear-gradient(135deg, #10b981, #065f46)">
+            PI2
+          </div>
+          <h3>Ind 4.0 Faculties</h3>
+          <div class="speaker-role">Our Mentors</div>
+          <div class="speaker-org">PiSquare Academy</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section" style="background: var(--white)">
+    <div class="section-inner">
+      <div class="about-grid fade-in">
+        <div class="about-text">
+          <div class="sec-tag">About the Program</div>
+          <h2 style="text-align: left; margin-top: 10px">
+            Why <span>Cyber-Physical Systems?</span>
+          </h2>
+          <p>
+            In today's rapidly evolving ecosystem, industries rely on smart
+            embedded systems, intelligent machines, automation frameworks, and
+            remote robotic operations. This workshop bridges the gap between
+            academic knowledge and real-world application.
+          </p>
+          <p>
+            From programming fundamentals to ML-based gesture control and
+            industrial robot teleoperation — you build a complete technical
+            foundation across all key domains of modern robotics and
+            automation.
+          </p>
+          <p>
+            Designed by ViTachyon Robotics and backed by IHFC IIT Delhi
+            collaboration, this program gives you industry-aligned exposure at
+            an accessible price.
+          </p>
+          <a href="../Registration/form.html" class="btn-main" style="margin-top: 14px; display: inline-block">Join the
+            Workshop →</a>
+        </div>
+        <div class="pillars-grid">
+          <div class="pc">
+            <span class="picon">🤖</span> Cyber-Physical Systems
+          </div>
+          <div class="pc"><span class="picon">⚙️</span> Embedded Systems</div>
+          <div class="pc">
+            <span class="picon">🌐</span> Internet of Things
+          </div>
+          <div class="pc">
+            <span class="picon">🦾</span> Robotics & Automation
+          </div>
+          <div class="pc"><span class="picon">🧠</span> Machine Learning</div>
+          <div class="pc">
+            <span class="picon">✋</span> Gesture Recognition
+          </div>
+          <div class="pc">
+            <span class="picon">🚁</span> Drone Control Concepts
+          </div>
+          <div class="pc"><span class="picon">🏭</span> Industry 4.0</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO CAN ATTEND -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="sec-hdr">
+        <div class="sec-tag">Who Can Attend</div>
+        <h2>This Program is <span>For You</span> If…</h2>
+      </div>
+      <div class="features-grid fade-in">
+        <div class="feat-card">
+          <span class="feat-icon">🎓</span>
+          <h3>Engineering Students</h3>
+          <p>
+            Undergrad students from CS, ECE, EEE, Mechanical, or any
+            engineering branch — no prior experience needed.
+          </p>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">🔧</span>
+          <h3>Diploma / Polytechnic</h3>
+          <p>
+            Diploma and polytechnic students looking to gain real embedded
+            systems and robotics exposure.
+          </p>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">💡</span>
+          <h3>Tech Enthusiasts</h3>
+          <p>
+            Anyone curious about IoT, robotics, automation, or building smart
+            systems — beginners welcome.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq" style="background: var(--white)">
+    <div class="section-inner">
+      <div class="sec-hdr">
+        <div class="sec-tag">FAQ</div>
+        <h2>Frequently Asked <span>Questions</span></h2>
+      </div>
+      <div class="faq-list fade-in">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            What is the 2+2 week structure? <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-inner">
+              The first 2 weeks is the Workshop program at ₹199 — 16 live
+              sessions covering CPS, embedded systems, robotics, IoT, and ML
+              gesture control. The next 2 weeks is an optional Internship
+              extension for students who want deeper learning, a formal
+              internship letter, and live IHFC IIT Delhi Lab experience.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Do I need prior programming experience?
+            <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-inner">
+              No prior experience is required. The program starts from the
+              very basics — programming fundamentals, IDE setup, and
+              beginner-friendly embedded concepts — and progressively builds
+              up to advanced ML-based robotic control.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Is this online or offline? <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-inner">
+              Fully online. All 16 sessions are conducted live and also
+              recorded with lifetime access. The IHFC IIT Delhi Lab tour on
+              Day 15 is also conducted as a live online video experience.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            How do I enroll for the Internship?
+            <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-inner">
+              You can select the Internship option during registration, or you
+              can upgrade during the workshop period. The internship fee is
+              separate from the ₹199 workshop fee. Both plans are available on
+              the registration page.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            What hardware or software do I need?
+            <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-inner">
+              A laptop and internet connection is all you need. All software
+              used is free. The sessions are conceptual + software-based;
+              physical hardware kits are not required for participation.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            When is the certificate issued? <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-inner">
+              Digital workshop certificates are issued after successful
+              completion of the 16 sessions. Internship letters and
+              certificates are issued after the full 4-week program, typically
+              within 3–5 working days.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            What if I miss a session? <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-inner">
+              All sessions are recorded and available for lifetime replay. You
+              can catch up on missed sessions before the next class at your
+              convenience.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOTTOM CTA -->
+  <section class="btm-cta">
+    <h2>
+      Ready to Enter the World of<br /><span>Robotics & Intelligent Systems?</span>
+    </h2>
+    <p>
+      Join students from across India. Start with the Workshop and optionally
+      continue into the Internship.
+    </p>
+    <div class="btm-price-grid">
+      <div class="btm-plan">
+        <div class="btm-plan-label">Workshop Only</div>
+        <div class="price-row">
+          <span class="price-orig">₹500</span>
+          <span class="price-cur">₹199</span>
+        </div>
+        <div class="price-save">🎉 Save ₹300 — 60% OFF</div>
+        <div class="btm-plan-sub">2 Weeks · 16 Sessions</div>
+      </div>
+      <div class="btm-plan">
+        <div class="btm-plan-label">Workshop + Internship</div>
+        <div class="price-row">
+          <span class="price-orig">₹1,000</span><span class="price-cur">₹299 </span>
+        </div>
+        <div class="price-save">🎉 Save ₹700 — 70% OFF</div>
+        <div class="btm-plan-sub">4 Weeks · Full Program</div>
+      </div>
+    </div>
+    <a href="../Registration/form.html" class="btm-btn">🚀 Register Now — Starting ₹199</a>
+    <div>
+      <div class="seats-warn">
+        🔴 Limited seats available — Register before deadline
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>
+      © 2025 CPS & Robotics Workshop — ViTachyon Robotics. All rights
+      reserved. &nbsp;|&nbsp;
+      <a href="../Registration/form.html">Register</a> &nbsp;|&nbsp;
+      <a href="../admin/admin.html">Admin</a>
+    </p>
+  </footer>
+
+  <div class="bottom-cta">
+    <div class="nav-logo">
+      <div class="logo-icon">🤖</div>
+      CPS<span style="color: var(--primary)">&amp;Robotics</span>
+    </div>
+    <div class="nav-links">
+      <a href="#structure">Program</a>
+      <a href="#curriculum">Curriculum</a>
+      <a href="#speakers">Mentors</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="nav-seats">🔴 Limited Seats Left</div>
+    <a href="../Registration/form.html" class="nav-enroll">Register Now →</a>
+  </div>
+
+  <!-- Script is last so all DOM elements exist when JS runs -->
+  <script src="js/script.js"></script>
+</body>
+
 </html>
