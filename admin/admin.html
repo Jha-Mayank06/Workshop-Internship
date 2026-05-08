@@ -181,7 +181,6 @@
                       <th>#</th>
                       <th>Name</th>
                       <th>Email</th>
-                      <th>College</th>
                       <th>Plan</th>
                       <th>Date</th>
                     </tr>
@@ -212,7 +211,7 @@
                   <input
                     type="text"
                     id="student-search"
-                    placeholder="Search name, email, college..."
+                    placeholder="Search name, email, plan..."
                     oninput="renderStudents()"
                   />
                 </div>
@@ -235,17 +234,6 @@
                   <option value="">All Status</option>
                   <option value="paid">Paid</option>
                   <option value="pending">Pending</option>
-                </select>
-                <select
-                  class="filter-select"
-                  id="year-filter"
-                  onchange="renderStudents()"
-                >
-                  <option value="">All Experience</option>
-                  <option value="none">Beginner</option>
-                  <option value="basic">Basic</option>
-                  <option value="intermediate">Intermediate</option>
-                  <option value="advanced">Advanced</option>
                 </select>
               </div>
               <div class="table-wrap">
@@ -307,8 +295,6 @@
                       <th>#</th>
                       <th>Name</th>
                       <th>Email</th>
-                      <th>College</th>
-                      <th>Year</th>
                       <th>Applied On</th>
                       <th>Status</th>
                       <th>Action</th>

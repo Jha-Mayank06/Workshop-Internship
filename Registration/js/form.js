@@ -7,7 +7,6 @@
 
 const CONFIG = {
   WEBHOOK_ALBATO: "https://h.albato.com/wh/38/1lfio9j/_5pU7RaZnPupMaRGVu2cBtNQUBm6yiSZ37MfbPyYaLc/",
-  CRM_WEBHOOK: "YOUR_CRM_WEBHOOK_URL_HERE",
   PAYMENT_WORKSHOP: "https://payu.in/web/6FA008C5D64868F877D542B31F86F9C3",
   PAYMENT_INTERNSHIP: "https://payu.in/web/6FA008C5D64868F877D542B31F86F9C3",
   DEADLINE: "2026-05-15T23:59:59",
@@ -71,6 +70,9 @@ function checkPaymentDone() {
   return sessionStorage.getItem("cps_payment_done") === "true";
 }
 
+/** 
+ * ── PAYMENT HANDLING ──
+ */
 function goToPayment() {
   const link = selectedPlan === "internship" ? CONFIG.PAYMENT_INTERNSHIP : CONFIG.PAYMENT_WORKSHOP;
   window.open(link, "_blank");
@@ -86,25 +88,18 @@ function goToPayment() {
 
 function markAsPaid() {
   sessionStorage.setItem("cps_payment_done", "true");
-  const badge = document.getElementById("payment-done-badge");
-  if (badge) badge.style.display = "block";
+  
+  // Show Success Screen
+  document.getElementById("form-card").style.display = "none";
+  document.getElementById("success-screen").style.display = "block";
+  window.scrollTo({ top: 0, behavior: "smooth" });
 
-  const paySection = document.getElementById("pay-section");
-  if (paySection) {
-    paySection.style.background = "#ecfdf5";
-    paySection.style.borderColor = "#10b981";
-  }
-
-  const payBtn = document.getElementById("pay-btn");
-  if (payBtn) {
-    payBtn.textContent = "✅ Payment Done";
-    payBtn.disabled = true;
-  }
-
+  const step1 = document.getElementById("step-1");
   const step2 = document.getElementById("step-2");
   const step3 = document.getElementById("step-3");
+  if (step1) step1.className = "step done";
   if (step2) step2.className = "step done";
-  if (step3) step3.className = "step active";
+  if (step3) step3.className = "step done";
 }
 
 /** 
@@ -117,8 +112,7 @@ async function handleSubmit() {
   const fields = {
     fullName: document.getElementById("fullName"),
     phone: document.getElementById("phone"),
-    email: document.getElementById("email"),
-    exp: document.querySelector('input[name="exp"]:checked')
+    email: document.getElementById("email")
   };
 
   let valid = true;
@@ -134,32 +128,30 @@ async function handleSubmit() {
 
   if (!valid) {
     if (errMsg) errMsg.style.display = "block";
-    window.scrollTo({ top: document.querySelector(".err")?.offsetTop - 100, behavior: "smooth" });
+    const firstErr = document.querySelector(".err");
+    if (firstErr) window.scrollTo({ top: firstErr.offsetTop - 100, behavior: "smooth" });
     return;
   }
 
   const btn = document.getElementById("submit-btn");
   const btnText = document.getElementById("btn-text");
   btn.disabled = true;
-  btnText.textContent = "Submitting...";
+  btnText.textContent = "Processing Lead...";
 
-  // ── PAYLOAD — keys match Google Sheet column headers exactly ──
   const rawPhone = fields.phone.value
-    .replace(/\D/g, "")       // strip non-digits
-    .replace(/^0+/, "")       // remove leading zeros
-    .replace(/^91/, "91");    // ensure country code (result: 919876543210)
+    .replace(/\D/g, "")
+    .replace(/^0+/, "")
+    .replace(/^91/, "91");
 
   const payload = {
-    timestamp:             new Date().toISOString(),
-    plan:                  selectedPlan === "internship" ? "Workshop + Internship" : "Workshop Only",
-    fullName:              fields.fullName.value.trim(),
-    email:                 fields.email.value.trim(),
-    phone:                 rawPhone,
-    programmingExperience: fields.exp.value,
-    motivation:            document.getElementById("motivation").value.trim() || "Not provided",
-    source:                document.getElementById("source").value || "Not specified",
-    paymentStatus:         "pending",
-    paymentDate:           ""
+    timestamp: new Date().toISOString(),
+    plan: selectedPlan === "internship" ? "Workshop + Internship" : "Workshop Only",
+    fullName: fields.fullName.value.trim(),
+    email: fields.email.value.trim(),
+    phone: rawPhone,
+    source: document.getElementById("source").value || "Not specified",
+    paymentStatus: "pending",
+    paymentDate: ""
   };
 
   try {
@@ -169,28 +161,35 @@ async function handleSubmit() {
       body: JSON.stringify(payload)
     });
 
-    if (!response.ok) throw new Error("Webhook failed");
+    if (!response.ok) throw new Error("Submission failed");
 
+    // Success: details captured. Now move to payment.
     document.getElementById("success-name").textContent = payload.fullName.split(" ")[0];
     document.getElementById("success-plan").textContent =
       selectedPlan === "internship" ? "Workshop + Internship Plan" : "Workshop Only Plan";
 
-    document.getElementById("form-card").style.display = "none";
-    document.getElementById("success-screen").style.display = "block";
+    // UI Transition to Step 3
+    document.getElementById("details-section").style.display = "none";
+    const paySection = document.getElementById("pay-section");
+    paySection.style.display = "block";
+    paySection.style.opacity = "1";
+    paySection.style.pointerEvents = "auto";
 
-    const reminder = document.getElementById("payment-reminder");
-    if (reminder) reminder.style.display = checkPaymentDone() ? "none" : "block";
+    const step2 = document.getElementById("step-2");
+    const step3 = document.getElementById("step-3");
+    if (step2) step2.className = "step done";
+    if (step3) step3.className = "step active";
 
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: paySection.offsetTop - 100, behavior: "smooth" });
 
   } catch (error) {
     if (errMsg) {
-      errMsg.textContent = "⚠️ Submission failed. Please try again.";
+      errMsg.textContent = "⚠️ Lead capture failed. Please check your connection.";
       errMsg.style.display = "block";
     }
   } finally {
     btn.disabled = false;
-    btnText.textContent = "🚀 Complete Registration";
+    btnText.textContent = "Proceed to Payment →";
   }
 }
 

@@ -134,7 +134,6 @@ function renderRecent() {
     <td style="color:var(--text-muted);font-family:'JetBrains Mono',monospace;font-size:12px">${i + 1}</td>
     <td><strong>${esc(r.fullName)}</strong></td>
     <td style="color:var(--text-muted)">${esc(r.email)}</td>
-    <td style="color:var(--text-muted);font-size:12px">${esc(r.college)}</td>
     <td><span class="badge ${r.plan === "Workshop Only" ? "badge-workshop" : "badge-internship"}">${esc(r.plan)}</span></td>
     <td style="color:var(--text-muted);font-size:12px;font-family:'JetBrains Mono',monospace">${fmtDate(r.timestamp)}</td>
   </tr>
@@ -160,7 +159,7 @@ function renderStudents() {
       (r.fullName + r.email + r.source).toLowerCase().includes(query),
     );
   if (planF) data = data.filter((r) => r.plan === planF);
-  if (yearF) data = data.filter((r) => r.yearOfStudy === yearF);
+  if (yearF) data = data.filter((r) => String(r.yearOfStudy) === yearF);
   
   const statusF = document.getElementById("status-filter")?.value;
   if (statusF) data = data.filter((r) => r.paymentStatus === statusF);
@@ -179,7 +178,7 @@ function renderStudents() {
   const tbody = document.getElementById("students-tbody");
   if (!slice.length) {
     tbody.innerHTML =
-      '<tr><td colspan="9"><div class="empty-state"><span class="ei">🔍</span><p>No students found</p></div></td></tr>';
+      '<tr><td colspan="7"><div class="empty-state"><span class="ei">🔍</span><p>No students found</p></div></td></tr>';
   } else {
     tbody.innerHTML = slice
       .map(
@@ -229,12 +228,12 @@ function renderInternship() {
 
   if (statusF === "pending")
     data = data.filter(
-      (r) => !approvals[r.id] || approvals[r.id] === "pending",
+      (r) => !approvals[r.email] || approvals[r.email] === "pending",
     );
   else if (statusF === "approved")
-    data = data.filter((r) => approvals[r.id] === "approved");
+    data = data.filter((r) => approvals[r.email] === "approved");
   else if (statusF === "rejected")
-    data = data.filter((r) => approvals[r.id] === "rejected");
+    data = data.filter((r) => approvals[r.email] === "rejected");
 
   const tbody = document.getElementById("internship-tbody");
   if (!data.length) {
@@ -323,9 +322,7 @@ function openStudentModal(email) {
   <div class="modal-field"><label>Phone</label><div class="val">${esc(r.phone)}</div></div>
   <div class="modal-field"><label>Plan</label><div class="val">${esc(r.plan)}</div></div>
   <div class="modal-field"><label>Payment Status</label><div class="val"><span class="badge badge-${r.paymentStatus === "paid" ? "success" : "warning"}">${esc(r.paymentStatus)}</span></div></div>
-  <div class="modal-field"><label>Programming Experience</label><div class="val">${esc(r.programmingExperience)}</div></div>
   <div class="modal-field"><label>Source</label><div class="val">${esc(r.source || "Not specified")}</div></div>
-  <div class="modal-field"><label>Motivation</label><div class="val" style="font-size:13px;color:var(--text-muted)">${esc(r.motivation || "Not provided")}</div></div>
 `;
   document.getElementById("student-modal").classList.add("open");
 }
@@ -364,6 +361,7 @@ function exportCSV() {
     "Source",
     "Payment Status",
     "Payment Date",
+    "Razorpay ID",
     "Timestamp",
   ];
   const rows = data.map((r, i) => [
@@ -377,6 +375,7 @@ function exportCSV() {
     r.source,
     r.paymentStatus,
     r.paymentDate,
+    r.razorpay_payment_id,
     r.timestamp,
   ]);
   downloadCSV([headers, ...rows], "cps_registrations.csv");
@@ -395,8 +394,6 @@ function exportInternshipCSV() {
     "Name",
     "Email",
     "Phone",
-    "College",
-    "Year",
     "Status",
     "Timestamp",
   ];
@@ -405,9 +402,7 @@ function exportInternshipCSV() {
     r.fullName,
     r.email,
     r.phone,
-    r.college,
-    r.yearOfStudy,
-    approvals[r.id] || "pending",
+    approvals[r.email] || "pending",
     r.timestamp,
   ]);
   downloadCSV([headers, ...rows], "cps_internship.csv");
@@ -449,7 +444,7 @@ function sendAnnouncement() {
     targets = data.filter((r) => r.plan === "Workshop + Internship");
   else if (recipients === "approved") {
     const a = getApprovals();
-    targets = data.filter((r) => a[r.id] === "approved");
+    targets = data.filter((r) => a[r.email] === "approved");
   }
 
   // Log the announcement

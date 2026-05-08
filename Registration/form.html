@@ -41,114 +41,105 @@
         <div class="steps-bar">
           <h4>Registration Steps</h4>
           <div class="steps-list">
-            <div class="step done" id="step-1">
-              <div class="step-num">1</div><span>Choose Plan</span>
+            <div class="step active" id="step-1">
+              <div class="step-num">1</div><span>Plan</span>
             </div>
-            <div class="step active" id="step-2">
-              <div class="step-num">2</div><span>Fill details</span>
+            <div class="step" id="step-2">
+              <div class="step-num">2</div><span>Details</span>
             </div>
             <div class="step" id="step-3">
-              <div class="step-num">3</div><span>Seat confirmation</span>
+              <div class="step-num">3</div><span>Payment</span>
             </div>
           </div>
         </div>
 
         <!-- STEP 1: PLAN -->
-        <div class="fs-title">🎯 Step 1: Choose Your Plan</div>
-        <div class="plan-select">
-          <div class="plan-opt" id="opt-workshop" onclick="selectPlan('workshop')">
-            <input type="radio" name="plan" value="workshop">
-            <div class="plan-opt-check"></div>
-            <div class="plan-opt-name">🛠 Workshop Only</div>
-            <div class="plan-opt-price">₹199</div>
-            <div class="plan-opt-desc">2 weeks · 16 sessions · Digital Certificate</div>
-          </div>
-          <div class="plan-opt" id="opt-internship" onclick="selectPlan('internship')">
-            <input type="radio" name="plan" value="internship">
-            <div class="plan-opt-check"></div>
-            <div class="plan-opt-name">🎓 Workshop + Internship</div>
-            <div class="plan-opt-price">₹299</div>
-            <div class="plan-opt-desc">4 weeks · Internship letter + IIT Delhi tour</div>
+        <div id="section-plan">
+          <div class="fs-title">🎯 Step 1: Choose Your Plan</div>
+          <div class="plan-select">
+            <div class="plan-opt" id="opt-workshop" onclick="selectPlan('workshop')">
+              <input type="radio" name="plan" value="workshop">
+              <div class="plan-opt-check"></div>
+              <div class="plan-opt-name">🛠 Workshop Only</div>
+              <div class="plan-opt-price">₹199</div>
+              <div class="plan-opt-desc">2 weeks · 16 sessions · Digital Certificate</div>
+            </div>
+            <div class="plan-opt" id="opt-internship" onclick="selectPlan('internship')">
+              <input type="radio" name="plan" value="internship">
+              <div class="plan-opt-check"></div>
+              <div class="plan-opt-name">🎓 Workshop + Internship</div>
+              <div class="plan-opt-price">₹299</div>
+              <div class="plan-opt-desc">4 weeks · Internship letter + IIT Delhi tour</div>
+            </div>
           </div>
         </div>
 
+        <!-- STEP 2: DETAILS -->
+        <div id="details-section">
+          <div class="fs-title">👤 Step 2: Personal Details</div>
+          <p class="step3-note">Your joining link will be sent to this email/WhatsApp.</p>
 
+          <div class="field-row">
+            <div class="field">
+              <label>Full Name <span class="req">*</span></label>
+              <input type="text" id="fullName" placeholder="e.g. Mayank Kumar" autocomplete="name">
+            </div>
+            <div class="field">
+              <label>Phone / WhatsApp <span class="req">*</span></label>
+              <input type="tel" id="phone" placeholder="+91 9XXXXXXXXX" autocomplete="tel">
+            </div>
+          </div>
 
-        <!-- STEP 3: DETAILS -->
-        <div class="fs-title">👤 Step 2: Personal Details</div>
-        <p class="step3-note">Fill this after payment to receive your joining link.</p>
-
-        <div class="field-row">
           <div class="field">
-            <label>Full Name <span class="req">*</span></label>
-            <input type="text" id="fullName" placeholder="e.g. Mayank Kumar" autocomplete="name">
+            <label>Email Address <span class="req">*</span></label>
+            <input type="email" id="email" placeholder="you@email.com" autocomplete="email">
           </div>
+
           <div class="field">
-            <label>Phone / WhatsApp <span class="req">*</span></label>
-            <input type="tel" id="phone" placeholder="+91 9XXXXXXXXX" autocomplete="tel">
+            <label>How did you hear about us?</label>
+            <select id="source">
+              <option value="" selected>Select an option</option>
+              <option>College / Faculty</option>
+              <option>Instagram</option>
+              <option>LinkedIn</option>
+              <option>Friend / Classmate</option>
+              <option>WhatsApp Group</option>
+              <option>Other</option>
+            </select>
           </div>
+
+          <div class="err-msg" id="err-msg">⚠️ Please fill all required fields correctly.</div>
+
+          <button class="submit-btn" id="submit-btn" onclick="handleSubmit()">
+            <span id="btn-text">Proceed to Payment →</span>
+          </button>
         </div>
 
-        <div class="field">
-          <label>Email Address <span class="req">*</span></label>
-          <input type="email" id="email" placeholder="you@email.com" autocomplete="email">
+        <!-- STEP 3: PAYMENT (Initially Locked) -->
+        <div class="pay-section" id="pay-section" style="margin: 20px 0; padding: 20px; border: 2px dashed var(--border); border-radius: 12px; text-align: center; background: #fff; opacity: 0.5; pointer-events: none;">
+          <h3 style="margin-bottom: 10px;">💳 Step 3: Secure Payment</h3>
+          <p style="font-size: 13px; margin-bottom: 15px;">Confirm your registration by completing the payment below.</p>
+          <div class="pay-amount" id="pay-amount" style="font-size: 24px; font-weight: 900; color: var(--primary); display: block; margin-bottom: 15px;">₹199</div>
+          <button class="pay-btn-main" id="pay-btn" onclick="goToPayment()" style="width: 100%; background: var(--secondary); color: #fff; padding: 12px; border: none; border-radius: 8px; font-weight: 800; cursor: pointer;">🔒 Pay Now & Confirm →</button>
+          <a class="already-paid-link" onclick="markAsPaid()" style="display: block; margin-top: 10px; font-size: 11px; color: var(--info); cursor: pointer; text-decoration: underline;">Already paid? Click here to skip ↓</a>
         </div>
-
-
-        <div class="fs-title">💡 Interest & Background</div>
-        <div class="field">
-          <label>Programming Experience <span class="req">*</span></label>
-          <div class="radio-grid">
-            <label class="radio-opt"><input type="radio" name="exp" value="none"> None / Beginner</label>
-            <label class="radio-opt"><input type="radio" name="exp" value="basic"> Basic (1 Year)</label>
-            <label class="radio-opt"><input type="radio" name="exp" value="intermediate"> Intermediate</label>
-            <label class="radio-opt"><input type="radio" name="exp" value="advanced"> Advanced</label>
-          </div>
-        </div>
-
-        <div class="field">
-          <label>Why do you want to join? <span class="opt">(optional)</span></label>
-          <textarea id="motivation" placeholder="Tell us what excites you about Robotics..."></textarea>
-        </div>
-
-        <div class="field">
-          <label>How did you hear about us?</label>
-          <select id="source">
-            <option value="" selected>Select an option</option>
-            <option>College / Faculty</option>
-            <option>Instagram</option>
-            <option>LinkedIn</option>
-            <option>Friend / Classmate</option>
-            <option>WhatsApp Group</option>
-            <option>Other</option>
-          </select>
-        </div>
-
-        <div class="err-msg" id="err-msg">⚠️ Please fill all required fields correctly.</div>
-
-        <button class="submit-btn" id="submit-btn" onclick="handleSubmit()">
-          <span id="btn-text">🚀 Complete Registration</span>
-        </button>
-
-        <p class="privacy-note">Your data is secure and will only be used for workshop coordination.</p>
-      </div>
-      <!-- STEP 2: PAYMENT -->
-      <div class="pay-section" id="pay-section">
-        <h3>💳 Step 3: Complete Payment</h3>
-        <p>Click below to pay via PayU secure gateway. Once done, return here to fill your details.</p>
-        <span class="pay-amount" id="pay-amount">₹199</span>
-        <button class="pay-btn-main" id="pay-btn" onclick="goToPayment()">🔒 Pay Now →</button>
-        <p class="pay-note">🔒 100% Secure · UPI / Card / Net Banking · Instant confirmation</p>
-        <a class="already-paid-link" onclick="markAsPaid()">Already paid? Click here to skip to the form ↓</a>
       </div>
 
       <!-- SUCCESS SCREEN -->
       <div class="success-screen" id="success-screen">
         <div class="si">🎉</div>
-        <h2>You're Registered!</h2>
-        <p>Welcome, <strong id="success-name"></strong>! Your registration for the <strong id="success-plan"></strong>
-          has been received.<br><br>Check your email/WhatsApp for confirmation details.</p>
-        <div id="payment-reminder">⚠️ Don't forget to complete your payment to confirm your seat.</div>
+        <h2>Registration Initiated!</h2>
+        <p>Welcome, <strong id="success-name"></strong>! We've received your details for the <strong id="success-plan"></strong>.</p>
+        
+        <!-- WHATSAPP COMMUNITY LINK -->
+        <div class="whatsapp-box" style="margin: 20px 0; padding: 20px; background: #e8f5e9; border-radius: 12px; border: 1.5px solid #4caf50; text-align: center;">
+          <div style="font-size: 24px; margin-bottom: 10px;">💬</div>
+          <h4 style="color: #2e7d32; margin-bottom: 8px;">Join the Community</h4>
+          <p style="font-size: 13px; color: #4e4e4e; margin-bottom: 15px;">Get instant updates and connect with other students.</p>
+          <a href="https://chat.whatsapp.com/YOUR_LINK_HERE" target="_blank" style="display: inline-block; background: #25d366; color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 800; text-decoration: none; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);">Join WhatsApp Group →</a>
+        </div>
+
+        <p style="font-size: 13px; color: #666;">Check your email/WhatsApp for payment confirmation and next steps.</p>
         <a href="../index.html" class="back-home-btn">← Back to Workshop Page</a>
       </div>
     </div>
