@@ -521,7 +521,7 @@ STEP 2 — Send WhatsApp:
   Variables:
     {{1}} = {{fullName}}
     {{2}} = {{plan}}
-    {{3}} = [WP community invite link — permanent non-expiring URL]
+    {{3}} = https://chat.whatsapp.com/JLSfkWJoHiw0GnllESXnvn
     {{4}} = IF {{plan}} = "Workshop Only"
               THEN [PayU link ₹199]
               ELSE [PayU link ₹299]
@@ -705,7 +705,7 @@ Workshop + Internship: ₹299
 JOIN THE COMMUNITY
 
 Connect with fellow participants on our WhatsApp group:
-{{wpCommunityLink}}
+https://chat.whatsapp.com/JLSfkWJoHiw0GnllESXnvn
 
 ——————————————————————
 

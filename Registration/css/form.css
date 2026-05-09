@@ -930,16 +930,36 @@ textarea {
     gap: 18px;
   }
 
-  /* Stack sidebar items in 2 cols on mobile */
+  /* Hide sidebar on mobile as per user request */
   .sidebar {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    display: none;
   }
 
-  .cd-sidebar,
-  .price-box {
-    grid-column: 1 / -1;
+  /* Make steps fit in one line */
+  .steps-list {
+    flex-wrap: nowrap;
+    gap: 6px;
+    justify-content: space-between;
+  }
+
+  .step {
+    padding: 6px 10px;
+    font-size: 11px;
+    flex: 1;
+    justify-content: center;
+    gap: 5px;
+    white-space: nowrap;
+  }
+
+  .step-num {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+    min-width: 20px;
+  }
+
+  .form-heading {
+    display: none;
   }
 
   .form-heading h1 {
