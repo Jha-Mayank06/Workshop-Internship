@@ -119,9 +119,12 @@
         <div class="pay-section" id="pay-section" style="margin: 20px 0; padding: 20px; border: 2px dashed var(--border); border-radius: 12px; text-align: center; background: #fff; opacity: 0.5; pointer-events: none;">
           <h3 style="margin-bottom: 10px;">💳 Step 3: Secure Payment</h3>
           <p style="font-size: 13px; margin-bottom: 15px;">Confirm your registration by completing the payment below.</p>
-          <div class="pay-amount" id="pay-amount" style="font-size: 24px; font-weight: 900; color: var(--primary); display: block; margin-bottom: 15px;">₹199</div>
-          <button class="pay-btn-main" id="pay-btn" onclick="goToPayment()" style="width: 100%; background: var(--secondary); color: #fff; padding: 12px; border: none; border-radius: 8px; font-weight: 800; cursor: pointer;">🔒 Pay Now & Confirm →</button>
-          <a class="already-paid-link" onclick="markAsPaid()" style="display: block; margin-top: 10px; font-size: 11px; color: var(--info); cursor: pointer; text-decoration: underline;">Already paid? Click here to skip ↓</a>
+          <div id="razorpay-button-container" style="margin-top: 20px;">
+            <form>
+              <script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_SnALRE7FDQxX6q" async> </script>
+            </form>
+          </div>
+          <a class="already-paid-link" onclick="markAsPaid()" style="display: block; margin-top: 15px; font-size: 11px; color: var(--info); cursor: pointer; text-decoration: underline;">Already paid? Click here to continue ↓</a>
         </div>
       </div>
 

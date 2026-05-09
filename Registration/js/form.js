@@ -7,8 +7,7 @@
 
 const CONFIG = {
   WEBHOOK_ALBATO: "https://h.albato.com/wh/38/1lfio9j/_5pU7RaZnPupMaRGVu2cBtNQUBm6yiSZ37MfbPyYaLc/",
-  PAYMENT_WORKSHOP: "https://payu.in/web/6FA008C5D64868F877D542B31F86F9C3",
-  PAYMENT_INTERNSHIP: "https://payu.in/web/6FA008C5D64868F877D542B31F86F9C3",
+  RAZORPAY_BUTTON_ID: "pl_SnALRE7FDQxX6q",
   DEADLINE: "2026-05-15T23:59:59",
 };
 
@@ -33,10 +32,7 @@ function selectPlan(plan) {
     if (radio) radio.checked = true;
   }
 
-  const amountDisplay = document.getElementById("pay-amount");
-  if (amountDisplay) {
-    amountDisplay.textContent = plan === "internship" ? "₹299" : "₹199";
-  }
+
 }
 
 /** 
@@ -73,22 +69,11 @@ function checkPaymentDone() {
 /** 
  * ── PAYMENT HANDLING ──
  */
-function goToPayment() {
-  const link = selectedPlan === "internship" ? CONFIG.PAYMENT_INTERNSHIP : CONFIG.PAYMENT_WORKSHOP;
-  window.open(link, "_blank");
 
-  const payBtn = document.getElementById("pay-btn");
-  if (payBtn) {
-    payBtn.textContent = "✅ Paid? Continue to Form ↓";
-    payBtn.style.background = "#10B981";
-    sessionStorage.setItem("cps_payment_done", "true");
-    markAsPaid();
-  }
-}
 
 function markAsPaid() {
   sessionStorage.setItem("cps_payment_done", "true");
-  
+
   // Show Success Screen
   document.getElementById("form-card").style.display = "none";
   document.getElementById("success-screen").style.display = "block";
