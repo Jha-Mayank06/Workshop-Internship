@@ -6,12 +6,13 @@
  */
 
 const CONFIG = {
-  WEBHOOK_ALBATO: "https://h.albato.com/wh/38/1lfio9j/_5pU7RaZnPupMaRGVu2cBtNQUBm6yiSZ37MfbPyYaLc/",
+  WEBHOOK_ALBATO: "https://h.albato.com/wh/38/1lfio9j/gvosNMW4h5LB_cSBacc5Dv5T900Yp8vhpfdAZD0nNFg/",
   RAZORPAY_BUTTON_ID: "pl_SnALRE7FDQxX6q",
   DEADLINE: "2026-05-15T23:59:59",
 };
 
 let selectedPlan = "workshop";
+const errMsg = document.getElementById("err-msg");
 
 /** 
  * ── PLAN SELECTION ──
@@ -82,6 +83,12 @@ function markAsPaid() {
   document.getElementById("form-card").style.display = "none";
   document.getElementById("success-screen").style.display = "block";
 
+  // Restore name/plan from session storage if available
+  const savedName = sessionStorage.getItem("cps_user_name");
+  const savedPlan = sessionStorage.getItem("cps_user_plan");
+  if (savedName) document.getElementById("success-name").textContent = savedName;
+  if (savedPlan) document.getElementById("success-plan").textContent = savedPlan;
+
   // SHOW WHATSAPP LINK ONLY NOW
   const waContainer = document.getElementById("whatsapp-container");
   if (waContainer) waContainer.style.display = "block";
@@ -100,8 +107,7 @@ function markAsPaid() {
  * ── RAZORPAY INTEGRATION ──
  */
 function openRazorpay() {
-  // TESTING PRICES: 299 -> 2, 199 -> 1
-  const amount = selectedPlan === "internship" ? 2 : 1; 
+  const amount = selectedPlan === "internship" ? 2 : 1;
   const fullName = document.getElementById("fullName").value;
   const email = document.getElementById("email").value;
   const phone = document.getElementById("phone").value;
@@ -112,13 +118,15 @@ function openRazorpay() {
     "currency": "INR",
     "name": "PiSquare Academy",
     "description": "CPS & Robotics Workshop - " + (selectedPlan === "internship" ? "Internship" : "Workshop"),
-    "image": "../assets/logo.png",
-    "handler": function (response) {
+    "handler": async function (response) {
       // Payment Successful
       console.log("Payment Success:", response.razorpay_payment_id);
-      markAsPaid();
+      
+      // Send Unified Update
+      await sendUnifiedWebhook("Paid", response.razorpay_payment_id);
 
-      // Optional: Send payment confirmation to your server/Albato here if needed
+      // Show Success Screen
+      markAsPaid();
     },
     "prefill": {
       "name": fullName,
@@ -139,6 +147,42 @@ function openRazorpay() {
 
   const rzp = new Razorpay(options);
   rzp.open();
+}
+
+/** 
+ * ── UNIFIED WEBHOOK ──
+ */
+async function sendUnifiedWebhook(status, paymentId = "") {
+  const fullNameField = document.getElementById("fullName");
+  const phoneField = document.getElementById("phone");
+  const emailField = document.getElementById("email");
+  const sourceField = document.getElementById("source");
+
+  const rawPhone = "+91" + phoneField.value.replace(/\D/g, "").replace(/^0+/, "").replace(/^91/, "");
+  
+  const payload = {
+    timestamp: new Date().toISOString(),
+    plan: selectedPlan === "internship" ? "Workshop + Internship" : "Workshop Only",
+    fullName: fullNameField.value.trim(),
+    email: emailField.value.trim(),
+    phone: rawPhone,
+    source: sourceField ? sourceField.value : "Not specified",
+    paymentStatus: status,
+    paymentDate: paymentId ? new Date().toISOString() : "",
+    paymentId: paymentId,
+    wpLinkSent: "FALSE",
+    followUpSent: "FALSE"
+  };
+
+  try {
+    await fetch(CONFIG.WEBHOOK_ALBATO, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+  } catch (err) {
+    console.error("Webhook failed:", err);
+  }
 }
 
 /** 
@@ -178,39 +222,25 @@ async function handleSubmit() {
   btn.disabled = true;
   btnText.textContent = "Processing Lead...";
 
-  const rawPhone = fields.phone.value
+  const rawPhone = "+91" + fields.phone.value
     .replace(/\D/g, "")
     .replace(/^0+/, "")
-    .replace(/^91/, "91");
-
-  const payload = {
-    timestamp: new Date().toISOString(),
-    plan: selectedPlan === "internship" ? "Workshop + Internship" : "Workshop Only",
-    fullName: fields.fullName.value.trim(),
-    email: fields.email.value.trim(),
-    phone: rawPhone,
-    programmingExperience: "", // Kept for Albato compatibility
-    motivation: "",            // Kept for Albato compatibility
-    source: document.getElementById("source") ? document.getElementById("source").value : "Not specified",
-    paymentStatus: "pending",
-    paymentDate: "",
-    wpLinkSent: "FALSE",
-    followUpSent: "FALSE"
-  };
+    .replace(/^91/, "");
 
   try {
-    const response = await fetch(CONFIG.WEBHOOK_ALBATO, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-
-    if (!response.ok) throw new Error("Submission failed");
+    // Send Unified Pending Lead
+    await sendUnifiedWebhook("pending");
 
     // Success: details captured. Now move to payment.
-    document.getElementById("success-name").textContent = payload.fullName.split(" ")[0];
-    document.getElementById("success-plan").textContent =
-      selectedPlan === "internship" ? "Workshop + Internship Plan" : "Workshop Only Plan";
+    const firstName = fields.fullName.value.trim().split(" ")[0];
+    const planText = selectedPlan === "internship" ? "Workshop + Internship Plan" : "Workshop Only Plan";
+
+    // Store for persistence
+    sessionStorage.setItem("cps_user_name", firstName);
+    sessionStorage.setItem("cps_user_plan", planText);
+
+    document.getElementById("success-name").textContent = firstName;
+    document.getElementById("success-plan").textContent = planText;
 
     // UI Transition to Step 3
     document.getElementById("details-section").style.display = "none";

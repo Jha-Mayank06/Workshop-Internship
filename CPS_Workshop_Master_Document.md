@@ -565,20 +565,20 @@ STEP 3 — Update Sheet:
   Update column: followUpSent = TRUE
 ```
 
-### Automation 3 — Payment Confirmation (PayU S2S Webhook)
+### Automation 3 — Payment Confirmation (Razorpay Webhook)
 
 ```
 TRIGGER:
   Type: Webhook (HTTP POST) — second Albato webhook URL
-  Configured in: PayU merchant dashboard → S2S webhook URL
-  PayU sends: txnid, amount, email, phone, firstname, status
+  Configured in: Razorpay dashboard → Settings → Webhooks
+  Razorpay sends: payload.payment.entity (contains email, contact, id, status, etc.)
 
 CONDITION:
-  Only proceed if: status = "success"
+  Only proceed if: Event is `payment.captured`
 
 STEP 1 — Find Student Row in Sheet:
   Action: Google Sheets → Find Row
-  Match condition: email = {{email}} from PayU webhook
+  Match condition: email = {{payload.payment.entity.email}} from Razorpay webhook
   (Fallback match: phone = {{phone}} if email doesn't match)
 
 STEP 2 — Update Sheet Row:

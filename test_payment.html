@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration & Payment Test</title>
+    <!-- Razorpay Checkout Script -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+            max-width: 500px;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 0.75rem 1.5rem;
+            background-color: #FF6B00;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+        }
+
+        #status-msg {
+            margin-top: 1rem;
+            padding: 1rem;
+            display: none;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Test Registration & Payment</h2>
+    <p>This is a basic test page to verify Albato Webhook and Razorpay integration.</p>
+
+    <div id="test-form">
+        <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" placeholder="John Doe" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="john@example.com" required>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone Number (without +91)</label>
+            <input type="tel" id="phone" placeholder="9876543210" required>
+        </div>
+
+        <div class="form-group">
+            <label for="plan">Select Plan</label>
+            <select id="plan">
+                <option value="workshop">Workshop Only (₹199)</option>
+                <option value="internship">Workshop + Internship (₹299)</option>
+            </select>
+        </div>
+
+        <button id="submitBtn" onclick="processRegistration()">1. Register & 2. Pay</button>
+    </div>
+
+    <div id="status-msg"></div>
+
+    <script>
+        const ALBATO_WEBHOOK = "https://h.albato.com/wh/38/1lfio9j/_5pU7RaZnPupMaRGVu2cBtNQUBm6yiSZ37MfbPyYaLc/";
+        const RAZORPAY_KEY = "rzp_live_SnFtD0dQcw1cPz";
+
+        function showMessage(msg, isError = false) {
+            const statusDiv = document.getElementById("status-msg");
+            statusDiv.style.display = "block";
+            statusDiv.className = isError ? "error" : "success";
+            statusDiv.innerHTML = msg;
+        }
+
+        async function processRegistration() {
+            const fullName = document.getElementById("fullName").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const phone = document.getElementById("phone").value.trim();
+            const plan = document.getElementById("plan").value;
+            const btn = document.getElementById("submitBtn");
+
+            if (!fullName || !email || !phone) {
+                alert("Please fill all fields!");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = "Processing Registration (Sending to Albato)...";
+            showMessage("Sending data to Albato...", false);
+
+            const payload = {
+                timestamp: new Date().toISOString(),
+                plan: plan === "internship" ? "Workshop + Internship" : "Workshop Only",
+                fullName: fullName,
+                email: email,
+                phone: "+91" + phone.replace(/\D/g, ""), // Formatting phone to E.164-ish
+                paymentStatus: "pending",
+                source: "Test Page"
+            };
+
+            try {
+                // Step 1: Send Data to Albato
+                const response = await fetch(ALBATO_WEBHOOK, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) throw new Error("Webhook failed");
+
+                showMessage("Registration captured in Albato! Opening Razorpay...", false);
+
+                // Step 2: Open Razorpay
+                openRazorpay(fullName, email, payload.phone, plan);
+
+            } catch (error) {
+                console.error("Albato Error:", error);
+                showMessage("Failed to send data to Albato webhook. Check console.", true);
+                btn.disabled = false;
+                btn.innerText = "1. Register & 2. Pay";
+            }
+        }
+
+        function openRazorpay(name, email, phone, plan) {
+            const amount = plan === "internship" ? 2 : 1;
+            const btn = document.getElementById("submitBtn");
+
+            const options = {
+                "key": RAZORPAY_KEY,
+                "amount": amount * 100, // amount in paise
+                "currency": "INR",
+                "name": "PiSquare Academy",
+                "description": plan === "internship" ? "Workshop + Internship" : "Workshop Only",
+                "handler": function (response) {
+                    console.log("Payment Success!", response);
+                    showMessage(`Payment Successful!<br>Payment ID: <b>${response.razorpay_payment_id}</b><br>Your Albato S2S webhook should now update the sheet to "paid" in the background.`);
+                    btn.innerText = "Payment Complete";
+                },
+                "prefill": {
+                    "name": name,
+                    "email": email,
+                    "contact": phone
+                },
+                "theme": {
+                    "color": "#FF6B00"
+                },
+                "modal": {
+                    "ondismiss": function () {
+                        showMessage("Payment popup was closed by the user.", true);
+                        btn.disabled = false;
+                        btn.innerText = "Retry Payment";
+                    }
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.on('payment.failed', function (response) {
+                console.error("Payment Failed", response.error);
+                showMessage(`Payment Failed: ${response.error.description}`, true);
+            });
+            rzp.open();
+        }
+    </script>
+</body>
+
+</html>
