@@ -29,23 +29,24 @@ function logout() {
 // CONFIG & DATA
 // ══════════════════════════
 const API_URL = "https://script.google.com/macros/s/AKfycbwxrjQ4MbE8ZfacH6kCSyoZdbn0iCPPTG9j8eEMVVFnDNBczSV2BHNZhANy-B8_zEPQSA/exec";
+const ANNOUNCEMENT_WEBHOOK = "https://h.albato.com/wh/38/1lfio9j/_5pU7RaZnPupMaRGVu2cBtNQUBm6yiSZ37MfbPyYaLc/"; // Provided by user
 let cachedData = []; // Global store for real data
 
 async function refreshData() {
   const topbarCount = document.getElementById("topbar-count");
   if (topbarCount) topbarCount.textContent = "⌛ Refreshing...";
-  
+
   try {
     const response = await fetch(API_URL);
     cachedData = await response.json();
     renderStats();
-    
+
     // Refresh current page
     const activePage = document.querySelector(".page.active")?.id;
     if (activePage === "page-dashboard") renderRecent();
     if (activePage === "page-students") renderStudents();
     if (activePage === "page-internship") renderInternship();
-    
+
   } catch (error) {
     console.error("Fetch error:", error);
     showToast("⚠️ Failed to load real data", "error");
@@ -72,7 +73,7 @@ function showPage(page, el) {
   document.querySelectorAll(".nav-item").forEach((n) => n.classList.remove("active"));
   document.getElementById("page-" + page).classList.add("active");
   if (el) el.classList.add("active");
-  
+
   if (page === "dashboard") renderRecent();
   if (page === "students") renderStudents();
   if (page === "internship") renderInternship();
@@ -90,19 +91,19 @@ async function initDashboard() {
 function renderStats() {
   const data = getData();
   const approvals = getApprovals();
-  
+
   const total = data.length;
   const workshop = data.filter((d) => d.plan === "Workshop Only").length;
   const internship = data.filter((d) => d.plan === "Workshop + Internship").length;
-  
+
   // New Stats
   const paid = data.filter((d) => d.paymentStatus === "paid").length;
   const pendingPayment = data.filter((d) => d.paymentStatus === "pending").length;
-  
+
   const pendingApproval = data.filter(
     (d) =>
       d.plan === "Workshop + Internship" &&
-      d.paymentStatus === "paid" && 
+      d.paymentStatus === "paid" &&
       (!approvals[d.email] || approvals[d.email] === "pending")
   ).length;
 
@@ -110,7 +111,7 @@ function renderStats() {
   document.getElementById("stat-workshop").textContent = workshop;
   document.getElementById("stat-internship").textContent = internship;
   document.getElementById("stat-pending").textContent = pendingApproval;
-  
+
   // Optional: Update new cards if they exist in HTML
   if (document.getElementById("stat-paid")) document.getElementById("stat-paid").textContent = paid;
   if (document.getElementById("stat-unpaid")) document.getElementById("stat-unpaid").textContent = pendingPayment;
@@ -160,7 +161,7 @@ function renderStudents() {
     );
   if (planF) data = data.filter((r) => r.plan === planF);
   if (yearF) data = data.filter((r) => String(r.yearOfStudy) === yearF);
-  
+
   const statusF = document.getElementById("status-filter")?.value;
   if (statusF) data = data.filter((r) => r.paymentStatus === statusF);
 
@@ -427,10 +428,11 @@ function downloadCSV(rows, filename) {
 // ══════════════════════════
 // ANNOUNCEMENTS
 // ══════════════════════════
-function sendAnnouncement() {
+async function sendAnnouncement() {
   const recipients = document.getElementById("ann-recipients").value;
   const title = document.getElementById("ann-title").value.trim();
   const body = document.getElementById("ann-body").value.trim();
+
   if (!title || !body) {
     showToast("Please fill in title and message", "info");
     return;
@@ -438,31 +440,75 @@ function sendAnnouncement() {
 
   const data = getData();
   let targets = data;
+
   if (recipients === "workshop")
     targets = data.filter((r) => r.plan === "Workshop Only");
   else if (recipients === "internship")
     targets = data.filter((r) => r.plan === "Workshop + Internship");
+  else if (recipients === "paid")
+    targets = data.filter((r) => r.paymentStatus === "paid");
   else if (recipients === "approved") {
     const a = getApprovals();
     targets = data.filter((r) => a[r.email] === "approved");
   }
 
-  // Log the announcement
-  saveAnnouncement({
-    title,
-    body,
-    recipients,
-    count: targets.length,
-    timestamp: new Date().toISOString(),
-  });
+  const sendBtn = document.querySelector(".send-btn");
+  sendBtn.disabled = true;
+  sendBtn.textContent = "⏳ Sending...";
 
-  document.getElementById("ann-title").value = "";
-  document.getElementById("ann-body").value = "";
-  renderAnnouncements();
-  showToast(
-    `📤 Announcement logged for ${targets.length} student(s)`,
-    "success",
-  );
+  try {
+    // Send to Albato for real distribution
+    const response = await fetch(ANNOUNCEMENT_WEBHOOK, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: title,
+        body: body,
+        recipientType: recipients,
+        studentCount: targets.length,
+        // Send basic info for all targets so Albato can iterate
+        students: targets.map(s => ({
+          email: s.email,
+          phone: s.phone,
+          name: s.fullName
+        }))
+      })
+    });
+
+    // Note: If using no-cors, response.ok might be false even on success
+    // For now we assume success if the fetch doesn't throw
+
+    // Log the announcement locally
+    saveAnnouncement({
+      title,
+      body,
+      recipients,
+      count: targets.length,
+      timestamp: new Date().toISOString(),
+    });
+
+    document.getElementById("ann-title").value = "";
+    document.getElementById("ann-body").value = "";
+    renderAnnouncements();
+    showToast(`✅ Sent to ${targets.length} student(s) via Albato`, "success");
+
+  } catch (error) {
+    console.error("Announcement Error:", error);
+    showToast("⚠️ Failed to send via Albato. Logged locally only.", "error");
+
+    // Still log locally as backup
+    saveAnnouncement({
+      title,
+      body,
+      recipients,
+      count: targets.length,
+      timestamp: new Date().toISOString(),
+    });
+    renderAnnouncements();
+  } finally {
+    sendBtn.disabled = false;
+    sendBtn.textContent = "📤 Send Announcement";
+  }
 }
 
 function renderAnnouncements() {

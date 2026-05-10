@@ -32,7 +32,11 @@ function selectPlan(plan) {
     if (radio) radio.checked = true;
   }
 
-
+  // Update payment amount in Step 3
+  const finalAmt = document.getElementById("final-amount");
+  if (finalAmt) {
+    finalAmt.textContent = plan === "internship" ? "₹299" : "₹199";
+  }
 }
 
 /** 
@@ -77,6 +81,11 @@ function markAsPaid() {
   // Show Success Screen
   document.getElementById("form-card").style.display = "none";
   document.getElementById("success-screen").style.display = "block";
+
+  // SHOW WHATSAPP LINK ONLY NOW
+  const waContainer = document.getElementById("whatsapp-container");
+  if (waContainer) waContainer.style.display = "block";
+
   window.scrollTo({ top: 0, behavior: "smooth" });
 
   const step1 = document.getElementById("step-1");
@@ -88,11 +97,57 @@ function markAsPaid() {
 }
 
 /** 
+ * ── RAZORPAY INTEGRATION ──
+ */
+function openRazorpay() {
+  // TESTING PRICES: 299 -> 2, 199 -> 1
+  const amount = selectedPlan === "internship" ? 2 : 1; 
+  const fullName = document.getElementById("fullName").value;
+  const email = document.getElementById("email").value;
+  const phone = document.getElementById("phone").value;
+
+  const options = {
+    "key": "rzp_live_SnFtD0dQcw1cPz", // Live Key ID integrated
+    "amount": amount * 100, // Amount in paise
+    "currency": "INR",
+    "name": "PiSquare Academy",
+    "description": "CPS & Robotics Workshop - " + (selectedPlan === "internship" ? "Internship" : "Workshop"),
+    "image": "../assets/logo.png",
+    "handler": function (response) {
+      // Payment Successful
+      console.log("Payment Success:", response.razorpay_payment_id);
+      markAsPaid();
+
+      // Optional: Send payment confirmation to your server/Albato here if needed
+    },
+    "prefill": {
+      "name": fullName,
+      "email": email,
+      "contact": phone
+    },
+    "theme": {
+      "color": "#FF6B00"
+    },
+    "modal": {
+      "ondismiss": function () {
+        // Payment Cancelled
+        document.getElementById("cancel-msg").style.display = "block";
+        window.scrollTo({ top: document.getElementById("cancel-msg").offsetTop - 100, behavior: "smooth" });
+      }
+    }
+  };
+
+  const rzp = new Razorpay(options);
+  rzp.open();
+}
+
+/** 
  * ── FORM SUBMISSION ──
  */
 async function handleSubmit() {
-  const errMsg = document.getElementById("err-msg");
   if (errMsg) errMsg.style.display = "none";
+  const cancelMsg = document.getElementById("cancel-msg");
+  if (cancelMsg) cancelMsg.style.display = "none";
 
   const fields = {
     fullName: document.getElementById("fullName"),
@@ -134,9 +189,13 @@ async function handleSubmit() {
     fullName: fields.fullName.value.trim(),
     email: fields.email.value.trim(),
     phone: rawPhone,
-    source: document.getElementById("source").value || "Not specified",
+    programmingExperience: "", // Kept for Albato compatibility
+    motivation: "",            // Kept for Albato compatibility
+    source: document.getElementById("source") ? document.getElementById("source").value : "Not specified",
     paymentStatus: "pending",
-    paymentDate: ""
+    paymentDate: "",
+    wpLinkSent: "FALSE",
+    followUpSent: "FALSE"
   };
 
   try {
