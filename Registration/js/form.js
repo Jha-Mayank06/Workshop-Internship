@@ -6,7 +6,7 @@
  */
 
 const CONFIG = {
-  WEBHOOK_ALBATO: "https://h.albato.com/wh/38/1lfio9j/gvosNMW4h5LB_cSBacc5Dv5T900Yp8vhpfdAZD0nNFg/",
+  WEBHOOK_ALBATO: "https://h.albato.com/wh/38/1lfio9j/_5pU7RaZnPupMaRGVu2cBtNQUBm6yiSZ37MfbPyYaLc/",
   RAZORPAY_BUTTON_ID: "pl_SnALRE7FDQxX6q",
   DEADLINE: "2026-05-15T23:59:59",
 };
@@ -122,10 +122,26 @@ function openRazorpay() {
       // Payment Successful
       console.log("Payment Success:", response.razorpay_payment_id);
       
-      // Send Unified Update
-      await sendUnifiedWebhook("Paid", response.razorpay_payment_id);
+      // 1. Tell Albato the payment is successful (The Easy Way)
+      try {
+        await fetch("https://h.albato.com/wh/38/1lfio9j/gvosNMW4h5LB_cSBacc5Dv5T900Yp8vhpfdAZD0nNFg/", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            fullName: fullName,
+            email: email,
+            phone: phone,
+            plan: selectedPlan === "internship" ? "Workshop + Internship" : "Workshop Only",
+            paymentStatus: "Paid",
+            paymentId: response.razorpay_payment_id,
+            paymentDate: new Date().toISOString()
+          })
+        });
+      } catch (err) {
+        console.error("Albato update failed:", err);
+      }
 
-      // Show Success Screen
+      // 2. Show Success Screen
       markAsPaid();
     },
     "prefill": {
@@ -147,42 +163,6 @@ function openRazorpay() {
 
   const rzp = new Razorpay(options);
   rzp.open();
-}
-
-/** 
- * ── UNIFIED WEBHOOK ──
- */
-async function sendUnifiedWebhook(status, paymentId = "") {
-  const fullNameField = document.getElementById("fullName");
-  const phoneField = document.getElementById("phone");
-  const emailField = document.getElementById("email");
-  const sourceField = document.getElementById("source");
-
-  const rawPhone = "+91" + phoneField.value.replace(/\D/g, "").replace(/^0+/, "").replace(/^91/, "");
-  
-  const payload = {
-    timestamp: new Date().toISOString(),
-    plan: selectedPlan === "internship" ? "Workshop + Internship" : "Workshop Only",
-    fullName: fullNameField.value.trim(),
-    email: emailField.value.trim(),
-    phone: rawPhone,
-    source: sourceField ? sourceField.value : "Not specified",
-    paymentStatus: status,
-    paymentDate: paymentId ? new Date().toISOString() : "",
-    paymentId: paymentId,
-    wpLinkSent: "FALSE",
-    followUpSent: "FALSE"
-  };
-
-  try {
-    await fetch(CONFIG.WEBHOOK_ALBATO, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-  } catch (err) {
-    console.error("Webhook failed:", err);
-  }
 }
 
 /** 
@@ -227,12 +207,32 @@ async function handleSubmit() {
     .replace(/^0+/, "")
     .replace(/^91/, "");
 
+  const payload = {
+    timestamp: new Date().toISOString(),
+    plan: selectedPlan === "internship" ? "Workshop + Internship" : "Workshop Only",
+    fullName: fields.fullName.value.trim(),
+    email: fields.email.value.trim(),
+    phone: rawPhone,
+    programmingExperience: "", // Kept for Albato compatibility
+    motivation: "",            // Kept for Albato compatibility
+    source: document.getElementById("source") ? document.getElementById("source").value : "Not specified",
+    paymentStatus: "pending",
+    paymentDate: "",
+    wpLinkSent: "FALSE",
+    followUpSent: "FALSE"
+  };
+
   try {
-    // Send Unified Pending Lead
-    await sendUnifiedWebhook("pending");
+    const response = await fetch(CONFIG.WEBHOOK_ALBATO, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) throw new Error("Submission failed");
 
     // Success: details captured. Now move to payment.
-    const firstName = fields.fullName.value.trim().split(" ")[0];
+    const firstName = payload.fullName.split(" ")[0];
     const planText = selectedPlan === "internship" ? "Workshop + Internship Plan" : "Workshop Only Plan";
 
     // Store for persistence
