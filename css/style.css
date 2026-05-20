@@ -492,9 +492,13 @@ nav {
 .mini-feats {
   border-top: 1px solid var(--border);
   padding-top: 14px;
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 8px;
+}
+
+.mini-feats.active {
+  display: flex;
 }
 
 .mf {

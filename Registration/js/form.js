@@ -132,7 +132,7 @@ function openRazorpay() {
             email: email,
             phone: phone,
             plan: selectedPlan === "internship" ? "Workshop + Internship" : "Workshop Only",
-            paymentStatus: "Paid",
+            paymentStatus: "paid",
             paymentId: response.razorpay_payment_id,
             paymentDate: new Date().toISOString()
           })
@@ -202,7 +202,7 @@ async function handleSubmit() {
   btn.disabled = true;
   btnText.textContent = "Processing Lead...";
 
-  const rawPhone = "+91" + fields.phone.value
+  const rawPhone = "91" + fields.phone.value
     .replace(/\D/g, "")
     .replace(/^0+/, "")
     .replace(/^91/, "");
@@ -228,10 +228,15 @@ async function handleSubmit() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
+    if (!response.ok) {
+      console.warn("Albato returned non-ok status:", response.status);
+    }
+  } catch (error) {
+    console.warn("Albato lead capture fetch failed (likely CORS), proceeding to payment anyway:", error);
+  }
 
-    if (!response.ok) throw new Error("Submission failed");
-
-    // Success: details captured. Now move to payment.
+  try {
+    // Success (or bypassed): details captured. Now move to payment.
     const firstName = payload.fullName.split(" ")[0];
     const planText = selectedPlan === "internship" ? "Workshop + Internship Plan" : "Workshop Only Plan";
 
@@ -255,10 +260,9 @@ async function handleSubmit() {
     if (step3) step3.className = "step active";
 
     window.scrollTo({ top: paySection.offsetTop - 100, behavior: "smooth" });
-
   } catch (error) {
     if (errMsg) {
-      errMsg.textContent = "⚠️ Lead capture failed. Please check your connection.";
+      errMsg.textContent = "⚠️ UI Transition failed. Please check your browser.";
       errMsg.style.display = "block";
     }
   } finally {

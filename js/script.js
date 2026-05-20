@@ -10,6 +10,15 @@ function switchPlan(plan, el) {
     .forEach((p) => p.classList.remove("active"));
   el.classList.add("active");
   document.getElementById("plan-" + plan).classList.add("active");
+
+  // Toggle checklist
+  document
+    .querySelectorAll(".mini-feats")
+    .forEach((f) => f.classList.remove("active"));
+  const targetFeats = document.getElementById("feats-" + plan);
+  if (targetFeats) {
+    targetFeats.classList.add("active");
+  }
 }
 
 // ══════════════════════════════════════════
@@ -101,7 +110,7 @@ phases.forEach((phase) => {
 // ===== COUNTDOWN TIMER =====
 
 // 🔴 Set your deadline here
-const deadline = new Date("2026-05-15T00:00:00").getTime();
+const deadline = new Date("2026-05-15T23:59:59").getTime();
 
 function updateCountdown() {
   const now = new Date().getTime();
